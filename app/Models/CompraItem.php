@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HeredaNegocio;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CompraItem extends Model
 {
+    use HeredaNegocio;
+
+    public const PADRE = ['compras', 'compra_id'];
+
     protected $table = 'compra_items';
 
     public $timestamps = false;

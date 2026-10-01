@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HeredaNegocio;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -20,6 +21,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class VentaItem extends Model
 {
+    use HeredaNegocio;
+
+    public const PADRE = ['ventas', 'venta_id'];
+
     protected $table = 'venta_items';
 
     public $timestamps = false;

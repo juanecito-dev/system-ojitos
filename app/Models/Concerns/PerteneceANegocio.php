@@ -29,6 +29,7 @@ trait PerteneceANegocio
         static::creating(function ($m) {
             if (! $m->negocio_id) {
                 $m->negocio_id = app(NegocioActual::class)->id()
+                    ?? (method_exists($m, 'negocioDelPadre') ? $m->negocioDelPadre() : null)
                     ?? throw new SinNegocio('No se puede guardar en «'.$m->getTable().'» sin un negocio elegido.');
             }
         });

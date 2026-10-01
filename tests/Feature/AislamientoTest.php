@@ -8,11 +8,15 @@ use App\Models\Cliente;
 use App\Models\Concerns\PerteneceANegocio;
 use App\Models\Documento;
 use App\Models\Negocio;
+use App\Models\Usuario;
 use App\Models\Venta;
+use App\Services\AltaNegocio;
+use App\Services\Compras;
 use App\Services\Pedidos as ServicioPedidos;
 use App\Services\Ventas;
 use App\Support\NegocioActual;
 use App\Support\SinNegocio;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Livewire\Livewire;
 
@@ -129,4 +133,28 @@ it('si el negocio se suspende con la pantalla de entrada abierta, no deja ingres
 
     $c->set('rol', 'vendedor')->set('usuario', 'jeremy')->set('pin', '1470')->call('ingresar')->assertSet('error', Negocio::SUSPENDIDO);
     $this->assertGuest();
+});
+
+it('las filas hijas (líneas, pagos, opciones) guardan su negocio, también al dar de alta un negocio nuevo', function () {
+    app(NegocioActual::class)->set(null);
+    $neg = app(AltaNegocio::class)->crear(['slug' => 'nuevo', 'nombre' => 'Nuevo', 'rubro' => 'imprenta'], ['nombre' => 'Ana', 'usuario' => 'ana', 'pin' => '2580']);
+    expect(DB::table('producto_opciones')->whereNull('negocio_id')->count())->toBe(0)
+        ->and(DB::table('producto_opciones')->where('negocio_id', $neg->id)->count())->toBeGreaterThan(0);
+
+    // venta con comprobante, pedido con adelanto y compra pagada: ninguna fila hija queda sin negocio
+    app(NegocioActual::class)->set($neg);
+    $ana = Usuario::where('usuario', 'ana')->first();
+    app(Ventas::class)->registrar($ana, ['metodo' => 'efectivo', 'lineas' => [['producto_id' => producto('bn_a4')->id, 'nombre' => 'B/N A4', 'cantidad' => 2, 'precio' => 15]],
+        'cpe' => ['tipo' => '03', 'emitida' => true, 'serie' => 'EB01', 'numero' => '1']]);
+    app(ServicioPedidos::class)->guardar(null, ['etapa' => 'proceso', 'cliente' => ['nombre' => 'Rosa', 'cel' => '', 'doc' => '', 'inst' => ''],
+        'items' => [['pid' => producto('anillado')->id, 'nombre' => 'Anillado', 'cant' => 1, 'precio' => 300]], 'fecha_entrega' => today()->addDay()->toDateString()], $ana, 100);
+    $prov = app(Compras::class)->guardarProveedor(null, 'Proveedor', '', '962506202');
+    $c = app(Compras::class)->guardar(null, ['proveedor_id' => $prov->id, 'numero' => 'F1', 'condicion' => 'credito', 'vence' => today()->addDays(30)->toDateString()],
+        [['producto_id' => producto('u_lapicero')->id, 'cantidad' => 1, 'unidad' => 'Caja', 'factor' => 12, 'costo_unitario' => 1200]], $ana);
+    app(Compras::class)->pagar($c, 1200, 'efectivo', false, $ana);
+
+    foreach (['venta_items', 'comprobante_items', 'pedido_items', 'pedido_pagos', 'pedido_historial', 'compra_items', 'compra_pagos'] as $t) {
+        expect(DB::table($t)->count())->toBeGreaterThan(0, $t)
+            ->and(DB::table($t)->where(fn ($q) => $q->whereNull('negocio_id')->orWhere('negocio_id', '!=', $neg->id))->count())->toBe(0, $t);
+    }
 });

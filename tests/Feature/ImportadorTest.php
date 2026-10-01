@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\PrimerUso;
 use App\Models\Cliente;
 use App\Models\Comprobante;
 use App\Models\Negocio;
@@ -11,7 +12,10 @@ use App\Services\AccesoPin;
 use App\Services\ErrorNegocio;
 use App\Services\ImportadorCopia;
 use App\Services\Stock;
+use App\Services\Ventas;
 use App\Support\NegocioActual;
+use Illuminate\Http\UploadedFile;
+use Livewire\Livewire;
 
 function importarFixture(?Negocio $neg = null): array
 {
@@ -84,6 +88,47 @@ it('un número de comprobante repetido en la copia no frena la importación ni s
     $rep = Comprobante::where('uid', 'cp9')->first();
     expect(Comprobante::where('uid', 'cp1')->value('numero'))->toBe('440')
         ->and($rep->numero)->toBeNull()->and($rep->extra['numeroRepetido'])->toBe('440');
+});
+
+it('no deja volver a importar si ya se usó el sistema nuevo', function () {
+    $res = importarFixture();
+    app(NegocioActual::class)->set($res['negocio']);
+    $this->travel(5)->seconds();
+    app(Ventas::class)->registrar(Usuario::where('usuario', 'jeremy')->first(), ['metodo' => 'efectivo',
+        'lineas' => [['producto_id' => null, 'nombre' => 'Copia', 'cantidad' => 1, 'precio' => 100]]]);
+
+    expect(fn () => importarFixture($res['negocio']->fresh()))->toThrow(ErrorNegocio::class, 'ya tiene ventas hechos en el sistema nuevo');
+
+    // desde la terminal, sabiendo lo que hace, se puede forzar
+    $imp = app(ImportadorCopia::class);
+    $imp->importar($imp->leerArchivo(base_path('tests/fixtures/copia-v3.json')), $res['negocio']->fresh(), null, 'ojitos', true);
+    expect(Venta::count())->toBe(4);
+});
+
+it('un negocio que empezó de cero y ya vende no recibe una copia encima', function () {
+    $neg = negocioDePrueba();
+    app(Ventas::class)->registrar(usuario('jeremy'), ['metodo' => 'efectivo', 'lineas' => [['producto_id' => null, 'nombre' => 'Copia', 'cantidad' => 1, 'precio' => 100]]]);
+
+    expect(fn () => importarFixture($neg))->toThrow(ErrorNegocio::class, 'ya tiene ventas');
+});
+
+it('si la copia falla a la mitad, no queda nada guardado', function () {
+    $imp = app(ImportadorCopia::class);
+    $d = $imp->leerArchivo(base_path('tests/fixtures/copia-v3.json'));
+    $d['pedidos'] = [['id' => 'roto', 'items' => 'esto no es una lista', 'pagos' => 5]];
+
+    expect(fn () => $imp->importar($d, null, null, 'ojitos'))->toThrow(TypeError::class);
+    expect(Negocio::count())->toBe(0)->and(Usuario::withoutGlobalScopes()->count())->toBe(0);
+});
+
+it('en «Bienvenido», una copia con datos raros muestra un aviso claro y deja volver a intentar', function () {
+    $d = json_decode(file_get_contents(base_path('tests/fixtures/copia-v3.json')), true);
+    $d['pedidos'] = [['id' => 'roto', 'items' => 'esto no es una lista', 'pagos' => 5]];
+    $archivo = UploadedFile::fake()->createWithContent('copia.json', json_encode($d));
+
+    Livewire::test(PrimerUso::class)->set('archivo', $archivo)->call('importar')
+        ->assertSet('error', ImportadorCopia::ERROR_INESPERADO);
+    expect(Negocio::count())->toBe(0);
 });
 
 it('rechaza archivos que no son copias', function () {

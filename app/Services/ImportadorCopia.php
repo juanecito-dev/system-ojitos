@@ -53,6 +53,9 @@ class ImportadorCopia
 
     private array $cuenta = [];
 
+    public const ERROR_INESPERADO = 'No se pudo importar la copia: el archivo tiene datos que el sistema no entiende. No se guardó nada. '
+        .'Descarga una copia nueva del sistema anterior y vuelve a intentarlo; si sigue fallando, avisa a soporte.';
+
     /** @var callable|null */
     private $log = null;
 
@@ -78,7 +81,7 @@ class ImportadorCopia
      * @param  Negocio|null  $neg  null = crear un negocio nuevo con los datos de la copia
      * @return array resumen: cuántos registros de cada cosa
      */
-    public function importar(array $d, ?Negocio $neg = null, ?callable $log = null, ?string $slug = null): array
+    public function importar(array $d, ?Negocio $neg = null, ?callable $log = null, ?string $slug = null, bool $forzar = false): array
     {
         $this->validar($d);
         $this->log = $log;
@@ -87,34 +90,68 @@ class ImportadorCopia
         $antes = $actual->get();
 
         try {
-            $neg = DB::transaction(fn () => $this->negocio($d['negocio'] ?? [], $neg, $slug));
-            $actual->set($neg);
-            $this->decir('Negocio: '.$neg->nombre);
-
-            DB::transaction(function () use ($d) {
+            if ($neg && ! $forzar && ($que = $this->usadoDespues($neg))) {
+                throw new ErrorNegocio('Este negocio ya tiene '.$que.' hechos en el sistema nuevo. Volver a importar la copia los mezclaría con los del sistema '
+                    .'anterior y podría deshacer anulaciones, pagos o comprobantes. Para pasar los datos del día, empieza con una base nueva y trae tu copia '
+                    .'desde «Bienvenido» (ver README › Pasar los datos del día).');
+            }
+            // todo o nada: si algo falla a la mitad, no queda un negocio a medias (por ejemplo, sin usuarios)
+            $neg = DB::transaction(function () use ($d, $neg, $slug, $actual) {
+                $neg = $this->negocio($d['negocio'] ?? [], $neg, $slug);
+                $actual->set($neg);
+                $this->decir('Negocio: '.$neg->nombre);
                 $this->rolesYUsuarios($d['usuarios'] ?? []);
                 $this->catalogo($d['catalog'] ?? []);
                 $this->stock($d['stockBase'] ?? [], $d['stockLog'] ?? [], $d['stock'] ?? []);
                 $this->maquinas($d['maquinas'] ?? []);
                 $this->clientes($d['clientes'] ?? []);
-            });
-            $dias = $d['dias'] ?? [];
-            ksort($dias);
-            foreach ($dias as $k => $dia) {
-                DB::transaction(fn () => $this->dia((string) $k, (array) $dia));
-            }
-            $this->decir(count($dias).' días de ventas');
-            DB::transaction(function () use ($d) {
+                $dias = $d['dias'] ?? [];
+                ksort($dias);
+                foreach ($dias as $k => $dia) {
+                    $this->dia((string) $k, (array) $dia);
+                }
+                $this->decir(count($dias).' días de ventas');
                 $this->pedidos($d['pedidos'] ?? [], $d['encargos'] ?? []);
                 $this->plantillas($d['plantillas'] ?? []);
                 $this->compras($d['compras'] ?? []);
                 $this->documentos($d['documentos'] ?? [], $d['modelos'] ?? []);
+                $neg->refresh();
+                $neg->fijarAjuste('importado_at', now()->toIso8601String());
+                $neg->save();
+
+                return $neg;
             });
         } finally {
             $actual->set($antes ?? $neg);
         }
 
         return ['negocio' => $neg] + $this->cuenta;
+    }
+
+    /**
+     * Qué se hizo en el sistema nuevo después de la última importación (null = nada).
+     * Sin fecha de importación (negocio creado de cero, o importado antes de guardarla) cuenta todo.
+     */
+    public function usadoDespues(Negocio $neg): ?string
+    {
+        $desde = $neg->ajuste('importado_at');
+        $actual = app(NegocioActual::class);
+        $antes = $actual->get();
+        $actual->set($neg);
+        try {
+            $tablas = ['ventas' => Venta::class, 'ventas anuladas' => VentaAnulada::class, 'comprobantes' => Comprobante::class,
+                'movimientos de caja' => CajaMovimiento::class, 'turnos de caja' => TurnoCaja::class, 'fiados y pagos' => ClienteMovimiento::class,
+                'pedidos' => Pedido::class, 'compras' => Compra::class, 'movimientos de stock' => StockMovimiento::class, 'documentos' => Documento::class];
+            foreach ($tablas as $nombre => $modelo) {
+                if ($modelo::query()->when($desde, fn ($q) => $q->where('updated_at', '>', Carbon::parse($desde)))->exists()) {
+                    return $nombre;
+                }
+            }
+
+            return null;
+        } finally {
+            $actual->set($antes);
+        }
     }
 
     private function decir(string $t): void

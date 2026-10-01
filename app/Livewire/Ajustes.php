@@ -537,9 +537,10 @@ class Ajustes extends Component
             return;
         }
         if (! $this->requiere('datos', 'Importar la copia de seguridad', 'importar', [], ['forzar' => true, 'soloAdmin' => true, 'incluirme' => true,
-            'titulo' => 'Confirma con el PIN de un administrador', 'motivo' => 'Se agregan y actualizan ventas, clientes, productos y usuarios con los de la copia. No se borra nada.'])) {
+            'titulo' => 'Confirma con el PIN de un administrador', 'motivo' => 'Se agregan y actualizan ventas, clientes, productos y usuarios con los de la copia. Solo se puede si todavía no se usó el sistema nuevo.'])) {
             return;
         }
+        @set_time_limit(600);
         try {
             $d = json_decode(file_get_contents($this->copia->getRealPath()), true);
             $imp = app(ImportadorCopia::class);
@@ -549,6 +550,11 @@ class Ajustes extends Component
             });
         } catch (ErrorNegocio $e) {
             $this->error = $e->getMessage();
+
+            return;
+        } catch (\Throwable $e) {
+            report($e);
+            $this->error = ImportadorCopia::ERROR_INESPERADO;
 
             return;
         }

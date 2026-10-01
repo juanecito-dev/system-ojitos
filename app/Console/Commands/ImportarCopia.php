@@ -11,7 +11,8 @@ class ImportarCopia extends Command
 {
     protected $signature = 'ojitos:importar
         {archivo : Ruta del archivo de copia (ojitos-copia-AAAA-MM-DD.json)}
-        {--negocio=ojitos : Código del negocio. Si no existe, se crea con los datos de la copia}';
+        {--negocio=ojitos : Código del negocio. Si no existe, se crea con los datos de la copia}
+        {--forzar : Importar aunque el negocio ya tenga movimientos hechos en el sistema nuevo (se mezclan con los de la copia)}';
 
     protected $description = 'Importa la copia de seguridad v3 del sistema anterior (caja-rapida.html)';
 
@@ -33,7 +34,13 @@ class ImportarCopia extends Command
         $slug = (string) $this->option('negocio');
         $neg = Negocio::where('slug', $slug)->first();
         $this->info(($neg ? 'Actualizando el negocio «'.$neg->nombre.'»' : 'Creando el negocio «'.$slug.'»').' con la copia del '.substr($d['creado'] ?? '', 0, 10).'…');
-        $res = $imp->importar($d, $neg, fn ($t) => $this->line('  · '.$t), $slug);
+        try {
+            $res = $imp->importar($d, $neg, fn ($t) => $this->line('  · '.$t), $slug, (bool) $this->option('forzar'));
+        } catch (ErrorNegocio $e) {
+            $this->error($e->getMessage());
+
+            return self::FAILURE;
+        }
         $this->newLine();
         $this->table(['Qué', 'Cuántos'], collect($res)->except('negocio')->map(fn ($n, $k) => [$k, $n])->values()->all());
         $this->info('Listo. Los usuarios entran con su mismo usuario y PIN de siempre.');

@@ -78,7 +78,14 @@ Si el archivo de la copia pesa mucho y el hosting no deja subirlo:
 php artisan ojitos:importar /ruta/ojitos-copia-2026-09-29.json --negocio=ojitos
 ```
 
-Se puede repetir las veces que haga falta: lo que ya está se actualiza y no se duplica. No borra nada.
+Lo que ya está se actualiza y no se duplica. Se puede repetir **mientras no se haya usado el sistema nuevo**: si el negocio ya tiene ventas, caja, pedidos o comprobantes hechos aquí, el sistema no deja importar encima, porque se mezclarían con los de la copia y podrían deshacer anulaciones o pagos. Desde la terminal se puede forzar con `--forzar`, sabiendo que se mezclan.
+
+### Pasar los datos del día (cuando se deja el sistema anterior)
+
+1. En el sistema anterior: *Configuración › Datos y copias › Descargar copia*.
+2. Empieza con una base nueva. En la PC: cierra la ventana negra y **cambia el nombre** de `database\database.sqlite` (por ejemplo a `database-pruebas.sqlite`; así no se pierde nada). En un servidor: `php artisan migrate:fresh --force --seed` sobre una base vacía.
+3. Abre el sistema: aparece «Bienvenido». Elige **Traer mi copia** y sube el archivo del paso 1.
+4. Desde ese momento se trabaja solo en el sistema nuevo.
 
 ### Copias de seguridad del servidor
 

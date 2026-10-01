@@ -66,6 +66,7 @@ class PrimerUso extends Component
 
             return;
         }
+        @set_time_limit(600);
         try {
             $d = json_decode(file_get_contents($this->archivo->getRealPath()), true);
             $imp->validar($d);
@@ -75,6 +76,11 @@ class PrimerUso extends Component
             }, $slug);
         } catch (ErrorNegocio $e) {
             $this->error = $e->getMessage();
+
+            return;
+        } catch (\Throwable $e) {
+            report($e);
+            $this->error = ImportadorCopia::ERROR_INESPERADO;
 
             return;
         }

@@ -177,7 +177,10 @@ class Comprobantes
         ]));
     }
 
-    /** detalle de productos (para el envío automático a SUNAT más adelante) */
+    /**
+     * detalle de productos (para el envío automático a SUNAT más adelante). Las líneas van a su precio
+     * y el descuento de las ventas queda como descuento global: líneas − descuento = total.
+     */
     private function guardarDetalle(Comprobante $c, array $uids, int $total): void
     {
         $items = VentaItem::whereIn('venta_id', Venta::whereIn('uid', $uids)->select('id'))->where('tercero', false)->get()
@@ -186,6 +189,10 @@ class Comprobantes
             $l = $grupo->first();
             $c->items()->create(['producto_uid' => $l->producto_uid, 'descripcion' => mb_substr(Texto::sunat($l->nombre.($l->detalle ? ' '.$l->detalle : '')), 0, 250),
                 'cantidad' => $grupo->sum('cantidad'), 'precio' => $l->precio, 'subtotal' => $grupo->sum('subtotal')]);
+        }
+        $lineas = (int) $items->flatten()->sum('subtotal');
+        if ($uids && $lineas > abs($total)) {
+            $c->update(['descuento' => $lineas - abs($total)]);
         }
         if (! $uids) {
             $c->items()->create(['descripcion' => mb_substr($c->descripcion ?: 'Servicio', 0, 250), 'cantidad' => 1, 'precio' => abs($total), 'subtotal' => abs($total)]);

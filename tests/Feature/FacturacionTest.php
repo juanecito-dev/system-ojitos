@@ -211,3 +211,17 @@ it('no deja subir el sistema si ya hay números repetidos', function () {
 
     expect(fn () => $m->up())->toThrow(RuntimeException::class, 'EB01-9');
 });
+
+it('con descuento, las líneas del comprobante menos el descuento dan el total', function () {
+    // S/ 10.00 de anillado con S/ 1.00 de descuento, emitida al cobrar
+    $v = vender('s_empastado', 1, 1000, ['descuento' => 100, 'cpe' => ['tipo' => '03', 'emitida' => true, 'serie' => 'EB01', 'numero' => '30']]);
+    $c = Comprobante::with('items')->where('uid', $v->fresh()->comprobante_uid)->first();
+    expect($c->total)->toBe(900)->and($c->items->sum('subtotal'))->toBe(1000)->and($c->descuento)->toBe(100);
+
+    // en la boleta de cierre del día también
+    vender('bn_a4', 20, null, ['descuento' => 50]);   // S/ 3.00 − 0.50
+    vender('bn_a4', 10);                              // S/ 1.50
+    $x = pendiente('cierre');
+    $cierre = app(Comprobantes::class)->emitirPendiente($x, 'EB01', '31', null);
+    expect($cierre->total)->toBe(400)->and($cierre->items->sum('subtotal') - $cierre->descuento)->toBe(400);
+});

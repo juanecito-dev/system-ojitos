@@ -47,6 +47,9 @@ class ImportadorCopia
 
     private array $usuarios = [];
 
+    /** «última boleta/factura emitida en SUNAT» por serie, de la copia */
+    private array $ultimosCpe = [];
+
     private array $clientes = [];
 
     private array $proveedores = [];
@@ -99,6 +102,9 @@ class ImportadorCopia
             $neg = DB::transaction(function () use ($d, $neg, $slug, $actual) {
                 $neg = $this->negocio($d['negocio'] ?? [], $neg, $slug);
                 $actual->set($neg);
+                foreach ($this->ultimosCpe as $serie => $n) {
+                    app(Numeracion::class)->subirA('ult:'.$serie, $n);
+                }
                 $this->decir('Negocio: '.$neg->nombre);
                 $this->rolesYUsuarios($d['usuarios'] ?? []);
                 $this->catalogo($d['catalog'] ?? []);
@@ -121,8 +127,7 @@ class ImportadorCopia
                 $stock->recalcular();
                 app(Clientes::class)->recalcularSaldos();
                 $neg->refresh();
-                $neg->fijarAjuste('importado_at', now()->toIso8601String());
-                $neg->save();
+                $neg->guardarAjuste('importado_at', now()->toIso8601String());
 
                 return $neg;
             });
@@ -221,6 +226,14 @@ class ImportadorCopia
         $datos['qr_plin'] = $n['qrPlin'] ?? null;
         $datos['ultima_copia_at'] = $this->ms($n['ultCopia'] ?? null);
         $ajustes = Arr::except($n, $fuera);
+        // «última boleta/factura emitida en SUNAT» va con los contadores, no con los ajustes
+        $this->ultimosCpe = [];
+        foreach ($ajustes as $k => $v) {
+            if (preg_match('/^ult_([A-Z0-9]{4})$/', (string) $k, $x)) {
+                $this->ultimosCpe[$x[1]] = (int) preg_replace('/\D/', '', (string) $v);
+                unset($ajustes[$k]);
+            }
+        }
 
         if ($neg) {
             $neg->fill($datos);
@@ -385,13 +398,15 @@ class ImportadorCopia
             if (empty($x['id'])) {
                 continue;
             }
-            Maquina::updateOrCreate(['uid' => $x['id']], ['nombre' => $x['nombre'] ?? 'Máquina', 'contadores' => $x['conts'] ?? [], 'orden' => $i]);
+            // la última lectura que recuerda el sistema anterior queda en su contador, aunque ese día ya no venga en la copia
+            $conts = collect(array_values(array_filter((array) ($x['conts'] ?? []), 'is_array')))
+                ->map(fn ($c) => is_array($u = $m['ult'][$x['id'].':'.($c['id'] ?? '')] ?? null) && isset($u['v'], $u['d'])
+                    ? [...$c, 'ult' => ['v' => (int) $u['v'], 'd' => (string) $u['d']]] : $c)->all();
+            Maquina::updateOrCreate(['uid' => $x['id']], ['nombre' => $x['nombre'] ?? 'Máquina', 'contadores' => $conts, 'orden' => $i]);
             $this->contar('máquinas');
         }
-        if (! empty($m['prods']) || ! empty($m['ult'])) {
-            $neg = app(NegocioActual::class)->obligatorio();
-            $neg->fijarAjuste('maquinas', ['prods' => $m['prods'] ?? [], 'ult' => $m['ult'] ?? []]);
-            $neg->save();
+        if (! empty($m['prods'])) {
+            app(NegocioActual::class)->obligatorio()->guardarAjuste('maquinas', ['prods' => $m['prods']]);
         }
     }
 

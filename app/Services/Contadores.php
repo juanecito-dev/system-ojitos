@@ -79,7 +79,7 @@ class Contadores
     {
         $l = LecturaContador::where('tipo', 'fin')->where('maquina_uid', $maq)->where('contador_uid', $cont)->where('fecha', '<', $fecha)
             ->orderByDesc('fecha')->orderByDesc('ocurrido_at')->first();
-        $u = app(NegocioActual::class)->obligatorio()->ajuste('maquinas.ult.'.$maq.':'.$cont);
+        $u = collect($this->maquinas()->firstWhere('uid', $maq)->contadores ?? [])->firstWhere('id', $cont)['ult'] ?? null;
         // la copia del sistema anterior guarda la última lectura aunque ese día ya no venga en la copia
         if (is_array($u) && isset($u['v'], $u['d']) && $u['d'] < $fecha && (! $l || $u['d'] > $l->fecha->toDateString())) {
             return ['v' => (int) $u['v'], 'fecha' => (string) $u['d']];

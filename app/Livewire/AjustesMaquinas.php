@@ -31,8 +31,7 @@ class AjustesMaquinas extends Component
     private function guardarProds(array $p): void
     {
         $neg = app(NegocioActual::class)->obligatorio();
-        $neg->fijarAjuste('maquinas', array_merge((array) $neg->ajuste('maquinas', []), ['prods' => $p]));
-        $neg->save();
+        $neg->guardarAjuste('maquinas', $p ? ['prods' => $p] : null);
     }
 
     public function agregar(): void

@@ -12,12 +12,13 @@ use App\Services\Bitacora;
 use App\Services\Comprobantes;
 use App\Services\ErrorNegocio;
 use App\Services\ImportadorCopia;
+use App\Services\Numeracion;
 use App\Services\Stock;
+use App\Support\AjustesNegocio;
 use App\Support\Catalogos;
 use App\Support\Dinero;
 use App\Support\NegocioActual;
 use App\Support\Texto;
-use App\Support\Valida;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Livewire\Attributes\Locked;
@@ -136,7 +137,7 @@ class Ajustes extends Component
         if ($k === 'nombre' && $v === '') {
             return;
         }
-        if (($error = self::problemaAjuste($k, $v)) !== '') {
+        if (($error = AjustesNegocio::problema($k, $v)) !== '') {
             $this->dispatch('toast', texto: $error);
 
             return;
@@ -144,42 +145,26 @@ class Ajustes extends Component
         if ($k === 'meta' && $v !== '') {
             $v = Dinero::n(Dinero::aCentimos($v));
         }
-        $antes = in_array($k, $columnas, true) ? $neg->{$k} : $neg->ajuste($k);
+        $antes = match (true) {
+            $esUlt => app(Numeracion::class)->valor('ult:'.substr($k, 4)) ?: '',
+            in_array($k, $columnas, true) => $neg->{$k},
+            default => $neg->ajuste($k),
+        };
         if ((string) $antes === (string) $v) {
             return;
         }
-        if (in_array($k, $columnas, true)) {
+        if ($esUlt) {
+            app(Numeracion::class)->fijar('ult:'.substr($k, 4), (int) $v);
+        } elseif (in_array($k, $columnas, true)) {
             $neg->{$k} = $v === '' ? null : $v;
+            $neg->save();
         } else {
-            $neg->fijarAjuste($k, $v === false ? null : $v);
+            $neg->guardarAjuste($k, $v === false ? null : $v);
         }
-        $neg->save();
         if (! $esUlt) {
             Bitacora::registrar('config', (self::NEG_LABEL[$k] ?? $k).': «'.mb_substr((string) $antes, 0, 60).'» → «'.mb_substr(is_bool($v) ? ($v ? 'sí' : 'no') : (string) $v, 0, 60).'»');
         }
         $this->dispatch('toast', texto: 'Guardado');
-    }
-
-    /** '' si el dato del negocio sirve; si no, el motivo (vacío siempre se puede, salvo en las listas) */
-    public static function problemaAjuste(string $k, mixed $v): string
-    {
-        $s = is_string($v) ? $v : (string) $v;
-        if (str_starts_with($k, 'ult_')) {
-            return $s === '' || preg_match('/^\d{1,8}$/', $s) ? '' : 'Escribe solo el número (hasta 8 cifras), por ejemplo 445.';
-        }
-
-        return match ($k) {
-            'ruc' => $s === '' || Valida::ruc($s) ? '' : 'Ese RUC no es válido: revisa los 11 números.',
-            'celular', 'yapeCel' => $s === '' || Valida::celular(Texto::cel9($s)) ? '' : 'El celular debe tener 9 números y empezar con 9.',
-            'serieB' => Valida::serie($s, '03') ? '' : 'La serie de boletas tiene 4 letras o números y empieza con B o EB (por ejemplo EB01).',
-            'serieF' => Valida::serie($s, '01') ? '' : 'La serie de facturas tiene 4 letras o números y empieza con F o E (por ejemplo E001).',
-            'meta' => $s === '' || (($c = Dinero::aCentimos($s)) !== null && $c >= 0) ? '' : 'Escribe la meta en soles, por ejemplo 150.',
-            'regimen' => isset(Catalogos::REGIMENES[$s]) ? '' : 'Elige el régimen de la lista.',
-            'igv' => in_array($s, ['exonerado', 'gravado', 'inafecto'], true) ? '' : 'Elige una opción de la lista.',
-            'tkAncho' => in_array($s, ['58', '80'], true) ? '' : 'Elige 58 u 80 mm.',
-            'autoLock' => in_array($s, ['0', '5', '10', '15', '30'], true) ? '' : 'Elige una opción de la lista.',
-            default => '',
-        };
     }
 
     public function cambiarRubro(string $rubro, bool $aplicarModulos): void
@@ -220,8 +205,7 @@ class Ajustes extends Component
         if (! $on) {
             $off[] = $m;
         }
-        $neg->fijarAjuste('metOff', $off);
-        $neg->save();
+        $neg->guardarAjuste('metOff', $off);
         Bitacora::registrar('config', ($on ? 'Activó' : 'Apagó').' el método de pago '.$neg->nombreMetodo($m));
         $this->dispatch('toast', texto: 'Guardado');
     }
@@ -240,8 +224,7 @@ class Ajustes extends Component
         } else {
             $noms[$m] = $nombre;
         }
-        $neg->fijarAjuste('metNom', $noms ?: null);
-        $neg->save();
+        $neg->guardarAjuste('metNom', $noms ?: null);
         Bitacora::registrar('config', 'Método de pago '.Catalogos::METODOS[$m].' ahora se llama «'.($nombre ?: Catalogos::METODOS[$m]).'»');
         $this->dispatch('toast', texto: 'Nombre guardado');
     }

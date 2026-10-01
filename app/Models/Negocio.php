@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Support\AjustesNegocio;
 use App\Support\Catalogos;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
+use InvalidArgumentException;
 
 class Negocio extends Model
 {
@@ -40,21 +43,45 @@ class Negocio extends Model
         return $this->hasMany(Usuario::class)->withoutGlobalScopes();
     }
 
-    /** Un ajuste guardado (meta, tkPie, tkAncho, metOff…) */
+    /** Un ajuste guardado (meta, tkPie, tkAncho, metOff…); si no hay, el de AjustesNegocio::POR_DEFECTO */
     public function ajuste(string $clave, mixed $def = null): mixed
     {
-        return data_get($this->ajustes ?? [], $clave, $def);
+        return data_get($this->ajustes ?? [], $clave, $def ?? AjustesNegocio::porDefecto($clave));
     }
 
-    public function fijarAjuste(string $clave, mixed $valor): void
+    /** Guarda un ajuste (null o '' lo quita). */
+    public function guardarAjuste(string $clave, mixed $valor): void
     {
-        $a = $this->ajustes ?? [];
-        if ($valor === null || $valor === '') {
-            unset($a[$clave]);
-        } else {
-            $a[$clave] = $valor;
+        $this->guardarAjustes([$clave => $valor]);
+    }
+
+    /**
+     * Guarda varios ajustes de una vez sin pisar los que otro equipo cambió al mismo tiempo:
+     * se vuelve a leer lo guardado, bloqueado, y solo se cambian estas claves.
+     */
+    public function guardarAjustes(array $cambios): void
+    {
+        foreach ($cambios as $k => $v) {
+            if (is_scalar($v) && $v !== '' && ($error = AjustesNegocio::problema((string) $k, $v)) !== '') {
+                throw new InvalidArgumentException($error);
+            }
         }
-        $this->ajustes = $a;
+        $a = DB::transaction(function () use ($cambios) {
+            $guardado = static::query()->toBase()->where('id', $this->id)->lockForUpdate()->value('ajustes');
+            $a = is_string($guardado) ? (json_decode($guardado, true) ?: []) : [];
+            foreach ($cambios as $k => $v) {
+                if ($v === null || $v === '') {
+                    unset($a[$k]);
+                } else {
+                    $a[$k] = $v;
+                }
+            }
+            static::query()->whereKey($this->id)->update(['ajustes' => $a ? json_encode($a, JSON_UNESCAPED_UNICODE) : null, 'updated_at' => now()]);
+
+            return $a;
+        });
+        $this->ajustes = $a ?: null;
+        $this->syncOriginalAttribute('ajustes');
     }
 
     public function moduloActivo(string $modulo): bool

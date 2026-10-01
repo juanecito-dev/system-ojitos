@@ -159,7 +159,7 @@ class Ticket
     public static function ancho(Negocio $neg): int
     {
         $eq = (int) request()->cookie('ticket_ancho');
-        $w = $eq ?: (int) $neg->ajuste('tkAncho', 80);
+        $w = $eq ?: (int) $neg->ajuste('tkAncho');
 
         return $w === 58 ? 58 : 80;
     }

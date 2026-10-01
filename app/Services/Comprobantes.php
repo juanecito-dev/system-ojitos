@@ -29,11 +29,11 @@ class Comprobantes
         $n ??= app(NegocioActual::class)->obligatorio();
 
         return [
-            'regimen' => $n->ajuste('regimen', 'rer'),
-            'igv' => $n->ajuste('igv', 'exonerado'),
-            'serieB' => $n->ajuste('serieB', 'EB01'),
-            'serieF' => $n->ajuste('serieF', 'E001'),
-            'modo' => $n->ajuste('modoCpe', 'manual'),
+            'regimen' => $n->ajuste('regimen'),
+            'igv' => $n->ajuste('igv'),
+            'serieB' => $n->ajuste('serieB'),
+            'serieF' => $n->ajuste('serieF'),
+            'modo' => $n->ajuste('modoCpe'),
         ];
     }
 
@@ -49,9 +49,10 @@ class Comprobantes
 
     public function ultimoNumero(string $serie, bool $nota = false): int
     {
-        $max = Comprobante::where('serie', $serie)->where('tipo', $nota ? '=' : '!=', '07')->pluck('numero')->map(fn ($x) => (int) $x)->max() ?? 0;
+        $entero = DB::connection()->getDriverName() === 'mysql' || DB::connection()->getDriverName() === 'mariadb' ? 'UNSIGNED' : 'INTEGER';
+        $max = (int) Comprobante::where('serie', $serie)->where('tipo', $nota ? '=' : '!=', '07')->max(DB::raw("CAST(numero AS {$entero})"));
 
-        return $nota ? $max : max((int) app(NegocioActual::class)->obligatorio()->ajuste('ult_'.$serie, 0), $max);
+        return $nota ? $max : max(app(Numeracion::class)->valor('ult:'.$serie), $max);
     }
 
     /** las notas de crédito llevan su propio correlativo en SUNAT, aunque usen la misma serie */
@@ -204,11 +205,7 @@ class Comprobantes
         if (! $c->numero || $c->tipo === '07') {
             return;
         }
-        $neg = app(NegocioActual::class)->obligatorio();
-        if ((int) $c->numero > (int) $neg->ajuste('ult_'.$c->serie, 0)) {
-            $neg->fijarAjuste('ult_'.$c->serie, (string) $c->numero);
-            $neg->save();
-        }
+        app(Numeracion::class)->subirA('ult:'.$c->serie, (int) $c->numero);
     }
 
     /** días que quedan del plazo de 7 días (negativo = vencido) */

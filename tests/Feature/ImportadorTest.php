@@ -9,8 +9,10 @@ use App\Models\Usuario;
 use App\Models\Venta;
 use App\Models\VentaItem;
 use App\Services\AccesoPin;
+use App\Services\Contadores;
 use App\Services\ErrorNegocio;
 use App\Services\ImportadorCopia;
+use App\Services\Numeracion;
 use App\Services\Stock;
 use App\Services\Ventas;
 use App\Support\NegocioActual;
@@ -29,7 +31,9 @@ it('importa la copia v3 completa', function () {
     app(NegocioActual::class)->set($res['negocio']);
 
     expect($res['negocio']->nombre)->toBe('Ojitos')
-        ->and($res['negocio']->ajuste('ult_EB01'))->toBe('445')
+        ->and(app(Numeracion::class)->valor('ult:EB01'))->toBe(445)
+        ->and($res['negocio']->ajuste('ult_EB01'))->toBeNull()
+        ->and(app(Contadores::class)->anterior('2026-10-01', 'mq1', 'ct1'))->toBe(['v' => 120500, 'fecha' => '2026-09-21'])
         ->and($res['negocio']->moduloActivo('compras'))->toBeFalse()
         ->and(Venta::count())->toBe(3)
         ->and(Usuario::count())->toBe(3)

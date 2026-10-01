@@ -541,12 +541,6 @@ parameters:
 			path: app/Models/Negocio.php
 
 		-
-			message: '#^Cannot unset offset string on array\{\}\|string\.$#'
-			identifier: unset.offset
-			count: 1
-			path: app/Models/Negocio.php
-
-		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$cantidad\.$#'
 			identifier: property.notFound
 			count: 1

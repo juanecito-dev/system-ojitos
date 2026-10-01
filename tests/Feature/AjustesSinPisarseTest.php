@@ -73,7 +73,8 @@ it('pasa los números guardados en la configuración a su lugar', function () {
 
     $neg = Negocio::find($neg->id);
     app(NegocioActual::class)->set($neg);
-    expect($neg->ajustes)->toBe(['meta' => '100.00', 'maquinas' => ['prods' => ['bn_a4' => ['g' => 'bn', 'f' => 1]]]])
+    // toEqual: MySQL 8 reordena las claves del JSON al guardarlo
+    expect($neg->ajustes)->toEqual(['meta' => '100.00', 'maquinas' => ['prods' => ['bn_a4' => ['g' => 'bn', 'f' => 1]]]])
         ->and(app(Numeracion::class)->valor('ult:EB01'))->toBe(445)
         ->and(app(Numeracion::class)->valor('ult:E001'))->toBe(140)              // se queda con el mayor
         ->and(app(Contadores::class)->anterior('2026-10-01', 'mq1', 'ct1'))->toBe(['v' => 120500, 'fecha' => '2026-09-21']);

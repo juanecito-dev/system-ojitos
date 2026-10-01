@@ -21,7 +21,7 @@ function ojitosApp(bloqueoMin) {
             d = Array.isArray(d) ? d[0] : d;
             this.aviso = { on: true, texto: d.texto || '', accion: d.accion || null };
             clearTimeout(this._t);
-            this._t = setTimeout(() => { this.aviso.on = false; }, d.accion ? 6000 : 2200);
+            this._t = setTimeout(() => { this.aviso.on = false; }, d.largo ? 9000 : d.accion ? 6000 : 2200);
         },
         accionAviso() {
             const a = this.aviso.accion;
@@ -122,3 +122,18 @@ window.ojitosFoto = function (file) {
         fr.onerror = rej; fr.readAsDataURL(file);
     });
 };
+
+/* si se corta la conexión en medio de una acción, avisar: sin esto, el cajero no se entera de que no se guardó */
+document.addEventListener('livewire:init', () => {
+    Livewire.hook('request', ({ fail }) => {
+        fail(({ content }) => {
+            if (content !== null) return;   // respondió con un error: Livewire ya lo muestra
+            window.dispatchEvent(new CustomEvent('toast', { detail: {
+                texto: navigator.onLine === false
+                    ? 'Sin internet: no se pudo guardar. Cuando vuelva la conexión, intenta otra vez (una venta no se cobra dos veces).'
+                    : 'No se pudo conectar con el sistema. Intenta otra vez en unos segundos (una venta no se cobra dos veces).',
+                largo: true,
+            } }));
+        });
+    });
+});

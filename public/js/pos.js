@@ -6,6 +6,12 @@ function pos(catalogo, orden, codigoInicial, docLineas) {
     const norm = s => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
     const guardar = (k, v) => { try { localStorage.setItem('ojitos:' + k, JSON.stringify(v)); } catch (e) {} };
     const leer = k => { try { return JSON.parse(localStorage.getItem('ojitos:' + k)); } catch (e) { return null; } };
+    // llave del cobro (será el uid de la venta): se guarda con el pedido para que un reintento no duplique la venta
+    const nuevoIntento = () => {
+        const b = new Uint8Array(12);
+        (window.crypto || window.msCrypto).getRandomValues(b);
+        return 'v-' + Array.from(b, x => x.toString(16).padStart(2, '0')).join('');
+    };
 
     return {
         cat: catalogo,
@@ -14,12 +20,19 @@ function pos(catalogo, orden, codigoInicial, docLineas) {
         tab: leer('postab') || null,
         favMode: false,
         it: null,          // ventana del producto: {p, sel, custom, cant, desc, tasa}
+        intento: null,
         deshacer: null,
         S, N,
 
         init() {
             if ((!this.orden || !this.orden.length) && Array.isArray(leer('orden')) && leer('orden').length) this.orden = leer('orden');
-            this.$watch('orden', v => guardar('orden', v || []));
+            this.intento = leer('intento') || nuevoIntento();
+            guardar('intento', this.intento);
+            this.$watch('orden', (v, antes) => {
+                guardar('orden', v || []);
+                // pedido vacío (se cobró o se vació): el siguiente cobro lleva otra llave
+                if ((!v || !v.length) && antes && antes.length) { this.intento = nuevoIntento(); guardar('intento', this.intento); }
+            });
             if (!this.tab || (this.tab !== 'fav' && this.tab !== 'todo' && !this.grupos().includes(this.tab))) this.tab = this.favs().length ? 'fav' : 'todo';
             if (codigoInicial) this.$nextTick(() => this.escaneo(codigoInicial));
             if (docLineas && docLineas.length) this.$nextTick(() => this.agregarDocumento(docLineas));
@@ -90,7 +103,7 @@ function pos(catalogo, orden, codigoInicial, docLineas) {
             window.dispatchEvent(new CustomEvent('toast', { detail: { texto: 'Pedido vaciado', accion: { label: 'Deshacer', evento: 'pos-restaurar' } } }));
         },
         restaurar() { if (this.deshacer) { this.orden = this.deshacer; this.deshacer = null; } },
-        cobrar() { if (this.orden.length) this.$wire.abrirCobro(); },
+        cobrar() { if (this.orden.length) this.$wire.abrirCobro(this.intento); },
         buscarEnter() {
             const q = this.q.trim(); if (!q) return;
             const p = this.porCodigo(q) || this.hits()[0];

@@ -116,6 +116,34 @@ it('lo ya autorizado deja de valer si cambia el cobro', function () {
     expect(Venta::count())->toBe(0)->and($c->get('autz'))->toBeNull();
 });
 
+it('si se corta la conexión y se vuelve a cobrar, no se duplica la venta', function () {
+    entrarComo('jeremy');
+    $llave = 'v-0123456789abcdef01234567';
+    Livewire::test(Vender::class)->set('orden', pedido([['bn_a4', 10]]))->call('abrirCobro', $llave)->call('cobrar', false);
+    expect(Venta::count())->toBe(1)->and(Venta::first()->uid)->toBe($llave);
+
+    // la respuesta no llegó: el cajero recarga, el pedido sigue en el navegador con la misma llave y vuelve a cobrar
+    Livewire::test(Vender::class)->set('orden', pedido([['bn_a4', 10]]))->call('abrirCobro', $llave)
+        ->assertSet('cobrando', false)->assertSet('orden', [])->assertDispatched('venta-registrada');
+    expect(Venta::count())->toBe(1);
+});
+
+it('el mismo cobro enviado dos veces se guarda una sola vez', function () {
+    entrarComo('jeremy');
+    $llave = 'v-fedcba9876543210fedcba98';
+    $a = Livewire::test(Vender::class)->set('orden', pedido([['bn_a4', 10]]))->call('abrirCobro', $llave);
+    $b = Livewire::test(Vender::class)->set('orden', pedido([['bn_a4', 10]]))->call('abrirCobro', $llave);
+    $a->call('cobrar', false);
+    $b->call('cobrar', true)->assertSet('orden', [])->assertSet('ticketUid', $llave);
+    expect(Venta::count())->toBe(1);
+});
+
+it('una llave de cobro con caracteres raros se ignora', function () {
+    entrarComo('jeremy');
+    Livewire::test(Vender::class)->set('orden', pedido([['bn_a4', 1]]))->call('abrirCobro', "x' OR 1=1")->call('cobrar', false);
+    expect(Venta::count())->toBe(1)->and(Venta::first()->uid)->not->toContain("'");
+});
+
 it('deshacer una venta la anula y devuelve el pedido a la caja', function () {
     entrarComo('jeremy');
     $c = Livewire::test(Vender::class)->set('orden', pedido([['bn_a4', 10]]))->call('abrirCobro')->call('cobrar', false);

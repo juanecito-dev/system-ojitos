@@ -82,7 +82,7 @@ class Ventas
             $pedidoCpe = $pide ? array_filter(['tipo' => $cpe['tipo'] ?? '03', 'pide' => (bool) $pide, 'doc' => $doc]) : null;
 
             $v = Venta::create([
-                'uid' => Texto::nuevoUid(),
+                'uid' => ($d['uid'] ?? null) ?: Texto::nuevoUid(),   // la llave del cobro: un reintento no duplica la venta
                 'fecha' => $fecha,
                 'numero' => $this->numeracion->ticket($u, $fecha),
                 'usuario_id' => $u->id,

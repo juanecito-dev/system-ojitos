@@ -20,6 +20,7 @@ use App\Support\Catalogos;
 use App\Support\Dinero;
 use App\Support\NegocioActual;
 use App\Support\Texto;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -72,6 +73,13 @@ class Vender extends Component
 
     #[Locked]
     public bool $pedidoDirecto = false;
+
+    /**
+     * Llave de este cobro: será el uid de la venta. La crea el navegador y la guarda con el pedido,
+     * así que si se corta la conexión y se vuelve a cobrar (aunque se recargue la página) no se duplica la venta.
+     */
+    #[Locked]
+    public string $intento = '';
 
     public function mount(): void
     {
@@ -135,6 +143,7 @@ class Vender extends Component
             $this->pay['doc'] = $q['doc'];
             $this->pay['conDoc'] = $q['tipo'] === '03';
         }
+        $this->intento = Texto::nuevoUid();
         $this->cobrando = true;
     }
 
@@ -296,10 +305,20 @@ class Vender extends Component
         return ($r->desc_max && $d > $r->desc_max) || ($r->desc_pct && $d > $base * $r->desc_pct / 100);
     }
 
-    public function abrirCobro(): void
+    public function abrirCobro(?string $intento = null): void
     {
         $this->orden = array_values(array_filter($this->orden, fn ($l) => ($l['cant'] ?? 0) > 0));
         if (! $this->orden) {
+            return;
+        }
+        if ($intento !== null && preg_match('/^[A-Za-z0-9-]{8,60}$/', $intento)) {
+            $this->intento = $intento;
+        } elseif ($this->intento === '') {
+            $this->intento = Texto::nuevoUid();
+        }
+        if ($v = $this->yaGuardada()) {
+            $this->terminarCobro($v, false, true);
+
             return;
         }
         $this->error = '';
@@ -546,6 +565,11 @@ class Vender extends Component
     {
         $ventas ??= app(Ventas::class);
         $this->error = '';
+        if ($v = $this->yaGuardada()) {   // reintento de un cobro que ya se guardó: no se cobra dos veces
+            $this->terminarCobro($v, $conTicket, true);
+
+            return;
+        }
         $yo = Auth::user();
         $total = $this->bruto() - (int) $this->pay['desc'];
         if (! $this->orden) {
@@ -595,13 +619,43 @@ class Vender extends Component
             $this->error = $e->getMessage();
 
             return;
+        } catch (UniqueConstraintViolationException $e) {
+            // el mismo cobro llegó dos veces a la vez: el otro ya la guardó
+            if (! ($v = $this->yaGuardada())) {
+                throw $e;
+            }
+            $this->terminarCobro($v, $conTicket, true);
+
+            return;
         }
+        $this->terminarCobro($v, $conTicket);
+    }
+
+    /** la venta de este cobro, si ya se guardó (se cortó la conexión y se volvió a cobrar) */
+    private function yaGuardada(): ?Venta
+    {
+        return $this->intento !== '' ? Venta::with('cliente')->where('uid', $this->intento)->first() : null;
+    }
+
+    /** deja la caja lista para la siguiente venta y avisa cuánto se cobró */
+    private function terminarCobro(Venta $v, bool $conTicket, bool $repetido = false): void
+    {
         $this->orden = [];
         $this->pay = self::payInicial();
         $this->cobrando = false;
         $this->concedidos = [];
         $this->pedidoUid = null;
         $this->pedidoDirecto = false;
+        $this->intento = '';
+        if ($repetido) {
+            $this->dispatch('venta-registrada');
+            $this->dispatch('toast', texto: 'Esta venta ya se había guardado ('.Dinero::s($v->total + $v->abono).'). No se cobró dos veces.', largo: true);
+            if ($conTicket) {
+                $this->ticketUid = $v->uid;
+            }
+
+            return;
+        }
         $quien = $v->cliente ? Texto::primerNombre($v->cliente->nombre) : '';
         $grand = $v->total + $v->abono;
         $msg = $v->metodo === 'fiado' ? 'Fiado a '.$quien.': '.Dinero::s($v->total)
@@ -629,6 +683,7 @@ class Vender extends Component
             'cpe' => ['tipo' => $p['cpe'], 'pide' => $p['pide'] || $p['cpe'] === '01', 'doc' => $p['doc']['nd'] ? $p['doc'] : null,
                 'emitida' => $pide && $p['emitida'], 'serie' => $p['serie'], 'numero' => $p['numero']],
             'pedido_uid' => $pedido?->uid,
+            'uid' => $this->intento ?: null,
         ]);
         if ($pedido) {
             app(Pedidos::class)->cobrado($pedido, $v, $this->pedidoDirecto, $yo);

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 /**
  * Stock = último conteo + entradas − salidas posteriores − lo vendido después
  * (también lo que gastan los servicios con insumos, como las hojas de cada copia).
- * Las ventas anuladas ya no existen, así que devuelven solas.
+ * Las ventas anuladas (anulada_at) no cuentan, así que devuelven solas.
  */
 class Stock
 {
@@ -33,7 +33,7 @@ class Stock
             ->pluck('n', 'producto_id');
 
         $directo = DB::table('venta_items as i')
-            ->join('ventas as v', 'v.id', '=', 'i.venta_id')
+            ->join('ventas as v', 'v.id', '=', 'i.venta_id')->whereNull('v.anulada_at')
             ->join('stock_bases as b', 'b.producto_id', '=', 'i.producto_id')
             ->where('v.negocio_id', $negocioId)->where('i.tercero', false)
             ->whereColumn('v.vendida_at', '>', 'b.desde')
@@ -42,7 +42,7 @@ class Stock
             ->pluck('n', 'producto_id');
 
         $insumos = DB::table('venta_items as i')
-            ->join('ventas as v', 'v.id', '=', 'i.venta_id')
+            ->join('ventas as v', 'v.id', '=', 'i.venta_id')->whereNull('v.anulada_at')
             ->join('producto_insumos as pi', 'pi.producto_id', '=', 'i.producto_id')
             ->join('stock_bases as b', 'b.producto_id', '=', 'pi.insumo_id')
             ->where('v.negocio_id', $negocioId)->where('i.tercero', false)

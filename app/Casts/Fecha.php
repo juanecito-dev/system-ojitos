@@ -9,6 +9,8 @@ use Illuminate\Support\Carbon;
 /**
  * Día del negocio (sin hora). Se guarda siempre como «2026-09-29» para que las búsquedas
  * por fecha funcionen igual en SQLite y en MySQL, y se lee como fecha de Carbon.
+ *
+ * @implements CastsAttributes<Carbon|null, \DateTimeInterface|string|null>
  */
 class Fecha implements CastsAttributes
 {

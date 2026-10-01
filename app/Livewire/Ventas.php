@@ -6,6 +6,7 @@ use App\Livewire\Concerns\ConAutorizacion;
 use App\Livewire\Concerns\ConDia;
 use App\Models\Comprobante;
 use App\Models\Venta;
+use App\Models\VentaAnulada;
 use App\Services\Bitacora;
 use App\Services\CajaDia;
 use App\Services\Ventas as ServicioVentas;
@@ -28,6 +29,9 @@ class Ventas extends Component
     public string $motivo = '';
 
     public ?string $ticketUid = null;
+
+    /** historial aparte de las ventas anuladas (las más recientes primero) */
+    public bool $verAnuladas = false;
 
     public function pedirAnular(string $uid): void
     {
@@ -73,6 +77,14 @@ class Ventas extends Component
         return Auth::user()->puede('verTodo') || $v->usuario_id === Auth::id();
     }
 
+    /** anuladas que este usuario puede ver: todas con «ver todo», si no solo las suyas */
+    private function anuladas()
+    {
+        $yo = Auth::user();
+
+        return VentaAnulada::query()->when(! $yo->puede('verTodo'), fn ($q) => $q->where(fn ($w) => $w->where('usuario_id', $yo->id)->orWhere('vendedor_original', $yo->nombre)));
+    }
+
     public function render()
     {
         $yo = Auth::user();
@@ -113,6 +125,8 @@ class Ventas extends Component
             'r' => $r, 'V' => $V->sortByDesc('vendida_at'), 'por' => $por, 'maxRow' => max(1, collect($por)->max('sub') ?? 1),
             'vend' => count($vend) > 1 || (count($vend) === 1 && ! isset($vend['Sin usuario'])) ? $vend : [],
             'metodos' => $metodos, 'boletasPend' => $boletasPend, 'neg' => $neg,
+            'nAnuladas' => $this->anuladas()->count(),
+            'anuladas' => $this->verAnuladas ? $this->anuladas()->orderByDesc('anulada_at')->orderByDesc('id')->limit(100)->get() : collect(),
             'ventaAnular' => $this->anulando ? Venta::with('items')->where('uid', $this->anulando)->first() : null,
             'cpeAnular' => $this->anulando ? $this->comprobanteDe($this->anulando) : null,
             'ticket' => $this->ticketUid ? Venta::with(['items', 'cliente'])->where('uid', $this->ticketUid)->get()->first(fn ($v) => $this->visible($v)) : null,

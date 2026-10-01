@@ -39,7 +39,7 @@ parameters:
 		-
 			message: '#^Cannot call method format\(\) on string\.$#'
 			identifier: method.nonObject
-			count: 5
+			count: 3
 			path: app/Http/Controllers/DocumentosController.php
 
 		-
@@ -103,12 +103,6 @@ parameters:
 			path: app/Http/Controllers/TicketController.php
 
 		-
-			message: '#^Cannot call method format\(\) on string\.$#'
-			identifier: method.nonObject
-			count: 2
-			path: app/Http/Controllers/TicketController.php
-
-		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$etiqueta\.$#'
 			identifier: property.notFound
 			count: 2
@@ -155,12 +149,6 @@ parameters:
 			identifier: argument.unresolvableType
 			count: 1
 			path: app/Livewire/AjustesMaquinas.php
-
-		-
-			message: '#^Cannot call method lt\(\) on string\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: app/Livewire/Caja.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$cantidad\.$#'
@@ -523,12 +511,6 @@ parameters:
 			path: app/Livewire/Vender.php
 
 		-
-			message: '#^Cannot call method lt\(\) on string\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: app/Livewire/Vender.php
-
-		-
 			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
 			identifier: argument.unresolvableType
 			count: 3
@@ -551,12 +533,6 @@ parameters:
 			identifier: nullsafe.neverNull
 			count: 1
 			path: app/Livewire/Vender.php
-
-		-
-			message: '#^Cannot call method format\(\) on string\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: app/Livewire/Ventas.php
 
 		-
 			message: '#^Illuminate\\Support\\Collection\<\(int\|string\), array\{mixed, mixed\}\> does not accept array\<int, mixed\>\.$#'
@@ -747,12 +723,6 @@ parameters:
 		-
 			message: '#^Call to function is_array\(\) with string\|null will always evaluate to false\.$#'
 			identifier: function.impossibleType
-			count: 1
-			path: app/Models/Venta.php
-
-		-
-			message: '#^Cannot call method format\(\) on string\.$#'
-			identifier: method.nonObject
 			count: 1
 			path: app/Models/Venta.php
 
@@ -969,7 +939,7 @@ parameters:
 		-
 			message: '#^Cannot call method toDateString\(\) on string\.$#'
 			identifier: method.nonObject
-			count: 4
+			count: 3
 			path: app/Services/Comprobantes.php
 
 		-
@@ -1201,12 +1171,6 @@ parameters:
 			path: app/Services/Reportes.php
 
 		-
-			message: '#^Cannot call method toDateString\(\) on string\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: app/Services/Reportes.php
-
-		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$cantidad\.$#'
 			identifier: property.notFound
 			count: 2
@@ -1245,7 +1209,7 @@ parameters:
 		-
 			message: '#^Cannot call method format\(\) on string\.$#'
 			identifier: method.nonObject
-			count: 3
+			count: 2
 			path: app/Services/Ticket.php
 
 		-
@@ -1285,12 +1249,6 @@ parameters:
 			path: app/Services/Ventas.php
 
 		-
-			message: '#^Cannot call method lte\(\) on string\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: app/Services/Ventas.php
-
-		-
 			message: '#^Left side of && is always true\.$#'
 			identifier: booleanAnd.leftAlwaysTrue
 			count: 1
@@ -1304,12 +1262,6 @@ parameters:
 
 		-
 			message: '#^Cannot call method lte\(\) on string\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: app/Support/Avisos.php
-
-		-
-			message: '#^Cannot call method toDateString\(\) on string\.$#'
 			identifier: method.nonObject
 			count: 1
 			path: app/Support/Avisos.php

@@ -286,7 +286,7 @@ class Pedidos
             return;
         }
         DB::transaction(function () use ($p) {
-            $this->quitarStock($p);
+            $this->quitarStock($p, Auth::user());
             $p->update(['etapa' => $p->listo_at ? 'listo' : 'proceso', 'entregado_at' => null]);
             $this->anotar($p, 'Se deshizo la entrega');
         });
@@ -343,15 +343,24 @@ class Pedidos
         }
     }
 
-    public function quitarStock(Pedido $p): void
+    /** lo que salió del stock con este pedido vuelve como entrada (nada se borra: el kárdex muestra la salida y la devolución) */
+    public function quitarStock(Pedido $p, ?Usuario $u = null): void
     {
-        StockMovimiento::where('pedido_uid', $p->uid)->delete();
+        $neto = StockMovimiento::where('pedido_uid', $p->uid)->get()->groupBy('producto_id')
+            ->map(fn ($g) => ['nombre' => $g->first()->nombre, 'cant' => $g->sum(fn ($m) => $m->tipo === 'salida' ? $m->cantidad : -$m->cantidad)]);
+        foreach ($neto as $id => $x) {
+            if ($x['cant'] > 0) {
+                StockMovimiento::create(['uid' => Texto::nuevoUid(), 'producto_id' => $id, 'nombre' => $x['nombre'], 'tipo' => 'entrada', 'cantidad' => $x['cant'],
+                    'nota' => 'Devuelto: pedido '.$p->numeroTxt(), 'pedido_uid' => $p->uid, 'usuario_id' => $u?->id, 'vendedor' => $u?->nombre,
+                    'ocurrido_at' => app(Stock::class)->ahoraPara($id)]);
+            }
+        }
     }
 
-    public function eliminar(Pedido $p): void
+    public function eliminar(Pedido $p, ?Usuario $u = null): void
     {
-        DB::transaction(function () use ($p) {
-            $this->quitarStock($p);
+        DB::transaction(function () use ($p, $u) {
+            $this->quitarStock($p, $u);
             Bitacora::registrar('pedido', 'Eliminó el pedido '.$p->numeroTxt().' de '.$p->dato('nombre'));
             $p->delete();
         });

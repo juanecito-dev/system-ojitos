@@ -10,6 +10,7 @@ use App\Models\CompraPago;
 use App\Models\TurnoCaja;
 use App\Services\Bitacora;
 use App\Services\CajaDia;
+use App\Services\CuadreCaja;
 use App\Services\Reportes;
 use App\Support\Catalogos;
 use App\Support\Dinero;
@@ -66,7 +67,11 @@ class Caja extends Component
             return;
         }
         $yo = Auth::user();
-        if (TurnoCaja::where('fecha', $this->dia)->where('usuario_id', $yo->id)->whereNull('cierra_at')->exists()) {
+        // un turno a la vez: si quedó abierto uno de otro día (pasó la medianoche), primero se cierra ese
+        if ($antes = TurnoCaja::where('usuario_id', $yo->id)->whereNull('cierra_at')->first()) {
+            $this->dispatch('toast', texto: $antes->fecha->toDateString() === $this->dia ? 'Tu caja ya está abierta'
+                : 'Primero cierra tu caja abierta el '.$antes->abre_at->format('d/m').' a las '.$antes->abre_at->format('H:i'));
+
             return;
         }
         TurnoCaja::create(['uid' => Texto::nuevoUid(), 'fecha' => $this->dia, 'usuario_id' => $yo->id, 'vendedor' => $yo->nombre, 'abre_at' => now(), 'inicial' => $v]);
@@ -78,7 +83,8 @@ class Caja extends Component
     {
         $t = TurnoCaja::find($id);
         $yo = Auth::user();
-        if (! $t || $t->cierra_at || ! $this->esHoy() || ($t->usuario_id !== $yo->id && ! $yo->esAdmin())) {
+        // una caja abierta se puede cerrar aunque se haya abierto otro día (turno que pasó la medianoche): queda con la fecha en que se abrió
+        if (! $t || $t->cierra_at || ($t->usuario_id !== $yo->id && ! $yo->esAdmin())) {
             return null;
         }
 
@@ -108,7 +114,7 @@ class Caja extends Component
         if (! $t || $v === null || $v < 0) {
             return;
         }
-        $c = (new CajaDia($this->dia))->turno($t);
+        $c = (new CajaDia($t->fecha->toDateString()))->turno($t);
         $t->update(['cierra_at' => now(), 'contado' => $v, 'esperado' => $c['esperado'], 'cerro_por' => Auth::user()->nombre]);
         $d = $v - $c['esperado'];
         Bitacora::registrar('caja', 'Cerró la caja de '.$t->vendedor.': debía haber '.Dinero::s($c['esperado']).', contó '.Dinero::s($v));
@@ -202,15 +208,22 @@ class Caja extends Component
         if (! $this->requiere('borrar', 'Borrar un movimiento de caja de '.Dinero::s($m->monto), 'borrarMovimiento', [$id, true])) {
             return;
         }
+        // una caja cerrada no se toca: el movimiento de un turno ya cuadrado se corrige desde la caja de hoy
+        if (CuadreCaja::cuadrado($m->usuario_id, $m->ocurrido_at, $m->fecha->toDateString())) {
+            $this->borrandoFiado = null;
+            $this->dispatch('toast', texto: 'Esa caja ya se cerró y cuadró: no se puede borrar. Si fue un error, registra un movimiento de corrección hoy.');
+
+            return;
+        }
         if ($m->concepto === 'Pago de fiado' && $m->referencia) {
-            ClienteMovimiento::where('tipo', 'abono')->where(fn ($q) => $q->where('uid', $m->referencia)->orWhere('venta_uid', $m->referencia))->delete();
+            ClienteMovimiento::where('tipo', 'abono')->where(fn ($q) => $q->where('uid', $m->referencia)->orWhere('venta_uid', $m->referencia))->get()->each->delete();
         }
         // el pago a un proveedor también sale de la compra: la deuda vuelve a figurar
         if ($m->concepto === 'Pago a proveedor') {
-            CompraPago::where('caja_mov_uid', $m->uid)->delete();
+            CompraPago::where('caja_mov_uid', $m->uid)->get()->each->delete();
         }
         Bitacora::registrar('caja', 'Borró '.$m->tipo.' «'.$m->concepto.'» de '.Dinero::s($m->monto));
-        $m->delete();
+        $m->delete();   // queda marcado como borrado
         $this->borrandoFiado = null;
         $this->dispatch('toast', texto: 'Movimiento borrado');
     }
@@ -228,8 +241,11 @@ class Caja extends Component
         $yo = Auth::user();
         $admin = $yo->esAdmin();
         $caja = new CajaDia($this->dia);
-        $mios = $caja->turnos->where('usuario_id', $yo->id);
-        $vis = $admin ? $caja->turnos : $mios;
+        // hoy también se ven las cajas que quedaron abiertas de otro día, para poder cerrarlas
+        $antes = $this->esHoy() ? TurnoCaja::where('fecha', '<', $this->dia)->whereNull('cierra_at')->get() : collect();
+        $todos = $caja->turnos->merge($antes);
+        $mios = $todos->where('usuario_id', $yo->id);
+        $vis = $admin ? $todos : $mios;
         $fuera = $caja->sinTurno();
 
         return view('livewire.caja', [

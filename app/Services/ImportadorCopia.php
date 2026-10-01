@@ -457,7 +457,7 @@ class ImportadorCopia
             if (empty($v['id'])) {
                 continue;
             }
-            $venta = Venta::updateOrCreate(['uid' => $v['id']], [
+            $venta = Venta::conAnuladas()->updateOrCreate(['uid' => $v['id']], [
                 'fecha' => $k, 'numero' => $v['num'] ?? null, 'usuario_id' => $this->usuarioId($v['u'] ?? null), 'vendedor' => $v['vend'] ?? null,
                 'cliente_id' => $this->clienteId($v['cliente'] ?? null), 'total' => (int) ($v['total'] ?? 0), 'descuento' => (int) ($v['descuento'] ?? 0),
                 'metodo' => $v['metodo'] ?? 'efectivo', 'pago' => isset($v['pago']) ? (int) $v['pago'] : null, 'abono' => (int) ($v['abono'] ?? 0),

@@ -7,6 +7,17 @@ use App\Models\Concerns\PerteneceANegocio;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property int|null $usuario_id
+ * @property string $vendedor
+ * @property \Illuminate\Support\Carbon $fecha
+ * @property \Illuminate\Support\Carbon $abre_at
+ * @property \Illuminate\Support\Carbon|null $cierra_at
+ * @property int $inicial
+ * @property int|null $contado
+ * @property int|null $esperado
+ */
 class TurnoCaja extends Model
 {
     use PerteneceANegocio;

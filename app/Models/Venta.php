@@ -10,9 +10,35 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property int $id
+ * @property string $uid
+ * @property \Illuminate\Support\Carbon $fecha
+ * @property string|null $numero
+ * @property int|null $usuario_id
+ * @property int $total
+ * @property string|null $metodo
+ * @property \Illuminate\Support\Carbon $vendida_at
+ * @property \Illuminate\Support\Carbon|null $anulada_at
+ * @property bool $devuelta_en_caja
+ */
 class Venta extends Model
 {
     use PerteneceANegocio;
+
+    /**
+     * Una venta anulada no se borra: queda con anulada_at y deja de contar como venta en todas partes.
+     * Para verla (historial de anuladas, cuadre del turno en que se cobró) usar conAnuladas().
+     */
+    protected static function booted(): void
+    {
+        static::addGlobalScope('vigente', fn ($q) => $q->whereNull($q->getModel()->getTable().'.anulada_at'));
+    }
+
+    public static function conAnuladas()
+    {
+        return static::withoutGlobalScope('vigente');
+    }
 
     protected $table = 'ventas';
 
@@ -21,7 +47,7 @@ class Venta extends Model
     protected function casts(): array
     {
         return [
-            'fecha' => Fecha::class, 'comprobante_fecha' => Fecha::class, 'vendida_at' => 'datetime',
+            'fecha' => Fecha::class, 'comprobante_fecha' => Fecha::class, 'vendida_at' => 'datetime', 'anulada_at' => 'datetime', 'devuelta_en_caja' => 'boolean',
             'boleta' => 'boolean', 'al_cierre' => 'boolean', 'comprobante_pedido' => 'array', 'extra' => 'array',
         ];
     }

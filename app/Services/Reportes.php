@@ -106,9 +106,9 @@ class Reportes
         };
 
         // ventas (lo propio: sin las tasas pagadas a terceros)
-        $terc = DB::table('venta_items as i')->join('ventas as v', 'v.id', '=', 'i.venta_id')->where('v.negocio_id', $nid)
+        $terc = DB::table('venta_items as i')->join('ventas as v', 'v.id', '=', 'i.venta_id')->whereNull('v.anulada_at')->where('v.negocio_id', $nid)
             ->whereBetween('v.fecha', [$a, $b])->where('i.tercero', true)->groupBy('i.venta_id')->selectRaw('i.venta_id AS id, SUM(i.subtotal) AS s')->pluck('s', 'id');
-        $V = DB::table('ventas')->where('negocio_id', $nid)->whereBetween('fecha', [$a, $b])
+        $V = DB::table('ventas')->where('negocio_id', $nid)->whereNull('anulada_at')->whereBetween('fecha', [$a, $b])
             ->get(['id', 'fecha', 'total', 'descuento', 'metodo', 'cliente_id', 'vendedor', 'vendida_at']);
         foreach ($V as $v) {
             $f = substr((string) $v->fecha, 0, 10);
@@ -143,7 +143,7 @@ class Reportes
         $R['dias'] = count(array_filter($R['porDia']));
 
         // lo vendido por producto y grupo, con su costo cuando se conoce
-        $I = DB::table('venta_items as i')->join('ventas as v', 'v.id', '=', 'i.venta_id')->leftJoin('productos as p', 'p.id', '=', 'i.producto_id')
+        $I = DB::table('venta_items as i')->join('ventas as v', 'v.id', '=', 'i.venta_id')->whereNull('v.anulada_at')->leftJoin('productos as p', 'p.id', '=', 'i.producto_id')
             ->where('v.negocio_id', $nid)->whereBetween('v.fecha', [$a, $b])->where('i.tercero', false)
             ->groupBy('i.nombre', 'i.producto_uid', 'p.grupo', DB::raw('substr(v.fecha, 1, 7)'))
             ->selectRaw('i.nombre, i.producto_uid AS uid, p.grupo, substr(v.fecha, 1, 7) AS mes, COUNT(*) AS lineas, SUM(i.cantidad) AS cant, SUM(i.subtotal) AS v,
@@ -201,7 +201,7 @@ class Reportes
         $R['sinCobrar'] = $sc['copias'];
         $R['sinCobrarS'] = $sc['monto'];
         $R['cobFiado'] = (int) ClienteMovimiento::where('tipo', 'abono')->whereBetween('ocurrido_at', [$t0, $t1])->sum('monto');
-        $R['pagProv'] = (int) DB::table('compra_pagos as p')->join('compras as c', 'c.id', '=', 'p.compra_id')->where('c.negocio_id', $nid)
+        $R['pagProv'] = (int) DB::table('compra_pagos as p')->join('compras as c', 'c.id', '=', 'p.compra_id')->where('c.negocio_id', $nid)->whereNull('p.deleted_at')
             ->whereBetween('p.pagado_at', [$t0, $t1])->sum('p.monto');
         $R['perd'] = app(Inventario::class)->perdidas($t0, $t1);
         ksort($R['porMes']);

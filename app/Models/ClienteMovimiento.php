@@ -6,10 +6,11 @@ use App\Casts\Fecha;
 use App\Models\Concerns\PerteneceANegocio;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ClienteMovimiento extends Model
 {
-    use PerteneceANegocio;
+    use PerteneceANegocio, SoftDeletes;   // borrar = marcar como borrado: nada desaparece
 
     protected $table = 'cliente_movimientos';
 

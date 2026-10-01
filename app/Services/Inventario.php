@@ -50,7 +50,7 @@ class Inventario
                 $v[$id] = ($v[$id] ?? 0) + (float) $n;
             }
         };
-        $ventas = fn () => DB::table('venta_items as i')->join('ventas as v', 'v.id', '=', 'i.venta_id')
+        $ventas = fn () => DB::table('venta_items as i')->join('ventas as v', 'v.id', '=', 'i.venta_id')->whereNull('v.anulada_at')
             ->where('v.negocio_id', $this->negocioId())->where('i.tercero', false)->where('v.vendida_at', '>=', $desde);
         $sumar($ventas()->whereNotNull('i.producto_id')->groupBy('i.producto_id')->selectRaw('i.producto_id AS id, SUM(i.cantidad) AS n')->pluck('n', 'id'));
         $sumar($ventas()->join('producto_insumos as pi', 'pi.producto_id', '=', 'i.producto_id')->groupBy('pi.insumo_id')
@@ -69,7 +69,7 @@ class Inventario
 
     public function vendidoHoy(): array
     {
-        return DB::table('venta_items as i')->join('ventas as v', 'v.id', '=', 'i.venta_id')
+        return DB::table('venta_items as i')->join('ventas as v', 'v.id', '=', 'i.venta_id')->whereNull('v.anulada_at')
             ->where('v.negocio_id', $this->negocioId())->where('v.fecha', today()->toDateString())->whereNotNull('i.producto_id')
             ->groupBy('i.producto_id')->selectRaw('i.producto_id AS id, SUM(i.cantidad) AS n')->pluck('n', 'id')->map(fn ($n) => (float) $n)->all();
     }
@@ -167,7 +167,7 @@ class Inventario
             return [];
         }
         $rows = [];
-        $ventas = fn () => DB::table('venta_items as i')->join('ventas as v', 'v.id', '=', 'i.venta_id')
+        $ventas = fn () => DB::table('venta_items as i')->join('ventas as v', 'v.id', '=', 'i.venta_id')->whereNull('v.anulada_at')
             ->where('v.negocio_id', $this->negocioId())->where('i.tercero', false)
             ->where('v.vendida_at', '>=', $t0->copy()->max($inicio));
         foreach ($ventas()->where('i.producto_id', $p->id)->get(['v.vendida_at', 'v.numero', 'v.vendedor', 'i.cantidad']) as $r) {

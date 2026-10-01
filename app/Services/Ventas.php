@@ -199,29 +199,33 @@ class Ventas
      * Anula (o deshace) una venta: revisa su comprobante, su pedido, el stock ya contado y
      * la cuenta del cliente; deja el rastro en ventas_anuladas.
      *
+     * Nada se borra: la venta queda con anulada_at y deja de contar como venta. Si su caja ya se
+     * cuadró, el dinero se queda en ese cuadre y la devolución sale de la caja de hoy.
+     *
      * @return string aviso para mostrar (por ejemplo, que falta la nota de crédito)
      */
     public function anular(Venta $v, Usuario $por, string $motivo = '', string $tipo = 'anulada'): string
     {
         return DB::transaction(function () use ($v, $por, $motivo, $tipo) {
-            $v->loadMissing('items');
+            // bloqueada hasta terminar: si dos equipos la anulan a la vez, el segundo no la resta otra vez
+            $v = Venta::with('items')->whereKey($v->id)->lockForUpdate()->first()
+                ?? throw new ErrorNegocio('Esa venta ya se anuló.');
             $aviso = '';
             if ($v->comprobante_uid) {
                 $c = Comprobante::where('uid', $v->comprobante_uid)->where('estado', '!=', 'anulado')->first();
                 if ($c && ($c->cierre_de || count($c->ventas ?? []) > 1)) {
                     $aviso = 'Estaba en la boleta de cierre '.$c->etiqueta().': registra una nota de crédito por '.Dinero::s($v->propio()).' en Facturación.';
-                } elseif ($c && $tipo === 'deshecha') {
-                    $c->delete();
                 } elseif ($c) {
+                    // también al deshacer: si ya se emitió, existe en SUNAT y no se puede borrar del registro
                     $c->update(['estado' => 'anulado', 'motivo' => 'La venta se anuló', 'anulado_at' => now(), 'anulado_por' => $por->nombre]);
                     $aviso = 'Su comprobante '.$c->etiqueta().' quedó anulado en tu registro. Recuerda anularlo también en el portal de SUNAT.';
                 }
             }
 
             if ($v->pedido_uid && ($p = Pedido::where('uid', $v->pedido_uid)->first())) {
-                $p->pagos()->where('venta_uid', $v->uid)->delete();
+                $p->pagos()->where('venta_uid', $v->uid)->delete();   // queda marcado como borrado
                 if ($p->etapa === 'entregado') {
-                    StockMovimiento::where('pedido_uid', $p->uid)->delete();
+                    app(Pedidos::class)->quitarStock($p, $por);
                     $p->update($p->directa ? ['etapa' => 'cotizado', 'directa' => false, 'entregado_at' => null] : ['etapa' => 'listo', 'entregado_at' => null]);
                 }
                 app(Pedidos::class)->anotar($p, 'Se anuló un pago de '.Dinero::s($v->total), $por);
@@ -257,9 +261,12 @@ class Ventas
                 $c->gastado = max(0, $c->gastado - $v->propio());
                 $c->save();
             }
-            ClienteMovimiento::where('venta_uid', $v->uid)->delete();
-            CajaMovimiento::where('referencia', $v->uid)->delete();
-            $v->delete();
+            ClienteMovimiento::where('venta_uid', $v->uid)->get()->each->delete();   // quedan marcados como borrados
+            $cuadre = app(CuadreCaja::class);
+            foreach (CajaMovimiento::where('referencia', $v->uid)->get() as $m) {
+                $cuadre->quitar($m, $por, 'Venta anulada');
+            }
+            $v->forceFill(['anulada_at' => now(), 'devuelta_en_caja' => $cuadre->devolverVenta($v, $por)])->save();
 
             return $aviso;
         });

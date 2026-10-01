@@ -445,7 +445,7 @@ class Pedidos extends Component
         $p = $this->pedido($this->borrando);
         $this->borrando = null;
         if ($p) {
-            $this->srv()->eliminar($p);
+            $this->srv()->eliminar($p, Auth::user());
             $this->ver = null;
             $this->dispatch('toast', texto: 'Pedido eliminado');
         }

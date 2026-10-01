@@ -14,6 +14,7 @@ use App\Support\NegocioActual;
 use App\Support\Texto;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 /** Clientes y fiados: saldos, pagos, deudas anteriores, estado de cuenta y unir duplicados. */
@@ -132,7 +133,10 @@ class Clientes
         }
         DB::transaction(function () use ($m) {
             if ($m->tipo === 'abono') {
-                CajaMovimiento::where('referencia', $m->uid)->delete();
+                // si ese pago ya entró en una caja cerrada, se corrige desde la caja de hoy
+                foreach (CajaMovimiento::where('referencia', $m->uid)->get() as $cm) {
+                    app(CuadreCaja::class)->quitar($cm, Auth::user(), 'Se borró un pago de fiado');
+                }
             }
             Bitacora::registrar('usuario', 'Borró un '.($m->tipo === 'abono' ? 'pago' : 'fiado').' de '.Dinero::s($m->monto).' de '.$m->cliente?->nombre);
             $m->delete();

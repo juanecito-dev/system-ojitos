@@ -20,5 +20,7 @@ Punto de venta en Laravel 13 + Livewire 3.8 que reemplaza a `docs/legado/caja-ra
 - `uid` es el id del sistema anterior (o uno nuevo con `Texto::nuevoUid()`). Sirve para que el importador no duplique.
 - Los permisos se revisan en el servidor. En Livewire, las acciones que necesitan permiso llaman a `$this->requiere(...)` (trait `ConAutorizacion`): si falta el permiso, se abre la ventana para el PIN de un administrador.
 - Toda acción importante queda anotada con `Bitacora::registrar(tipo, detalle)`.
+- Nada se borra. Una venta anulada queda con `anulada_at` (no sale en las consultas normales; `Venta::conAnuladas()` para verla). Los movimientos de caja, fiados y pagos usan borrado suave. Para quitar dinero de la caja usa `CuadreCaja::quitar()`: si su turno ya se cerró, no lo toca y anota el contrario en la caja de hoy. En las consultas con `DB::table` agrega `whereNull('anulada_at')` / `whereNull('deleted_at')`.
+- Sin negocio elegido, las tablas del negocio no se pueden leer (`SinNegocio`). El código de plataforma que necesita ver todo usa `NegocioActual::plataforma(fn () => ...)`.
 - Sin Node: el CSS está en `public/css/ojitos.css` (copiado del sistema anterior) y `extra.css`, y el JS en `public/js/`.
 - En Blade, no pegues una directiva a una palabra (`texto@endif`): Blade no la reconoce. Deja un espacio o algún símbolo antes.

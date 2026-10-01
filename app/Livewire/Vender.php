@@ -634,7 +634,15 @@ class Vender extends Component
     /** la venta de este cobro, si ya se guardó (se cortó la conexión y se volvió a cobrar) */
     private function yaGuardada(): ?Venta
     {
-        return $this->intento !== '' ? Venta::with('cliente')->where('uid', $this->intento)->first() : null;
+        $v = $this->intento !== '' ? Venta::conAnuladas()->with('cliente')->where('uid', $this->intento)->first() : null;
+        if ($v?->anulada_at) {
+            // esa llave ya se usó en una venta que luego se deshizo: este cobro es otro
+            $this->intento = Texto::nuevoUid();
+
+            return null;
+        }
+
+        return $v;
     }
 
     /** deja la caja lista para la siguiente venta y avisa cuánto se cobró */
@@ -749,7 +757,7 @@ class Vender extends Component
         $neg = app(NegocioActual::class)->obligatorio();
         $st = $stock->todos();
         $cat = $this->catalogo();
-        $hoy = VentaItem::query()->join('ventas', 'ventas.id', '=', 'venta_items.venta_id')
+        $hoy = VentaItem::query()->join('ventas', 'ventas.id', '=', 'venta_items.venta_id')->whereNull('ventas.anulada_at')
             ->where('ventas.negocio_id', $neg->id)->where('ventas.fecha', today()->toDateString())->whereNotNull('venta_items.producto_id')
             ->selectRaw('venta_items.producto_id, COUNT(*) AS n')->groupBy('venta_items.producto_id')->orderByDesc('n')->limit(6)->pluck('producto_id');
         $grupos = $cat->reject->oculto->groupBy('grupo');

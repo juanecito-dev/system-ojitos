@@ -120,7 +120,14 @@ it('al entregar salen del stock los útiles, y vuelven si se deshace', function 
     $s->entregar($p->fresh(['items', 'pagos']), usuario('alex'));
     expect(app(Stock::class)->de($lap->id))->toBe(17.0);
     $s->deshacerEntrega($p->fresh());
-    expect(app(Stock::class)->de($lap->id))->toBe(20.0)->and(StockMovimiento::count())->toBe(0);
+    // nada se borra: queda la salida y su devolución en el kárdex
+    expect(app(Stock::class)->de($lap->id))->toBe(20.0)
+        ->and(StockMovimiento::orderBy('id')->pluck('tipo')->all())->toBe(['salida', 'entrada']);
+
+    // y si se vuelve a entregar y a deshacer, cuadra igual
+    $s->entregar($p->fresh(['items', 'pagos']), usuario('alex'));
+    $s->deshacerEntrega($p->fresh());
+    expect(app(Stock::class)->de($lap->id))->toBe(20.0);
 });
 
 it('anular el pago del saldo devuelve el pedido a listo', function () {

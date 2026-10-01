@@ -205,7 +205,10 @@ class Compras
     {
         DB::transaction(function () use ($c, $u) {
             $this->revertir($c, $u);
-            CajaMovimiento::whereIn('uid', $c->pagos()->whereNotNull('caja_mov_uid')->pluck('caja_mov_uid'))->delete();
+            // lo que se pagó de la caja vuelve: si esa caja ya se cerró, entra como corrección en la de hoy
+            foreach (CajaMovimiento::whereIn('uid', $c->pagos()->whereNotNull('caja_mov_uid')->pluck('caja_mov_uid'))->get() as $m) {
+                app(CuadreCaja::class)->quitar($m, $u, 'Se eliminó la compra '.($c->numero ?: ''));
+            }
             $c->delete();
         });
         Bitacora::registrar('compra', 'Eliminó la compra '.($c->numero ?: 'sin número').' de '.$c->proveedor?->nombre.' por '.Dinero::s($c->total));

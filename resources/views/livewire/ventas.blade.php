@@ -49,6 +49,27 @@
         @endforeach
     @endif
 
+    @if ($nAnuladas)
+        <p style="margin:14px 0 0;text-align:right"><button type="button" class="link" wire:click="$toggle('verAnuladas')">{{ $verAnuladas ? 'Ocultar el historial de anuladas' : 'Ver el historial de anuladas ('.$nAnuladas.')' }}</button></p>
+    @endif
+    @if ($verAnuladas)
+        <h2>Historial de anuladas <small>las más recientes primero</small></h2>
+        @foreach ($anuladas as $a)
+            <div class="sale" wire:key="an{{ $a->id }}">
+                <span class="t">{{ $a->anulada_at->format('d/m') }}<br>{{ $a->anulada_at->format('H:i') }}</span>
+                <span class="d">{{ $a->detalle }}<br>
+                    <span class="tag {{ $a->tipo === 'deshecha' ? 'p' : 'r' }}">{{ $a->tipo === 'deshecha' ? 'Deshecha al momento' : 'Anulada' }}</span>
+                    @if ($a->venta_at)<span class="tag s">Vendida el {{ $a->venta_at->format('d/m H:i') }}</span>@endif
+                    @if ($a->vendedor_original)<span class="tag s">{{ $a->vendedor_original }}</span>@endif
+                    @if ($a->numero)<span class="tag s">{{ $a->numero }}</span>@endif
+                    @if ($a->por)<span class="tag m">Anuló {{ $a->por }}</span>@endif
+                    @if ($a->motivo)<br><span class="cap">Motivo: {{ $a->motivo }}</span>@endif
+                </span>
+                <span class="ops"><span class="amt">{{ Dinero::s($a->total) }}</span></span>
+            </div>
+        @endforeach
+    @endif
+
     @if ($ventaAnular)
         <div class="dlg" role="alertdialog" aria-modal="true" x-data x-on:keydown.escape.window="$wire.cancelarAnular()">
             <form wire:submit="anular">

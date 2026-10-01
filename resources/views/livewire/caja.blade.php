@@ -29,7 +29,7 @@
             @php $c = $caja->turno($t); $mine = $t->usuario_id === auth()->id(); $diff = $t->cierra_at ? $t->contado - $c['esperado'] : null; @endphp
             <div class="card turno {{ $t->cierra_at ? 'cerrado' : '' }}" wire:key="t{{ $t->id }}">
                 <div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline"><b>Caja de {{ Texto::primerNombre($t->vendedor) }}{{ $mine ? ' (tú)' : '' }}</b>
-                    <span class="tag {{ $t->cierra_at ? 's' : 'b' }}">{{ $t->cierra_at ? 'Cerrada '.$t->cierra_at->format('H:i') : 'Abierta desde '.$t->abre_at->format('H:i') }}</span></div>
+                    <span class="tag {{ $t->cierra_at ? 's' : ($t->fecha->toDateString() !== $dia ? 'p' : 'b') }}">{{ $t->cierra_at ? 'Cerrada '.$t->cierra_at->format('H:i') : 'Abierta desde '.($t->fecha->toDateString() !== $dia ? 'el '.$t->abre_at->format('d/m').' a las ' : '').$t->abre_at->format('H:i') }}</span></div>
                 <div class="ledger" style="margin-top:8px">
                     <div><span>Sencillo inicial</span><b>{{ Dinero::s($t->inicial) }}</b></div>
                     <div><span>Ventas en efectivo ({{ $c['n'] }})</span><b>+ {{ Dinero::n($c['ventas']) }}</b></div>
@@ -41,7 +41,7 @@
                 @if ($t->cierra_at)
                     <div class="diff {{ $diff === 0 ? 'ok' : 'bad' }}" style="margin-top:8px">{{ $diff === 0 ? 'Cuadró exacto' : ($diff > 0 ? 'Sobraron '.Dinero::s($diff) : 'Faltaron '.Dinero::s(-$diff)) }}</div>
                     <div class="cap">Contó {{ Dinero::s($t->contado) }}@if ($t->cerro_por && $t->cerro_por !== $t->vendedor) · cerró {{ $t->cerro_por }}@endif @if (count($t->correcciones ?? [])) · sencillo corregido {{ count($t->correcciones) }} {{ count($t->correcciones) === 1 ? 'vez' : 'veces' }}@endif</div>
-                @elseif (($mine || $admin) && $this->esHoy())
+                @elseif ($mine || $admin)
                     <div class="row" style="margin:10px 0 0"><input data-solo="monto" class="field" wire:model="contado.{{ $t->id }}" inputmode="decimal" placeholder="Efectivo contado"><button type="button" class="btn" wire:click="pedirCierre({{ $t->id }})">Cerrar caja</button><button type="button" class="link" wire:click="pedirCorreccion({{ $t->id }})">Corregir sencillo</button></div>
                 @endif
             </div>

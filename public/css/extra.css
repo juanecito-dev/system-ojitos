@@ -40,3 +40,6 @@ a.dcard{color:inherit;text-decoration:none}
 .docpage.cvpage{padding:16mm 18mm;font-size:inherit;line-height:normal;font-family:inherit;min-width:680px}
 .docpage.cvpage.cvm{padding:0;overflow:hidden}
 .docpage.cvpage mark{background:#ffe58a;color:#111}
+
+/* la ventana del PIN de un administrador usa <form> dentro de .dlg: necesita el mismo recuadro que .dlg>div */
+.dlg>form{background:var(--sheet);color:var(--ink);border-radius:16px;padding:18px;max-width:440px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,.25)}

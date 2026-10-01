@@ -6,14 +6,15 @@ use App\Casts\Fecha;
 use App\Models\Concerns\PerteneceANegocio;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
  * @property int|null $usuario_id
  * @property string $vendedor
- * @property \Illuminate\Support\Carbon $fecha
- * @property \Illuminate\Support\Carbon $abre_at
- * @property \Illuminate\Support\Carbon|null $cierra_at
+ * @property Carbon $fecha
+ * @property Carbon $abre_at
+ * @property Carbon|null $cierra_at
  * @property int $inicial
  * @property int|null $contado
  * @property int|null $esperado

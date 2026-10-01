@@ -9,17 +9,18 @@ use App\Support\Texto;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
  * @property string $uid
- * @property \Illuminate\Support\Carbon $fecha
+ * @property Carbon $fecha
  * @property string|null $numero
  * @property int|null $usuario_id
  * @property int $total
  * @property string|null $metodo
- * @property \Illuminate\Support\Carbon $vendida_at
- * @property \Illuminate\Support\Carbon|null $anulada_at
+ * @property Carbon $vendida_at
+ * @property Carbon|null $anulada_at
  * @property bool $devuelta_en_caja
  */
 class Venta extends Model

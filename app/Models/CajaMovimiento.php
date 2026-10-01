@@ -7,18 +7,19 @@ use App\Models\Concerns\PerteneceANegocio;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
  * @property string $uid
- * @property \Illuminate\Support\Carbon $fecha
+ * @property Carbon $fecha
  * @property string $tipo ingreso | gasto | retiro
  * @property string $concepto
  * @property int $monto
  * @property string|null $metodo
  * @property string|null $referencia
  * @property int|null $usuario_id
- * @property \Illuminate\Support\Carbon $ocurrido_at
+ * @property Carbon $ocurrido_at
  */
 class CajaMovimiento extends Model
 {

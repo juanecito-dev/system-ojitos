@@ -14,6 +14,7 @@ use App\Support\NegocioActual;
 use App\Support\Texto;
 use App\Support\Valida;
 use Carbon\Carbon;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -114,55 +115,81 @@ class Comprobantes
     /** Anota un comprobante emitido y lo une a sus ventas (y guarda el detalle de productos) */
     public function registrar(array $d): Comprobante
     {
-        $u = Auth::user();
         $total = (int) $d['total'];
 
-        return DB::transaction(function () use ($d, $u, $total) {
-            $c = Comprobante::create([
-                'uid' => Texto::nuevoUid(),
-                'fecha' => today(),
-                'tipo' => $d['tipo'],
-                'serie' => strtoupper(($d['serie'] ?? '') ?: $this->serieDe($d['tipo'])),
-                'numero' => ! empty($d['numero']) ? (string) (int) $d['numero'] : null,
-                'cliente' => $d['cliente'] ?? null,
-                'total' => $total,
-                ...$this->montos(abs($total)),
-                'descripcion' => mb_substr($d['descripcion'] ?? '', 0, 250),
-                'estado' => 'emitido',
-                'modo' => $this->config()['modo'],
-                'referencia' => $d['referencia'] ?? null,
-                'motivo' => $d['motivo'] ?? null,
-                'ventas' => $d['ventas'] ?? [],
-                'cierre_de' => $d['cierre_de'] ?? null,
-                'usuario_id' => $u?->id,
-                'vendedor' => $u?->nombre,
-                'emitido_at' => now(),
-            ]);
-            $this->recordarUltimo($c);
+        return DB::transaction(function () use ($d, $total) {
+            $serie = strtoupper(($d['serie'] ?? '') ?: $this->serieDe($d['tipo']));
+            $numero = ! empty($d['numero']) ? (string) (int) $d['numero'] : null;
+            // un equipo a la vez por serie: lo que se revisa aquí no cambia hasta guardar
+            app(Numeracion::class)->bloquear('cpe:'.$serie);
+            if ($numero && $this->numeroUsado($serie, $numero, null, $d['tipo'] === '07')) {
+                throw new ErrorNegocio('Ya registraste '.$serie.'-'.$numero.'. Revisa el número.');
+            }
             $uids = collect($d['ventas'] ?? [])->pluck('id')->all();
+            if ($uids && ($ya = Venta::whereIn('uid', $uids)->where('boleta', true)->first())) {
+                throw new ErrorNegocio('Ya se registró '.($ya->comprobante_numero ?: 'un comprobante').' para '.(count($uids) > 1 ? 'estas ventas' : 'esta venta').' desde otro equipo. No se guardó nada.');
+            }
+            try {
+                $c = $this->crear($d, $serie, $numero, $total);
+            } catch (UniqueConstraintViolationException) {
+                throw new ErrorNegocio('Ya registraste '.$serie.'-'.$numero.'. Revisa el número.');
+            }
+            $this->recordarUltimo($c);
             if ($uids) {
                 Venta::whereIn('uid', $uids)->update([
                     'boleta' => true, 'comprobante_uid' => $c->uid, 'comprobante_fecha' => $c->fecha->toDateString(),
                     'comprobante_numero' => $c->numero ? $c->etiqueta() : null,
                 ]);
             }
-            // detalle de productos (para el envío automático a SUNAT más adelante)
-            $items = VentaItem::whereIn('venta_id', Venta::whereIn('uid', $uids)->select('id'))->where('tercero', false)->get()
-                ->groupBy(fn ($l) => $l->nombre.'|'.$l->detalle.'|'.$l->precio);
-            foreach ($items as $grupo) {
-                $l = $grupo->first();
-                $c->items()->create(['producto_uid' => $l->producto_uid, 'descripcion' => mb_substr(Texto::sunat($l->nombre.($l->detalle ? ' '.$l->detalle : '')), 0, 250),
-                    'cantidad' => $grupo->sum('cantidad'), 'precio' => $l->precio, 'subtotal' => $grupo->sum('subtotal')]);
-            }
-            if (! $uids) {
-                $c->items()->create(['descripcion' => mb_substr($c->descripcion ?: 'Servicio', 0, 250), 'cantidad' => 1, 'precio' => abs($total), 'subtotal' => abs($total)]);
-            }
+            $this->guardarDetalle($c, $uids, $total);
             if (! empty($d['cierre_de'])) {
                 Dia::updateOrCreate(['fecha' => $d['cierre_de']], ['cierre' => true, 'cierre_comprobante_uid' => $c->uid]);
             }
 
             return $c;
         });
+    }
+
+    /** dentro de su propio punto de guardado: si el número choca con el índice único, la transacción de afuera sigue sana */
+    private function crear(array $d, string $serie, ?string $numero, int $total): Comprobante
+    {
+        $u = Auth::user();
+
+        return DB::transaction(fn () => Comprobante::create([
+            'uid' => Texto::nuevoUid(),
+            'fecha' => today(),
+            'tipo' => $d['tipo'],
+            'serie' => $serie,
+            'numero' => $numero,
+            'cliente' => $d['cliente'] ?? null,
+            'total' => $total,
+            ...$this->montos(abs($total)),
+            'descripcion' => mb_substr($d['descripcion'] ?? '', 0, 250),
+            'estado' => 'emitido',
+            'modo' => $this->config()['modo'],
+            'referencia' => $d['referencia'] ?? null,
+            'motivo' => $d['motivo'] ?? null,
+            'ventas' => $d['ventas'] ?? [],
+            'cierre_de' => $d['cierre_de'] ?? null,
+            'usuario_id' => $u?->id,
+            'vendedor' => $u?->nombre,
+            'emitido_at' => now(),
+        ]));
+    }
+
+    /** detalle de productos (para el envío automático a SUNAT más adelante) */
+    private function guardarDetalle(Comprobante $c, array $uids, int $total): void
+    {
+        $items = VentaItem::whereIn('venta_id', Venta::whereIn('uid', $uids)->select('id'))->where('tercero', false)->get()
+            ->groupBy(fn ($l) => $l->nombre.'|'.$l->detalle.'|'.$l->precio);
+        foreach ($items as $grupo) {
+            $l = $grupo->first();
+            $c->items()->create(['producto_uid' => $l->producto_uid, 'descripcion' => mb_substr(Texto::sunat($l->nombre.($l->detalle ? ' '.$l->detalle : '')), 0, 250),
+                'cantidad' => $grupo->sum('cantidad'), 'precio' => $l->precio, 'subtotal' => $grupo->sum('subtotal')]);
+        }
+        if (! $uids) {
+            $c->items()->create(['descripcion' => mb_substr($c->descripcion ?: 'Servicio', 0, 250), 'cantidad' => 1, 'precio' => abs($total), 'subtotal' => abs($total)]);
+        }
     }
 
     private function recordarUltimo(Comprobante $c): void
@@ -240,13 +267,7 @@ class Comprobantes
         if ($numero !== '' && ! Valida::numeroCpe($numero)) {
             throw new ErrorNegocio('El número del comprobante tiene de 1 a 8 cifras.');
         }
-        if ($numero !== '' && $this->numeroUsado($serie, $numero)) {
-            throw new ErrorNegocio('Ya registraste '.$serie.'-'.(int) $numero.'. Revisa el número.');
-        }
-        $ya = Venta::whereIn('uid', $x['ids'])->where('boleta', true)->first();
-        if ($ya) {
-            throw new ErrorNegocio('Ya se registró '.($ya->comprobante_numero ?: 'un comprobante').' para '.(count($x['ids']) > 1 ? 'estas ventas' : 'esta venta').' desde otro equipo. No se guardó nada.');
-        }
+        // registrar() revisa, con la serie bloqueada, que el número y las ventas no estén ya registrados
         $c = $this->registrar(['tipo' => $x['tipo'], 'serie' => $serie, 'numero' => $numero, 'cliente' => $nd !== '' && $td !== '0' ? ['td' => $td, 'nd' => $nd, 'nom' => $nom, 'dir' => $doc['dir'] ?? ''] : null,
             'total' => $x['total'], 'ventas' => collect($x['ids'])->map(fn ($id) => ['k' => $x['fecha'], 'id' => $id])->all(),
             'cierre_de' => $x['kind'] === 'cierre' ? $x['fecha'] : null, 'descripcion' => $x['desc']]);
@@ -303,12 +324,17 @@ class Comprobantes
         if (! Valida::numeroCpe($numero) || ! Valida::serie($serie, $c->tipo === '07' ? null : $c->tipo)) {
             throw new ErrorNegocio('Escribe la serie (4 letras o números: '.($c->tipo === '01' ? 'F o E' : 'B o EB').' al inicio) y el número que te dio SUNAT (hasta 8 cifras).');
         }
-        if ($this->numeroUsado($serie, $numero, $c->id, $c->tipo === '07')) {
-            throw new ErrorNegocio('Ese número ya está registrado.');
-        }
         $antes = $c->numero ? $c->etiqueta() : null;
         DB::transaction(function () use ($c, $serie, $numero, $antes) {
-            $c->update(['serie' => $serie, 'numero' => (string) (int) $numero]);
+            app(Numeracion::class)->bloquear('cpe:'.$serie);
+            if ($this->numeroUsado($serie, $numero, $c->id, $c->tipo === '07')) {
+                throw new ErrorNegocio('Ese número ya está registrado.');
+            }
+            try {
+                DB::transaction(fn () => $c->update(['serie' => $serie, 'numero' => (string) (int) $numero]));
+            } catch (UniqueConstraintViolationException) {
+                throw new ErrorNegocio('Ese número ya está registrado.');
+            }
             Venta::where('comprobante_uid', $c->uid)->update(['comprobante_numero' => $c->etiqueta()]);
             if ($antes) {
                 Comprobante::where('tipo', '07')->where('referencia', $antes)->update(['referencia' => $c->etiqueta()]);

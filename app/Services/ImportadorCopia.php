@@ -446,8 +446,19 @@ class ImportadorCopia
             if (empty($c['id'])) {
                 continue;
             }
+            $tipo = $c['tipo'] ?? '03';
+            $serie = strtoupper(Str::limit($c['serie'] ?? 'EB01', 4, ''));
+            $num = ($c['num'] ?? '') !== '' ? (string) $c['num'] : null;
+            $num = $num !== null && ctype_digit($num) ? (string) (int) $num : $num;
+            if ($num !== null && ($c['estado'] ?? 'emitido') !== 'anulado' && Comprobante::where('uid', '!=', $c['id'])->where('serie', $serie)
+                ->where('numero', $num)->where('tipo', $tipo === '07' ? '=' : '!=', '07')->where('estado', '!=', 'anulado')->exists()) {
+                // número repetido en la copia: no se pierde (queda en «extra») y se corrige en Facturación › Emitidos
+                $c['numeroRepetido'] = $num;
+                $this->decir('Comprobante '.$serie.'-'.$num.' repetido: quedó sin número para corregirlo en Facturación.');
+                $num = null;
+            }
             Comprobante::updateOrCreate(['uid' => $c['id']], [
-                'fecha' => $k, 'tipo' => $c['tipo'] ?? '03', 'serie' => strtoupper(Str::limit($c['serie'] ?? 'EB01', 4, '')), 'numero' => ($c['num'] ?? '') !== '' ? (string) $c['num'] : null,
+                'fecha' => $k, 'tipo' => $tipo, 'serie' => $serie, 'numero' => $num,
                 'cliente' => $c['cliente'] ?? null, 'total' => (int) ($c['total'] ?? 0), 'gravado' => (int) ($c['grav'] ?? 0), 'exonerado' => (int) ($c['exo'] ?? 0),
                 'inafecto' => (int) ($c['ina'] ?? 0), 'igv' => (int) ($c['igv'] ?? 0), 'descripcion' => Str::limit($c['desc'] ?? '', 250, '') ?: null,
                 'estado' => $c['estado'] ?? 'emitido', 'modo' => $c['modo'] ?? 'manual', 'referencia' => $c['ref'] ?? null, 'motivo' => $c['motivo'] ?? null,

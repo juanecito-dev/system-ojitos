@@ -74,6 +74,18 @@ it('los usuarios entran con su PIN antiguo y se actualiza al formato nuevo', fun
         ->and(usuario('carlos')->activo)->toBeFalse();
 });
 
+it('un número de comprobante repetido en la copia no frena la importación ni se pierde', function () {
+    $imp = app(ImportadorCopia::class);
+    $d = $imp->leerArchivo(base_path('tests/fixtures/copia-v3.json'));
+    $d['dias']['2026-09-20']['cpes']['cp9'] = ['id' => 'cp9', 't' => 1789916820000, 'tipo' => '03', 'serie' => 'EB01', 'num' => '00440', 'total' => 100, 'estado' => 'emitido'];
+    $res = $imp->importar($d, null, null, 'ojitos');
+    app(NegocioActual::class)->set($res['negocio']);
+
+    $rep = Comprobante::where('uid', 'cp9')->first();
+    expect(Comprobante::where('uid', 'cp1')->value('numero'))->toBe('440')
+        ->and($rep->numero)->toBeNull()->and($rep->extra['numeroRepetido'])->toBe('440');
+});
+
 it('rechaza archivos que no son copias', function () {
     app(ImportadorCopia::class)->validar(['app' => 'otra']);
 })->throws(ErrorNegocio::class);

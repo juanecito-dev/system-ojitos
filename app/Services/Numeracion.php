@@ -30,6 +30,12 @@ class Numeracion
         return $n;
     }
 
+    /** Espera su turno: mientras dure la transacción, nadie más pasa por esta clave (por ejemplo, una serie de comprobantes). */
+    public function bloquear(string $clave): void
+    {
+        $this->siguiente('bloqueo:'.$clave);
+    }
+
     /** Nota de venta propia de cada usuario y día: A1-001, A1-002… */
     public function ticket(Usuario $u, string $fecha): string
     {

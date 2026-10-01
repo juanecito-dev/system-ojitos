@@ -7,6 +7,7 @@ use App\Models\Venta;
 use App\Services\Comprobantes;
 use App\Services\ErrorNegocio;
 use App\Services\Ventas;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Livewire\Livewire;
 
 beforeEach(fn () => negocioDePrueba('ojitos', ['serieB' => 'EB01', 'serieF' => 'E001']));
@@ -170,4 +171,43 @@ it('la pantalla abre en sus tres pestañas', function () {
     foreach (['pend', 'emit', 'reg'] as $t) {
         $this->get(route('facturacion', ['t' => $t]))->assertOk()->assertSee('Facturación');
     }
+});
+
+it('la base de datos no deja registrar dos veces el mismo número, aunque se salte las revisiones', function () {
+    $base = ['fecha' => today(), 'emitido_at' => now(), 'tipo' => '03', 'serie' => 'EB01', 'total' => 100, 'estado' => 'emitido'];
+    Comprobante::create($base + ['uid' => 'a', 'numero' => '50']);
+
+    expect(fn () => Comprobante::create($base + ['uid' => 'b', 'numero' => '50']))
+        ->toThrow(UniqueConstraintViolationException::class);
+
+    // la nota de crédito lleva su propio correlativo en la misma serie, y un anulado libera su número
+    Comprobante::create(['tipo' => '07', 'uid' => 'c', 'numero' => '50'] + $base);
+    Comprobante::where('uid', 'a')->update(['estado' => 'anulado']);
+    Comprobante::create($base + ['uid' => 'd', 'numero' => '50']);
+    expect(Comprobante::count())->toBe(3);
+});
+
+it('al registrar un número ya usado avisa y no guarda nada', function () {
+    $v1 = vender('s_empastado', 1, 2000);
+    $v2 = vender('s_empastado', 1, 2000);
+    $srv = app(Comprobantes::class);
+    $srv->registrar(['tipo' => '03', 'serie' => 'EB01', 'numero' => '7', 'total' => 2000, 'ventas' => [['k' => today()->toDateString(), 'id' => $v1->uid]]]);
+
+    expect(fn () => $srv->registrar(['tipo' => '03', 'serie' => 'EB01', 'numero' => '007', 'total' => 2000, 'ventas' => [['k' => today()->toDateString(), 'id' => $v2->uid]]]))
+        ->toThrow(ErrorNegocio::class, 'Ya registraste EB01-7');
+    expect(Comprobante::count())->toBe(1)->and($v2->fresh()->boleta)->toBeFalse();
+
+    // y la misma venta no recibe un segundo comprobante desde otro equipo
+    expect(fn () => $srv->registrar(['tipo' => '03', 'serie' => 'EB01', 'numero' => '8', 'total' => 2000, 'ventas' => [['k' => today()->toDateString(), 'id' => $v1->uid]]]))
+        ->toThrow(ErrorNegocio::class, 'desde otro equipo');
+});
+
+it('no deja subir el sistema si ya hay números repetidos', function () {
+    $m = require database_path('migrations/2026_10_05_000001_fase_0_numeros_unicos.php');
+    $m->down();
+    $base = ['fecha' => today(), 'emitido_at' => now(), 'tipo' => '03', 'serie' => 'EB01', 'total' => 100, 'estado' => 'emitido', 'numero' => '9'];
+    Comprobante::create($base + ['uid' => 'a']);
+    Comprobante::create($base + ['uid' => 'b']);
+
+    expect(fn () => $m->up())->toThrow(RuntimeException::class, 'EB01-9');
 });

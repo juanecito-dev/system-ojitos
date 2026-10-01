@@ -267,13 +267,17 @@ class Vender extends Component
         return array_sum(array_map(fn ($l) => ! empty($l['tercero']) ? (int) $l['cant'] * (int) $l['precio'] : 0, $this->orden));
     }
 
-    /** descuento total: el del cobro + las rebajas de precio por línea */
+    /**
+     * descuento total: el del cobro + las rebajas de precio por línea.
+     * Las rebajas salen de las líneas que rehace el servidor (lineas()), nunca del «lista» que manda el navegador:
+     * si no lo mandara, un precio bajado pasaría sin permiso ni tope.
+     */
     private function descTotal(): int
     {
         $rebajas = 0;
-        foreach ($this->orden as $l) {
+        foreach ($this->lineas() as $l) {
             if (isset($l['lista']) && $l['lista'] > $l['precio']) {
-                $rebajas += ((int) $l['lista'] - (int) $l['precio']) * (int) $l['cant'];
+                $rebajas += (int) round(($l['lista'] - $l['precio']) * $l['cantidad']);
             }
         }
 
@@ -287,7 +291,7 @@ class Vender extends Component
             return false;
         }
         $r = $yo->rol;
-        $base = $this->bruto() + ($this->descTotal() - (int) $this->pay['desc']);
+        $base = $this->bruto() + ($d - (int) $this->pay['desc']);   // lo que costaba a precio normal
 
         return ($r->desc_max && $d > $r->desc_max) || ($r->desc_pct && $d > $base * $r->desc_pct / 100);
     }
@@ -562,7 +566,13 @@ class Vender extends Component
                 return;
             }
         }
-        $d = $this->descTotal();
+        try {
+            $d = $this->descTotal();
+        } catch (ErrorNegocio $e) {
+            $this->error = $e->getMessage();
+
+            return;
+        }
         if ($d > 0 && ! $yo->puede('descuentos') && ! $this->permitido('descuentos', 'Descuento de '.Dinero::s($d), [$conTicket])) {
             return;
         }

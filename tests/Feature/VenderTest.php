@@ -59,6 +59,25 @@ it('un descuento sobre el tope del rol pide el PIN de un administrador', functio
         ->and(Actividad::where('tipo', 'autoriza')->count())->toBe(1);
 });
 
+it('un precio bajado desde el navegador sin «lista» igual cuenta para el tope del rol', function () {
+    entrarComo('jeremy');   // tope S/ 2
+    // 1000 copias B/N a S/ 0.01 (el precio es 0.15): S/ 140 de rebaja, aunque el navegador no mande el precio normal
+    $c = Livewire::test(Vender::class)->set('orden', [['pid' => producto('bn_a4')->id, 'nombre' => 'B/N A4', 'det' => '', 'cant' => 1000, 'precio' => 1]])
+        ->call('abrirCobro')->call('cobrar', false);
+
+    expect($c->get('autz'))->not->toBeNull()->and($c->get('autz')['soloAdmin'])->toBeTrue()
+        ->and(Venta::count())->toBe(0);
+});
+
+it('un precio bajado sin «lista» pide autorización a quien no puede dar descuentos', function () {
+    $j = entrarComo('jeremy');
+    $j->rol->sincronizarPermisos(['vender', 'ventas', 'caja']);
+    $c = Livewire::test(Vender::class)->set('orden', [['pid' => producto('bn_a4')->id, 'nombre' => 'B/N A4', 'det' => '', 'cant' => 10, 'precio' => 5]])
+        ->call('abrirCobro')->call('cobrar', false);
+
+    expect($c->get('autz')['permiso'])->toBe('descuentos')->and(Venta::count())->toBe(0);
+});
+
 it('un descuento dentro del tope no pide autorización', function () {
     entrarComo('jeremy');
     Livewire::test(Vender::class)->set('orden', pedido([['s_empastado', 1, 2000]]))->call('abrirCobro')

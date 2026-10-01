@@ -46,6 +46,18 @@ Documento para continuar el trabajo en una conversación nueva de Claude Code. E
 
 **Auditoría del 29/09/2026** (`docs/auditoria-2026-09-29.md`): 14 errores corregidos (montos «1,500» en contratos, fechas imposibles, configuración y series sin revisar, cobros de más, pagos de pedidos «fiados», etapas de pedidos, entre otros), reglas de tecleo en todos los campos (`public/js/campos.js` con `data-solo`) y revisión en el servidor con `App\Support\Valida`. 154 pruebas automáticas.
 
+**Fase 0 hacia el SaaS (01/10/2026)**, en la rama `claude/analiza-8fkfbl` del repositorio `juanecito-dev/system-ojitos`: se cerraron los problemas graves del análisis completo antes de seguir. 172 pruebas.
+
+- Instalación con PHP 8.3: `config.platform.php = 8.3.0` en `composer.json` (Symfony 7.4 LTS).
+- Al cobrar, las rebajas de precio salen de `lineas()` del servidor, no del `lista` del navegador (`Vender::descTotal()`).
+- `ConAutorizacion` guarda una huella de las propiedades públicas al pedir el PIN; si cambian antes de confirmar, el PIN no vale. En Vender, `concedidos` queda atado a esa huella.
+- Cobro idempotente: `pos.js` guarda una llave por pedido en `localStorage` (`ojitos:intento`) y la manda en `abrirCobro()`; es el `uid` de la venta. Un reintento avisa «ya se había guardado». `ojitos.js` avisa si una acción no llega al servidor.
+- Comprobantes: índice único `(negocio_id, llave_numero)` sobre una columna calculada (sin anulados; notas de crédito aparte). `registrar()` y `cambiarNumero()` bloquean la serie (`Numeracion::bloquear()`). Columna `descuento`: líneas − descuento = total.
+- Pedidos: `Pedidos::bloquearParaCobro()` antes de cobrar en la caja.
+- Importador: una sola transacción; guarda `importado_at` y no importa encima si ya hay movimientos nuevos (`usadoDespues()`), salvo `--forzar` en la terminal.
+- CI en `.github/workflows/ci.yml` (Pint, Larastan nivel 5 con `phpstan-baseline.neon`, Pest en PHP 8.3/8.4 con SQLite y en MySQL 8). `.env.example` con `APP_DEBUG=false` y logs diarios.
+- Siguiente: fase 1 del informe (filtro por negocio que falla cerrado, revisar `negocios.activo`, anulaciones sin borrado físico, eventos de venta, saldos de stock).
+
 ## 1. El negocio y el dueño
 
 - **Negocio:** Ojitos, copias e impresiones, Jr. San Alejandro 382, Tingo María (Huánuco, Perú).

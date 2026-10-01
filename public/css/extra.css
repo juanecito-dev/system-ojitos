@@ -43,3 +43,6 @@ a.dcard{color:inherit;text-decoration:none}
 
 /* la ventana del PIN de un administrador usa <form> dentro de .dlg: necesita el mismo recuadro que .dlg>div */
 .dlg>form{background:var(--sheet);color:var(--ink);border-radius:16px;padding:18px;max-width:440px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+
+/* stock en negativo: se vendió más de lo contado (falta una compra o un conteo) */
+.qty.neg,b.neg{color:var(--magenta)}

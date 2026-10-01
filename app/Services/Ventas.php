@@ -8,8 +8,6 @@ use App\Models\CajaMovimiento;
 use App\Models\Cliente;
 use App\Models\ClienteMovimiento;
 use App\Models\Comprobante;
-use App\Models\StockBase;
-use App\Models\StockMovimiento;
 use App\Models\Usuario;
 use App\Models\Venta;
 use App\Models\VentaAnulada;
@@ -227,21 +225,6 @@ class Ventas
             $ev = new AvisoVentaAnulada($v, $por, $tipo);
             event($ev);
             $aviso = implode(' ', array_filter([$aviso, ...$ev->avisos]));
-
-            // si la venta es anterior al último conteo de stock, la devolución se anota como entrada
-            foreach ($v->items as $l) {
-                if ($l->tercero || ! $l->producto_id) {
-                    continue;
-                }
-                $b = StockBase::where('producto_id', $l->producto_id)->first();
-                if ($b && $v->vendida_at->lte($b->desde)) {
-                    StockMovimiento::create([
-                        'uid' => Texto::nuevoUid(), 'producto_id' => $l->producto_id, 'producto_uid' => $l->producto_uid, 'nombre' => $l->nombre,
-                        'tipo' => 'entrada', 'cantidad' => $l->cantidad, 'nota' => 'Devolución por venta anulada',
-                        'usuario_id' => $por->id, 'vendedor' => $por->nombre, 'ocurrido_at' => now(),
-                    ]);
-                }
-            }
 
             VentaAnulada::create([
                 'uid' => Texto::nuevoUid(), 'fecha' => $v->fecha, 'venta_uid' => $v->uid, 'numero' => $v->numero,

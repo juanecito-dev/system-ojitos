@@ -115,6 +115,10 @@ class ImportadorCopia
                 $this->plantillas($d['plantillas'] ?? []);
                 $this->compras($d['compras'] ?? []);
                 $this->documentos($d['documentos'] ?? [], $d['modelos'] ?? []);
+                // lo que gastaron en insumos las ventas importadas, y el stock guardado desde el historial
+                $stock = app(Stock::class);
+                $stock->completarConsumos();
+                $stock->recalcular();
                 $neg->refresh();
                 $neg->fijarAjuste('importado_at', now()->toIso8601String());
                 $neg->save();

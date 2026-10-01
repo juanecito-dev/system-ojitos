@@ -55,7 +55,7 @@
                                 @if (! empty($hoy[$p->id])) · hoy vendiste {{ $F($hoy[$p->id]) }}@endif
                             </small></span>
                         @if ($has)
-                            <span class="qty">{{ $F($st[$p->id]) }}@if ($p->unidad)<small style="display:block;font-size:.7rem;font-weight:600;color:var(--soft)">{{ $p->unidad }}</small>@endif</span>
+                            <span class="qty {{ $st[$p->id] < 0 ? 'neg' : '' }}" @if ($st[$p->id] < 0) title="Se vendió más de lo contado: registra la compra que falta o vuelve a contarlo" @endif>{{ $F($st[$p->id]) }}@if ($p->unidad)<small style="display:block;font-size:.7rem;font-weight:600;color:var(--soft)">{{ $p->unidad }}</small>@endif</span>
                             <button type="button" class="btn sm" wire:click="abrirMov({{ $p->id }}, 'entrada')">+ Entrada</button>
                             <button type="button" class="btn ghost sm" wire:click="abrirMov({{ $p->id }}, 'conteo')">Contar</button>
                         @else
@@ -106,7 +106,7 @@
         <div class="scrim on" wire:click="cerrar"></div>
         <div class="sheet on" role="dialog" aria-modal="true">
             <h3>{{ $fp->nombre }}</h3>
-            <p class="hint">{{ $fp->grupo }} · stock {{ $F($st[$fp->id] ?? 0) }}{{ $fp->unidad ? ' '.$fp->unidad : '' }}{{ $costos && $fp->costo ? ' · costo promedio '.Dinero::sCosto($fp->costo) : '' }}{{ $d !== null ? ' · te alcanza ~'.$d.' días' : '' }}</p>
+            <p class="hint">{{ $fp->grupo }} · stock <b class="{{ ($st[$fp->id] ?? 0) < 0 ? 'neg' : '' }}">{{ $F($st[$fp->id] ?? 0) }}</b>{{ $fp->unidad ? ' '.$fp->unidad : '' }}{{ $costos && $fp->costo ? ' · costo promedio '.Dinero::sCosto($fp->costo) : '' }}{{ $d !== null ? ' · te alcanza ~'.$d.' días' : '' }}</p>
             <div class="actions" style="margin-bottom:12px"><button type="button" class="btn sm" wire:click="abrirMov({{ $fp->id }}, 'entrada')">+ Entrada</button><button type="button" class="btn ghost sm" wire:click="abrirMov({{ $fp->id }}, 'conteo')">Contar</button></div>
             <form class="card" style="margin-bottom:12px" wire:submit="guardarAjustes"><b>Ajustes del producto</b>
                 <div class="set two" style="margin-top:8px">

@@ -53,8 +53,9 @@ class Inventario
         $ventas = fn () => DB::table('venta_items as i')->join('ventas as v', 'v.id', '=', 'i.venta_id')->whereNull('v.anulada_at')
             ->where('v.negocio_id', $this->negocioId())->where('i.tercero', false)->where('v.vendida_at', '>=', $desde);
         $sumar($ventas()->whereNotNull('i.producto_id')->groupBy('i.producto_id')->selectRaw('i.producto_id AS id, SUM(i.cantidad) AS n')->pluck('n', 'id'));
-        $sumar($ventas()->join('producto_insumos as pi', 'pi.producto_id', '=', 'i.producto_id')->groupBy('pi.insumo_id')
-            ->selectRaw('pi.insumo_id AS id, SUM(i.cantidad * pi.cantidad) AS n')->pluck('n', 'id'));
+        $sumar(DB::table('stock_consumos as c')->join('ventas as v', 'v.id', '=', 'c.venta_id')->whereNull('v.anulada_at')
+            ->where('c.negocio_id', $this->negocioId())->where('c.ocurrido_at', '>=', $desde)
+            ->groupBy('c.producto_id')->selectRaw('c.producto_id AS id, SUM(c.cantidad) AS n')->pluck('n', 'id'));
         $sumar(StockMovimiento::where('tipo', 'salida')->where('ocurrido_at', '>=', $desde)->where(fn ($q) => $q->whereNull('nota')->orWhere('nota', 'not like', 'Compra%'))
             ->groupBy('producto_id')->selectRaw('producto_id AS id, SUM(cantidad) AS n')->pluck('n', 'id'));
 
@@ -173,9 +174,13 @@ class Inventario
         foreach ($ventas()->where('i.producto_id', $p->id)->get(['v.vendida_at', 'v.numero', 'v.vendedor', 'i.cantidad']) as $r) {
             $rows[] = ['t' => Carbon::parse($r->vendida_at), 'que' => 'Venta'.($r->numero ? ' '.$r->numero : ''), 'd' => -(float) $r->cantidad, 'abs' => null, 'vend' => $r->vendedor];
         }
-        foreach ($ventas()->join('producto_insumos as pi', 'pi.producto_id', '=', 'i.producto_id')->where('pi.insumo_id', $p->id)
-            ->get(['v.vendida_at', 'v.vendedor', 'i.cantidad', 'i.nombre', 'pi.cantidad as q']) as $r) {
-            $rows[] = ['t' => Carbon::parse($r->vendida_at), 'que' => 'Gastado en '.Stock::formato((float) $r->cantidad).' '.$r->nombre, 'd' => -round($r->q * $r->cantidad, 3), 'abs' => null, 'vend' => $r->vendedor];
+        // lo que gastaron los servicios vendidos, con la receta que tenían al venderse
+        foreach (DB::table('stock_consumos as c')->join('ventas as v', 'v.id', '=', 'c.venta_id')->whereNull('v.anulada_at')
+            ->leftJoin('venta_items as i', 'i.id', '=', 'c.venta_item_id')
+            ->where('c.negocio_id', $this->negocioId())->where('c.producto_id', $p->id)->where('c.ocurrido_at', '>=', $t0->copy()->max($inicio))
+            ->get(['v.vendida_at', 'v.vendedor', 'c.cantidad', 'i.cantidad as vendidos', 'i.nombre']) as $r) {
+            $que = $r->nombre ? 'Gastado en '.Stock::formato((float) $r->vendidos).' '.$r->nombre : 'Gastado en una venta';
+            $rows[] = ['t' => Carbon::parse($r->vendida_at), 'que' => $que, 'd' => -round((float) $r->cantidad, 3), 'abs' => null, 'vend' => $r->vendedor];
         }
         foreach (StockMovimiento::where('producto_id', $p->id)->where('ocurrido_at', '>=', $t0)->get() as $m) {
             $rows[] = match ($m->tipo) {

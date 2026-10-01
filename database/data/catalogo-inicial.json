@@ -1,0 +1,2990 @@
+[
+ {
+  "id": "bn_a4",
+  "g": "Copias e impresiones A4",
+  "n": "B/N A4",
+  "c": "t-bn",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 2,
+  "ops": [
+   {
+    "l": "",
+    "p": 15
+   }
+  ]
+ },
+ {
+  "id": "col_a4",
+  "g": "Copias e impresiones A4",
+  "n": "Color A4",
+  "c": "t-color",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "Poco",
+    "p": 30
+   },
+   {
+    "l": "Medio",
+    "p": 40
+   },
+   {
+    "l": "Lleno",
+    "p": 50
+   },
+   {
+    "l": "Full",
+    "p": 60
+   }
+  ]
+ },
+ {
+  "id": "las_a4",
+  "g": "Impresión láser",
+  "n": "Láser A4",
+  "c": "t-foto",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "Poco",
+    "p": 50
+   },
+   {
+    "l": "Medio",
+    "p": 80
+   },
+   {
+    "l": "Lleno",
+    "p": 120
+   },
+   {
+    "l": "Full",
+    "p": 150
+   }
+  ]
+ },
+ {
+  "id": "las_a3",
+  "g": "Impresión láser",
+  "n": "Láser A3",
+  "c": "t-foto",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "Poco",
+    "p": 200
+   },
+   {
+    "l": "Medio",
+    "p": 230
+   },
+   {
+    "l": "Lleno",
+    "p": 270
+   },
+   {
+    "l": "Full",
+    "p": 300
+   }
+  ]
+ },
+ {
+  "id": "bn_a3",
+  "g": "Planos",
+  "n": "B/N A3",
+  "c": "t-bn",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 100
+   }
+  ]
+ },
+ {
+  "id": "col_a3",
+  "g": "Planos",
+  "n": "Color A3",
+  "c": "t-color",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "Poco",
+    "p": 150
+   },
+   {
+    "l": "Medio",
+    "p": 170
+   },
+   {
+    "l": "Lleno",
+    "p": 180
+   },
+   {
+    "l": "Full",
+    "p": 200
+   }
+  ]
+ },
+ {
+  "id": "bn_a2",
+  "g": "Planos",
+  "n": "B/N A2",
+  "c": "t-bn",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 250
+   }
+  ]
+ },
+ {
+  "id": "col_a2",
+  "g": "Planos",
+  "n": "Color A2",
+  "c": "t-color",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "Poco",
+    "p": 300
+   },
+   {
+    "l": "Medio",
+    "p": 350
+   },
+   {
+    "l": "Lleno",
+    "p": 400
+   },
+   {
+    "l": "Full",
+    "p": 450
+   }
+  ]
+ },
+ {
+  "id": "bn_a1",
+  "g": "Planos",
+  "n": "B/N A1",
+  "c": "t-bn",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 450
+   }
+  ]
+ },
+ {
+  "id": "col_a1",
+  "g": "Planos",
+  "n": "Color A1",
+  "c": "t-color",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "Poco",
+    "p": 500
+   },
+   {
+    "l": "Medio",
+    "p": 650
+   },
+   {
+    "l": "Lleno",
+    "p": 800
+   },
+   {
+    "l": "Full",
+    "p": 1000
+   }
+  ]
+ },
+ {
+  "id": "foto_a4",
+  "g": "Papel fotográfico",
+  "n": "Fotográfico A4",
+  "c": "t-foto",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 300
+   }
+  ]
+ },
+ {
+  "id": "foto_a3",
+  "g": "Papel fotográfico",
+  "n": "Fotográfico A3",
+  "c": "t-foto",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "Poco",
+    "p": 700
+   },
+   {
+    "l": "Medio",
+    "p": 800
+   },
+   {
+    "l": "Lleno",
+    "p": 900
+   },
+   {
+    "l": "Full",
+    "p": 1000
+   }
+  ]
+ },
+ {
+  "id": "s_hilo",
+  "g": "Papeles especiales",
+  "n": "Impresión en papel hilo",
+  "c": "t-foto",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "Poco",
+    "p": 150
+   },
+   {
+    "l": "Medio",
+    "p": 180
+   },
+   {
+    "l": "Full",
+    "p": 200
+   }
+  ]
+ },
+ {
+  "id": "s_folcote_a4",
+  "g": "Papeles especiales",
+  "n": "Impresión en folcote A4",
+  "c": "t-foto",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 200
+   }
+  ]
+ },
+ {
+  "id": "s_folcote_a3",
+  "g": "Papeles especiales",
+  "n": "Impresión en folcote A3",
+  "c": "t-foto",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 500
+   }
+  ]
+ },
+ {
+  "id": "anillado",
+  "g": "Acabados",
+  "n": "Anillado",
+  "c": "t-acab",
+  "quick": false,
+  "free": true,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 250
+   },
+   {
+    "l": "",
+    "p": 300
+   },
+   {
+    "l": "",
+    "p": 400
+   },
+   {
+    "l": "",
+    "p": 500
+   },
+   {
+    "l": "",
+    "p": 600
+   },
+   {
+    "l": "",
+    "p": 800
+   },
+   {
+    "l": "",
+    "p": 1000
+   },
+   {
+    "l": "",
+    "p": 1200
+   },
+   {
+    "l": "",
+    "p": 1500
+   }
+  ]
+ },
+ {
+  "id": "mica_a4",
+  "g": "Acabados",
+  "n": "Enmicado A4",
+  "c": "t-acab",
+  "quick": false,
+  "free": true,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 300
+   },
+   {
+    "l": "",
+    "p": 350
+   },
+   {
+    "l": "",
+    "p": 400
+   },
+   {
+    "l": "",
+    "p": 450
+   },
+   {
+    "l": "",
+    "p": 500
+   }
+  ]
+ },
+ {
+  "id": "mica_a3",
+  "g": "Acabados",
+  "n": "Enmicado A3",
+  "c": "t-acab",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 700
+   }
+  ]
+ },
+ {
+  "id": "micro_a4",
+  "g": "Microporoso",
+  "n": "Microporoso A4",
+  "c": "t-color",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "Liso",
+    "p": 100
+   },
+   {
+    "l": "Escarchado",
+    "p": 150
+   },
+   {
+    "l": "Con letras",
+    "p": 200
+   }
+  ]
+ },
+ {
+  "id": "micro_pl",
+  "g": "Microporoso",
+  "n": "Microporoso pliego",
+  "c": "t-color",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "Liso",
+    "p": 300
+   },
+   {
+    "l": "Escarchado",
+    "p": 400
+   }
+  ]
+ },
+ {
+  "id": "s_escaneo",
+  "g": "Otros servicios",
+  "n": "Escaneo",
+  "c": "t-acab",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 50
+   }
+  ]
+ },
+ {
+  "id": "s_envio",
+  "g": "Otros servicios",
+  "n": "Envío por WhatsApp o correo",
+  "c": "t-acab",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 50
+   }
+  ]
+ },
+ {
+  "id": "s_tramite",
+  "g": "Trámites y documentos",
+  "n": "Trámite en línea",
+  "c": "t-acab",
+  "quick": false,
+  "free": false,
+  "desc": true,
+  "tasa": true,
+  "costo": null,
+  "ops": [
+   {
+    "l": "Antecedentes penales",
+    "p": 500
+   },
+   {
+    "l": "Antecedentes judiciales",
+    "p": 500
+   },
+   {
+    "l": "Antecedentes policiales",
+    "p": 500
+   },
+   {
+    "l": "Otro trámite",
+    "p": 500
+   }
+  ]
+ },
+ {
+  "id": "s_solicitud",
+  "g": "Trámites y documentos",
+  "n": "Solicitud o documento",
+  "c": "t-acab",
+  "quick": false,
+  "free": false,
+  "desc": true,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 300
+   }
+  ]
+ },
+ {
+  "id": "s_cv",
+  "g": "Trámites y documentos",
+  "n": "Currículum vitae",
+  "c": "t-acab",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "Simple",
+    "p": 500
+   },
+   {
+    "l": "Con foto",
+    "p": 800
+   },
+   {
+    "l": "Harvard",
+    "p": 1000
+   },
+   {
+    "l": "Moderno",
+    "p": 1200
+   }
+  ]
+ },
+ {
+  "id": "s_contrato",
+  "g": "Trámites y documentos",
+  "n": "Contrato (por página)",
+  "c": "t-acab",
+  "quick": false,
+  "free": false,
+  "desc": true,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 500
+   }
+  ]
+ },
+ {
+  "id": "s_tipeo",
+  "g": "Trámites y documentos",
+  "n": "Tipeo (por hoja)",
+  "c": "t-acab",
+  "quick": false,
+  "free": true,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 200
+   },
+   {
+    "l": "",
+    "p": 300
+   },
+   {
+    "l": "",
+    "p": 500
+   }
+  ]
+ },
+ {
+  "id": "s_carnet",
+  "g": "Otros servicios",
+  "n": "Fotos tamaño carnet",
+  "c": "t-acab",
+  "quick": false,
+  "free": true,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 500
+   },
+   {
+    "l": "",
+    "p": 800
+   }
+  ]
+ },
+ {
+  "id": "s_diseno",
+  "g": "Otros servicios",
+  "n": "Diseño (tarjetas, invitaciones)",
+  "c": "t-acab",
+  "quick": false,
+  "free": true,
+  "desc": true,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 500
+   },
+   {
+    "l": "",
+    "p": 1000
+   },
+   {
+    "l": "",
+    "p": 2000
+   }
+  ]
+ },
+ {
+  "id": "s_empastado",
+  "g": "Otros servicios",
+  "n": "Empastado",
+  "c": "t-acab",
+  "quick": false,
+  "free": true,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 1500
+   },
+   {
+    "l": "",
+    "p": 2000
+   },
+   {
+    "l": "",
+    "p": 2500
+   },
+   {
+    "l": "",
+    "p": 3000
+   }
+  ]
+ },
+ {
+  "id": "s_doblado",
+  "g": "Otros servicios",
+  "n": "Doblado de plano",
+  "c": "t-acab",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 50
+   }
+  ]
+ },
+ {
+  "id": "u_lapicero",
+  "g": "Escritura",
+  "n": "Lapicero FC 031/032",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 42,
+  "ops": [
+   {
+    "l": "",
+    "p": 100
+   }
+  ]
+ },
+ {
+  "id": "u_lap_borrable",
+  "g": "Escritura",
+  "n": "Lapicero borrable",
+  "c": "t-util",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 250
+   },
+   {
+    "l": "",
+    "p": 400
+   }
+  ]
+ },
+ {
+  "id": "u_lap_fc060",
+  "g": "Escritura",
+  "n": "Lapicero FC 060",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 90,
+  "ops": [
+   {
+    "l": "",
+    "p": 150
+   }
+  ]
+ },
+ {
+  "id": "u_pilot_bps",
+  "g": "Escritura",
+  "n": "Lapicero Pilot BPS",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 220,
+  "ops": [
+   {
+    "l": "",
+    "p": 350
+   }
+  ]
+ },
+ {
+  "id": "u_pilot_gp",
+  "g": "Escritura",
+  "n": "Lapicero Pilot BPS GP",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 270,
+  "ops": [
+   {
+    "l": "",
+    "p": 400
+   }
+  ]
+ },
+ {
+  "id": "u_pilot_g1",
+  "g": "Escritura",
+  "n": "Lapicero Pilot G-1",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 410,
+  "ops": [
+   {
+    "l": "",
+    "p": 600
+   }
+  ]
+ },
+ {
+  "id": "u_trimax12",
+  "g": "Escritura",
+  "n": "Lapiceros Trimax x12",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 750,
+  "ops": [
+   {
+    "l": "",
+    "p": 1000
+   }
+  ]
+ },
+ {
+  "id": "u_lapiz",
+  "g": "Escritura",
+  "n": "Lápiz 2B",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 31,
+  "ops": [
+   {
+    "l": "",
+    "p": 50
+   }
+  ]
+ },
+ {
+  "id": "u_lapiz_trian",
+  "g": "Escritura",
+  "n": "Lápiz triangular",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 40,
+  "ops": [
+   {
+    "l": "",
+    "p": 80
+   }
+  ]
+ },
+ {
+  "id": "u_lapiz_tabla",
+  "g": "Escritura",
+  "n": "Lápiz tabla de multiplicar",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 39,
+  "ops": [
+   {
+    "l": "",
+    "p": 80
+   }
+  ]
+ },
+ {
+  "id": "u_lapiz_fant",
+  "g": "Escritura",
+  "n": "Lápiz fantasía",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 55,
+  "ops": [
+   {
+    "l": "",
+    "p": 100
+   }
+  ]
+ },
+ {
+  "id": "u_lapiz_bic",
+  "g": "Escritura",
+  "n": "Lápiz bicolor",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 50,
+  "ops": [
+   {
+    "l": "",
+    "p": 100
+   }
+  ]
+ },
+ {
+  "id": "u_lapiz_jumbo",
+  "g": "Escritura",
+  "n": "Lápiz jumbo",
+  "c": "t-util",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 77,
+  "ops": [
+   {
+    "l": "",
+    "p": 100
+   },
+   {
+    "l": "",
+    "p": 200
+   }
+  ]
+ },
+ {
+  "id": "u_lapiz_tec",
+  "g": "Escritura",
+  "n": "Lápiz técnico",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 200
+   }
+  ]
+ },
+ {
+  "id": "u_borrador",
+  "g": "Escritura",
+  "n": "Borrador",
+  "c": "t-util",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 35,
+  "ops": [
+   {
+    "l": "",
+    "p": 100
+   },
+   {
+    "l": "",
+    "p": 150
+   }
+  ]
+ },
+ {
+  "id": "u_borr_negro",
+  "g": "Escritura",
+  "n": "Borrador negro",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 45,
+  "ops": [
+   {
+    "l": "",
+    "p": 100
+   }
+  ]
+ },
+ {
+  "id": "u_tajador",
+  "g": "Escritura",
+  "n": "Tajador",
+  "c": "t-util",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 58,
+  "ops": [
+   {
+    "l": "",
+    "p": 70
+   },
+   {
+    "l": "",
+    "p": 300
+   }
+  ]
+ },
+ {
+  "id": "u_corrector",
+  "g": "Escritura",
+  "n": "Corrector 9 ml",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 117,
+  "ops": [
+   {
+    "l": "",
+    "p": 250
+   }
+  ]
+ },
+ {
+  "id": "u_corr_mini",
+  "g": "Escritura",
+  "n": "Corrector mini",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 98,
+  "ops": [
+   {
+    "l": "",
+    "p": 200
+   }
+  ]
+ },
+ {
+  "id": "u_resaltador",
+  "g": "Escritura",
+  "n": "Resaltador",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 130,
+  "ops": [
+   {
+    "l": "",
+    "p": 200
+   }
+  ]
+ },
+ {
+  "id": "u_resalt_x4",
+  "g": "Escritura",
+  "n": "Resaltadores pastel x4",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 560,
+  "ops": [
+   {
+    "l": "",
+    "p": 900
+   }
+  ]
+ },
+ {
+  "id": "u_plumon",
+  "g": "Escritura",
+  "n": "Plumón grueso",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 230,
+  "ops": [
+   {
+    "l": "",
+    "p": 300
+   }
+  ]
+ },
+ {
+  "id": "u_plumon_fino",
+  "g": "Escritura",
+  "n": "Plumón delgado",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 55,
+  "ops": [
+   {
+    "l": "",
+    "p": 100
+   }
+  ]
+ },
+ {
+  "id": "u_plumon_perm",
+  "g": "Escritura",
+  "n": "Plumón indeleble",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 126,
+  "ops": [
+   {
+    "l": "",
+    "p": 250
+   }
+  ]
+ },
+ {
+  "id": "u_marc_x6",
+  "g": "Escritura",
+  "n": "Marcadores x6",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 300,
+  "ops": [
+   {
+    "l": "",
+    "p": 500
+   }
+  ]
+ },
+ {
+  "id": "u_marc_x12",
+  "g": "Escritura",
+  "n": "Marcadores x12",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 440,
+  "ops": [
+   {
+    "l": "",
+    "p": 700
+   }
+  ]
+ },
+ {
+  "id": "u_plum_x12",
+  "g": "Escritura",
+  "n": "Plumones Faber-Castell x12",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 460,
+  "ops": [
+   {
+    "l": "",
+    "p": 750
+   }
+  ]
+ },
+ {
+  "id": "u_plum_stanford",
+  "g": "Escritura",
+  "n": "Plumones Stanford x12",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 700
+   }
+  ]
+ },
+ {
+  "id": "u_plum_x20",
+  "g": "Escritura",
+  "n": "Plumones x20",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 1250,
+  "ops": [
+   {
+    "l": "",
+    "p": 1800
+   }
+  ]
+ },
+ {
+  "id": "u_plum_x30",
+  "g": "Escritura",
+  "n": "Plumones x30",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 1890,
+  "ops": [
+   {
+    "l": "",
+    "p": 2600
+   }
+  ]
+ },
+ {
+  "id": "u_aqua_x6",
+  "g": "Escritura",
+  "n": "Plumones Aquamax x6",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 610,
+  "ops": [
+   {
+    "l": "",
+    "p": 900
+   }
+  ]
+ },
+ {
+  "id": "u_aqua_x10",
+  "g": "Escritura",
+  "n": "Plumones Aquamax x10",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 960,
+  "ops": [
+   {
+    "l": "",
+    "p": 1400
+   }
+  ]
+ },
+ {
+  "id": "u_jumbo_x12",
+  "g": "Escritura",
+  "n": "Plumones súper jumbo x12",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 970,
+  "ops": [
+   {
+    "l": "",
+    "p": 1500
+   }
+  ]
+ },
+ {
+  "id": "u_regla",
+  "g": "Escritura",
+  "n": "Regla 30 cm",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 70,
+  "ops": [
+   {
+    "l": "",
+    "p": 150
+   }
+  ]
+ },
+ {
+  "id": "u_regla20",
+  "g": "Escritura",
+  "n": "Regla 20 cm",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 44,
+  "ops": [
+   {
+    "l": "",
+    "p": 100
+   }
+  ]
+ },
+ {
+  "id": "u_regla_flex",
+  "g": "Escritura",
+  "n": "Regla flexible",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 200
+   }
+  ]
+ },
+ {
+  "id": "u_juego_reglas",
+  "g": "Escritura",
+  "n": "Juego de reglas Artesco",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 500
+   }
+  ]
+ },
+ {
+  "id": "u_transp",
+  "g": "Escritura",
+  "n": "Transportador",
+  "c": "t-util",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 52,
+  "ops": [
+   {
+    "l": "Pequeño",
+    "p": 100
+   },
+   {
+    "l": "Grande",
+    "p": 150
+   }
+  ]
+ },
+ {
+  "id": "u_compas",
+  "g": "Escritura",
+  "n": "Compás",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 170,
+  "ops": [
+   {
+    "l": "",
+    "p": 300
+   }
+  ]
+ },
+ {
+  "id": "u_geom20",
+  "g": "Escritura",
+  "n": "Estuche geométrico",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 200,
+  "ops": [
+   {
+    "l": "",
+    "p": 350
+   }
+  ]
+ },
+ {
+  "id": "u_geom30",
+  "g": "Escritura",
+  "n": "Estuche geométrico grande",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 280,
+  "ops": [
+   {
+    "l": "",
+    "p": 450
+   }
+  ]
+ },
+ {
+  "id": "u_cartuchera",
+  "g": "Escritura",
+  "n": "Cartuchera",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 750,
+  "ops": [
+   {
+    "l": "",
+    "p": 1200
+   }
+  ]
+ },
+ {
+  "id": "u_tiza_b12",
+  "g": "Escritura",
+  "n": "Tiza blanca x12",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 170,
+  "ops": [
+   {
+    "l": "",
+    "p": 300
+   }
+  ]
+ },
+ {
+  "id": "u_tiza_c12",
+  "g": "Escritura",
+  "n": "Tiza de color x12",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 210,
+  "ops": [
+   {
+    "l": "",
+    "p": 350
+   }
+  ]
+ },
+ {
+  "id": "u_tiza_50",
+  "g": "Escritura",
+  "n": "Tiza x50",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 550,
+  "ops": [
+   {
+    "l": "",
+    "p": 800
+   }
+  ]
+ },
+ {
+  "id": "u_colores",
+  "g": "Arte y manualidades",
+  "n": "Colores Faber-Castell x12",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 540,
+  "ops": [
+   {
+    "l": "",
+    "p": 800
+   }
+  ]
+ },
+ {
+  "id": "u_colores_vik",
+  "g": "Arte y manualidades",
+  "n": "Colores Vikingo x12",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 700
+   }
+  ]
+ },
+ {
+  "id": "u_colores_art",
+  "g": "Arte y manualidades",
+  "n": "Colores Artesco x12",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 750
+   }
+  ]
+ },
+ {
+  "id": "u_colores24",
+  "g": "Arte y manualidades",
+  "n": "Colores x24",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 1200,
+  "ops": [
+   {
+    "l": "",
+    "p": 1700
+   }
+  ]
+ },
+ {
+  "id": "u_colores36",
+  "g": "Arte y manualidades",
+  "n": "Colores x36",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 2200,
+  "ops": [
+   {
+    "l": "",
+    "p": 3000
+   }
+  ]
+ },
+ {
+  "id": "u_colores48",
+  "g": "Arte y manualidades",
+  "n": "Colores x48",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 2350,
+  "ops": [
+   {
+    "l": "",
+    "p": 3200
+   }
+  ]
+ },
+ {
+  "id": "u_col_jumbo",
+  "g": "Arte y manualidades",
+  "n": "Colores jumbo x12",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 1470,
+  "ops": [
+   {
+    "l": "",
+    "p": 1800
+   }
+  ]
+ },
+ {
+  "id": "u_col_borr",
+  "g": "Arte y manualidades",
+  "n": "Colores borrables x12",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 470,
+  "ops": [
+   {
+    "l": "",
+    "p": 700
+   }
+  ]
+ },
+ {
+  "id": "u_crayon12",
+  "g": "Arte y manualidades",
+  "n": "Crayones x12",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 220,
+  "ops": [
+   {
+    "l": "",
+    "p": 350
+   }
+  ]
+ },
+ {
+  "id": "u_crayon_j",
+  "g": "Arte y manualidades",
+  "n": "Crayones jumbo x12",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 380,
+  "ops": [
+   {
+    "l": "",
+    "p": 600
+   }
+  ]
+ },
+ {
+  "id": "u_plastilina",
+  "g": "Arte y manualidades",
+  "n": "Plastilina x12",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 300,
+  "ops": [
+   {
+    "l": "",
+    "p": 500
+   }
+  ]
+ },
+ {
+  "id": "u_tempera",
+  "g": "Arte y manualidades",
+  "n": "Témpera 30 ml",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 155,
+  "ops": [
+   {
+    "l": "",
+    "p": 250
+   }
+  ]
+ },
+ {
+  "id": "u_pincel",
+  "g": "Arte y manualidades",
+  "n": "Pincel",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 63,
+  "ops": [
+   {
+    "l": "",
+    "p": 150
+   }
+  ]
+ },
+ {
+  "id": "u_brochas",
+  "g": "Arte y manualidades",
+  "n": "Brochas x4",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 460,
+  "ops": [
+   {
+    "l": "",
+    "p": 700
+   }
+  ]
+ },
+ {
+  "id": "u_paleta",
+  "g": "Arte y manualidades",
+  "n": "Paleta de colores",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 120,
+  "ops": [
+   {
+    "l": "",
+    "p": 200
+   }
+  ]
+ },
+ {
+  "id": "u_sketch15",
+  "g": "Arte y manualidades",
+  "n": "Sketch book 15 hojas",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 341,
+  "ops": [
+   {
+    "l": "",
+    "p": 550
+   }
+  ]
+ },
+ {
+  "id": "u_sketch30",
+  "g": "Arte y manualidades",
+  "n": "Sketch book 30 hojas",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 420,
+  "ops": [
+   {
+    "l": "",
+    "p": 700
+   }
+  ]
+ },
+ {
+  "id": "u_flauta",
+  "g": "Arte y manualidades",
+  "n": "Flauta dulce",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 420,
+  "ops": [
+   {
+    "l": "",
+    "p": 700
+   }
+  ]
+ },
+ {
+  "id": "u_goma",
+  "g": "Arte y manualidades",
+  "n": "Cola 35 g",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 80,
+  "ops": [
+   {
+    "l": "",
+    "p": 150
+   }
+  ]
+ },
+ {
+  "id": "u_cola250",
+  "g": "Arte y manualidades",
+  "n": "Cola 250 g",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 270,
+  "ops": [
+   {
+    "l": "",
+    "p": 450
+   }
+  ]
+ },
+ {
+  "id": "u_barra8",
+  "g": "Arte y manualidades",
+  "n": "Goma en barra 8 g",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 87,
+  "ops": [
+   {
+    "l": "",
+    "p": 150
+   }
+  ]
+ },
+ {
+  "id": "u_barra21",
+  "g": "Arte y manualidades",
+  "n": "Goma en barra 21 g",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 180,
+  "ops": [
+   {
+    "l": "",
+    "p": 300
+   }
+  ]
+ },
+ {
+  "id": "u_barra40",
+  "g": "Arte y manualidades",
+  "n": "Goma en barra 40 g",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 280,
+  "ops": [
+   {
+    "l": "",
+    "p": 450
+   }
+  ]
+ },
+ {
+  "id": "u_silicona",
+  "g": "Arte y manualidades",
+  "n": "Silicona líquida 30 ml",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 85,
+  "ops": [
+   {
+    "l": "",
+    "p": 250
+   }
+  ]
+ },
+ {
+  "id": "u_sil100",
+  "g": "Arte y manualidades",
+  "n": "Silicona líquida 100 ml",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 220,
+  "ops": [
+   {
+    "l": "",
+    "p": 350
+   }
+  ]
+ },
+ {
+  "id": "u_sil250",
+  "g": "Arte y manualidades",
+  "n": "Silicona líquida 250 ml",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 340,
+  "ops": [
+   {
+    "l": "",
+    "p": 550
+   }
+  ]
+ },
+ {
+  "id": "u_sil_barra",
+  "g": "Arte y manualidades",
+  "n": "Barra de silicona delgada",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 18,
+  "ops": [
+   {
+    "l": "",
+    "p": 50
+   }
+  ]
+ },
+ {
+  "id": "u_sil_barra_g",
+  "g": "Arte y manualidades",
+  "n": "Barra de silicona gruesa",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 57,
+  "ops": [
+   {
+    "l": "",
+    "p": 100
+   }
+  ]
+ },
+ {
+  "id": "u_pistola",
+  "g": "Arte y manualidades",
+  "n": "Pistola de silicona",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 780,
+  "ops": [
+   {
+    "l": "",
+    "p": 1200
+   }
+  ]
+ },
+ {
+  "id": "u_tijera",
+  "g": "Arte y manualidades",
+  "n": "Tijera",
+  "c": "t-util",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 58,
+  "ops": [
+   {
+    "l": "",
+    "p": 150
+   },
+   {
+    "l": "",
+    "p": 300
+   },
+   {
+    "l": "",
+    "p": 500
+   },
+   {
+    "l": "",
+    "p": 1000
+   }
+  ]
+ },
+ {
+  "id": "u_cuter",
+  "g": "Arte y manualidades",
+  "n": "Cúter",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 55,
+  "ops": [
+   {
+    "l": "",
+    "p": 200
+   }
+  ]
+ },
+ {
+  "id": "u_cinta",
+  "g": "Arte y manualidades",
+  "n": "Cinta adhesiva",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 23,
+  "ops": [
+   {
+    "l": "",
+    "p": 100
+   }
+  ]
+ },
+ {
+  "id": "u_lustre",
+  "g": "Arte y manualidades",
+  "n": "Papel lustre",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 20,
+  "ops": [
+   {
+    "l": "",
+    "p": 70
+   }
+  ]
+ },
+ {
+  "id": "u_block_lustre",
+  "g": "Arte y manualidades",
+  "n": "Block de papel lustre",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 1000,
+  "ops": [
+   {
+    "l": "",
+    "p": 1500
+   }
+  ]
+ },
+ {
+  "id": "u_crepe",
+  "g": "Arte y manualidades",
+  "n": "Papel crepé",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 100
+   }
+  ]
+ },
+ {
+  "id": "u_regalo",
+  "g": "Arte y manualidades",
+  "n": "Papel de regalo",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 30,
+  "ops": [
+   {
+    "l": "",
+    "p": 80
+   }
+  ]
+ },
+ {
+  "id": "u_ojitos",
+  "g": "Arte y manualidades",
+  "n": "Ojitos movibles (bolsa)",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 180,
+  "ops": [
+   {
+    "l": "",
+    "p": 250
+   }
+  ]
+ },
+ {
+  "id": "u_pompon",
+  "g": "Arte y manualidades",
+  "n": "Pompones (bolsa)",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 270,
+  "ops": [
+   {
+    "l": "",
+    "p": 400
+   }
+  ]
+ },
+ {
+  "id": "u_palitos",
+  "g": "Arte y manualidades",
+  "n": "Palitos de chupete",
+  "c": "t-util",
+  "quick": false,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 100
+   },
+   {
+    "l": "",
+    "p": 150
+   }
+  ]
+ },
+ {
+  "id": "u_hoja_bond",
+  "g": "Papelería",
+  "n": "Hoja bond",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 2,
+  "ops": [
+   {
+    "l": "",
+    "p": 10
+   }
+  ]
+ },
+ {
+  "id": "u_hoja_color",
+  "g": "Papelería",
+  "n": "Hoja de color",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 20
+   }
+  ]
+ },
+ {
+  "id": "u_papel_hilo",
+  "g": "Papelería",
+  "n": "Papel hilo",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 100
+   }
+  ]
+ },
+ {
+  "id": "u_carbon",
+  "g": "Papelería",
+  "n": "Papel carbón",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 150
+   }
+  ]
+ },
+ {
+  "id": "u_cuadernillo",
+  "g": "Papelería",
+  "n": "Hoja cuadriculada A4",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 7,
+  "ops": [
+   {
+    "l": "",
+    "p": 20
+   }
+  ]
+ },
+ {
+  "id": "u_cuadernillo_of",
+  "g": "Papelería",
+  "n": "Hoja cuadriculada oficio",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 10,
+  "ops": [
+   {
+    "l": "",
+    "p": 20
+   }
+  ]
+ },
+ {
+  "id": "u_cuad_a4",
+  "g": "Papelería",
+  "n": "Cuaderno A4",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 357,
+  "ops": [
+   {
+    "l": "",
+    "p": 500
+   }
+  ]
+ },
+ {
+  "id": "u_cuad_chico",
+  "g": "Papelería",
+  "n": "Cuaderno chico",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 200
+   }
+  ]
+ },
+ {
+  "id": "u_folder_man",
+  "g": "Papelería",
+  "n": "Folder manila",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 17,
+  "ops": [
+   {
+    "l": "",
+    "p": 50
+   }
+  ]
+ },
+ {
+  "id": "u_folder_pl",
+  "g": "Papelería",
+  "n": "Folder plastificado",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 150
+   }
+  ]
+ },
+ {
+  "id": "u_duramax",
+  "g": "Papelería",
+  "n": "Folder Duramax",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 360,
+  "ops": [
+   {
+    "l": "",
+    "p": 500
+   }
+  ]
+ },
+ {
+  "id": "u_sobre_man",
+  "g": "Papelería",
+  "n": "Sobre manila A4",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 15,
+  "ops": [
+   {
+    "l": "",
+    "p": 50
+   }
+  ]
+ },
+ {
+  "id": "u_sobre_of",
+  "g": "Papelería",
+  "n": "Sobre manila oficio",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 24,
+  "ops": [
+   {
+    "l": "",
+    "p": 50
+   }
+  ]
+ },
+ {
+  "id": "u_sobre_med",
+  "g": "Papelería",
+  "n": "Sobre manila medio oficio",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 12,
+  "ops": [
+   {
+    "l": "",
+    "p": 30
+   }
+  ]
+ },
+ {
+  "id": "u_sobre_rx",
+  "g": "Papelería",
+  "n": "Sobre radiográfico",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 42,
+  "ops": [
+   {
+    "l": "",
+    "p": 100
+   }
+  ]
+ },
+ {
+  "id": "u_sobre_a3",
+  "g": "Papelería",
+  "n": "Sobre manila A3",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 150
+   }
+  ]
+ },
+ {
+  "id": "u_sobre_broche",
+  "g": "Papelería",
+  "n": "Sobre plástico con broche",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 150,
+  "ops": [
+   {
+    "l": "",
+    "p": 250
+   }
+  ]
+ },
+ {
+  "id": "u_archivador",
+  "g": "Papelería",
+  "n": "Archivador",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 500,
+  "ops": [
+   {
+    "l": "",
+    "p": 800
+   }
+  ]
+ },
+ {
+  "id": "u_cartulina",
+  "g": "Papelería",
+  "n": "Cartulina escolar",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 55,
+  "ops": [
+   {
+    "l": "",
+    "p": 100
+   }
+  ]
+ },
+ {
+  "id": "u_cart_negra",
+  "g": "Papelería",
+  "n": "Cartulina negra",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 150
+   }
+  ]
+ },
+ {
+  "id": "u_folcote",
+  "g": "Papelería",
+  "n": "Cartulina folcote",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 250
+   }
+  ]
+ },
+ {
+  "id": "u_duplex",
+  "g": "Papelería",
+  "n": "Cartulina dúplex",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 250
+   }
+  ]
+ },
+ {
+  "id": "u_cart_hilo_pl",
+  "g": "Papelería",
+  "n": "Cartulina hilo pliego",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 250
+   }
+  ]
+ },
+ {
+  "id": "u_cart_hilo_a4",
+  "g": "Papelería",
+  "n": "Cartulina hilo A4",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 100
+   }
+  ]
+ },
+ {
+  "id": "u_canson",
+  "g": "Papelería",
+  "n": "Cartulina Canson 180 g",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": null,
+  "ops": [
+   {
+    "l": "",
+    "p": 350
+   }
+  ]
+ },
+ {
+  "id": "u_cart_plast",
+  "g": "Papelería",
+  "n": "Cartulina plastificada",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 72,
+  "ops": [
+   {
+    "l": "",
+    "p": 150
+   }
+  ]
+ },
+ {
+  "id": "u_papelografo",
+  "g": "Papelería",
+  "n": "Papelógrafo",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 16,
+  "ops": [
+   {
+    "l": "",
+    "p": 50
+   }
+  ]
+ },
+ {
+  "id": "u_forro_a4",
+  "g": "Papelería",
+  "n": "Vinifan A4 5 m",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 490,
+  "ops": [
+   {
+    "l": "",
+    "p": 750
+   }
+  ]
+ },
+ {
+  "id": "u_forro_of",
+  "g": "Papelería",
+  "n": "Vinifan oficio 5 m",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 850,
+  "ops": [
+   {
+    "l": "",
+    "p": 1250
+   }
+  ]
+ },
+ {
+  "id": "u_forro_facil",
+  "g": "Papelería",
+  "n": "Forro fácil x10",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 70,
+  "ops": [
+   {
+    "l": "",
+    "p": 150
+   }
+  ]
+ },
+ {
+  "id": "u_contact",
+  "g": "Papelería",
+  "n": "Contact 3 m",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 480,
+  "ops": [
+   {
+    "l": "",
+    "p": 750
+   }
+  ]
+ },
+ {
+  "id": "u_notas",
+  "g": "Papelería",
+  "n": "Notas adhesivas",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 180,
+  "ops": [
+   {
+    "l": "",
+    "p": 300
+   }
+  ]
+ },
+ {
+  "id": "u_fotocheck",
+  "g": "Papelería",
+  "n": "Porta fotocheck",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 40,
+  "ops": [
+   {
+    "l": "",
+    "p": 100
+   }
+  ]
+ },
+ {
+  "id": "u_cinta_fc",
+  "g": "Papelería",
+  "n": "Cinta para fotocheck",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 45,
+  "ops": [
+   {
+    "l": "",
+    "p": 100
+   }
+  ]
+ },
+ {
+  "id": "u_fastener",
+  "g": "Oficina",
+  "n": "Fastener",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 6,
+  "ops": [
+   {
+    "l": "",
+    "p": 20
+   }
+  ]
+ },
+ {
+  "id": "u_clips",
+  "g": "Oficina",
+  "n": "Clips (caja)",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 110,
+  "ops": [
+   {
+    "l": "",
+    "p": 200
+   }
+  ]
+ },
+ {
+  "id": "u_grapas",
+  "g": "Oficina",
+  "n": "Grapas (caja)",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 250,
+  "ops": [
+   {
+    "l": "",
+    "p": 400
+   }
+  ]
+ },
+ {
+  "id": "u_engrapador",
+  "g": "Oficina",
+  "n": "Engrapador mini",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 300,
+  "ops": [
+   {
+    "l": "",
+    "p": 500
+   }
+  ]
+ },
+ {
+  "id": "u_sacagrapas",
+  "g": "Oficina",
+  "n": "Sacagrapas",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 140,
+  "ops": [
+   {
+    "l": "",
+    "p": 250
+   }
+  ]
+ },
+ {
+  "id": "u_chinches",
+  "g": "Oficina",
+  "n": "Chinches (caja)",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 190,
+  "ops": [
+   {
+    "l": "",
+    "p": 300
+   }
+  ]
+ },
+ {
+  "id": "u_tampon",
+  "g": "Oficina",
+  "n": "Tampón",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 330,
+  "ops": [
+   {
+    "l": "",
+    "p": 500
+   }
+  ]
+ },
+ {
+  "id": "u_tampon_dact",
+  "g": "Oficina",
+  "n": "Tampón dactilar",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 250,
+  "ops": [
+   {
+    "l": "",
+    "p": 400
+   }
+  ]
+ },
+ {
+  "id": "u_mota",
+  "g": "Oficina",
+  "n": "Mota de pizarra",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 270,
+  "ops": [
+   {
+    "l": "",
+    "p": 450
+   }
+  ]
+ },
+ {
+  "id": "u_globo9",
+  "g": "Fiestas",
+  "n": "Globo #9",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 8,
+  "ops": [
+   {
+    "l": "",
+    "p": 20
+   }
+  ]
+ },
+ {
+  "id": "u_globo7",
+  "g": "Fiestas",
+  "n": "Globo #7",
+  "c": "t-util",
+  "quick": true,
+  "free": false,
+  "desc": false,
+  "tasa": false,
+  "costo": 5,
+  "ops": [
+   {
+    "l": "",
+    "p": 10
+   }
+  ]
+ },
+ {
+  "id": "u_otro",
+  "g": "Otros",
+  "n": "Otro útil",
+  "c": "t-util",
+  "quick": false,
+  "free": true,
+  "desc": true,
+  "tasa": false,
+  "costo": null,
+  "ops": []
+ },
+ {
+  "id": "otro",
+  "g": "Otros",
+  "n": "Otro monto",
+  "c": "t-otro",
+  "quick": false,
+  "free": true,
+  "desc": true,
+  "tasa": false,
+  "costo": null,
+  "ops": []
+ }
+]

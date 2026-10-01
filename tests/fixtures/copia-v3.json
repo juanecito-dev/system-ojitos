@@ -1,0 +1,812 @@
+{
+ "app": "ojitos-caja",
+ "v": 3,
+ "creado": "2026-09-22T01:00:00.000Z",
+ "negocio": {
+  "ciudad": "Tingo María",
+  "nombre": "Ojitos",
+  "giro": "Copias e impresiones",
+  "titular": "Alex Simon Santiago",
+  "ruc": "10745784548",
+  "dir": "Jr. San Alejandro 382",
+  "cel": "942219622",
+  "meta": "150",
+  "tkPie": "¡Gracias por su preferencia!",
+  "metOff": [
+   "tarjeta"
+  ],
+  "regimen": "rer",
+  "igv": "exonerado",
+  "serieB": "EB01",
+  "serieF": "E001",
+  "ult_EB01": "445",
+  "ult_E001": "134",
+  "rubro": "imprenta",
+  "modsOff": [
+   "compras"
+  ],
+  "ultCopia": 1790082000000,
+  "yapeCel": "942219622",
+  "qrYape": "data:image/png;base64,iVBORw0KGgo="
+ },
+ "catalog": [
+  {
+   "id": "bn_a4",
+   "g": "Copias e impresiones A4",
+   "n": "B/N A4",
+   "c": "t-bn",
+   "ops": [
+    {
+     "l": "",
+     "p": 15
+    }
+   ],
+   "costo": 2,
+   "ins": [
+    {
+     "id": "u_hoja_bond",
+     "q": 1
+    }
+   ],
+   "fav": true
+  },
+  {
+   "id": "col_a4",
+   "g": "Copias e impresiones A4",
+   "n": "Color A4",
+   "c": "t-color",
+   "ops": [
+    {
+     "l": "Poco",
+     "p": 30
+    },
+    {
+     "l": "Medio",
+     "p": 40
+    },
+    {
+     "l": "Lleno",
+     "p": 50
+    },
+    {
+     "l": "Full",
+     "p": 60
+    }
+   ]
+  },
+  {
+   "id": "las_a4",
+   "g": "Impresión láser",
+   "n": "Láser A4",
+   "c": "t-foto",
+   "ops": [
+    {
+     "l": "Poco",
+     "p": 50
+    },
+    {
+     "l": "Medio",
+     "p": 80
+    },
+    {
+     "l": "Lleno",
+     "p": 120
+    },
+    {
+     "l": "Full",
+     "p": 150
+    }
+   ]
+  },
+  {
+   "id": "las_a3",
+   "g": "Impresión láser",
+   "n": "Láser A3",
+   "c": "t-foto",
+   "ops": [
+    {
+     "l": "Poco",
+     "p": 200
+    },
+    {
+     "l": "Medio",
+     "p": 230
+    },
+    {
+     "l": "Lleno",
+     "p": 270
+    },
+    {
+     "l": "Full",
+     "p": 300
+    }
+   ]
+  },
+  {
+   "id": "bn_a3",
+   "g": "Planos",
+   "n": "B/N A3",
+   "c": "t-bn",
+   "ops": [
+    {
+     "l": "",
+     "p": 100
+    }
+   ]
+  },
+  {
+   "id": "col_a3",
+   "g": "Planos",
+   "n": "Color A3",
+   "c": "t-color",
+   "ops": [
+    {
+     "l": "Poco",
+     "p": 150
+    },
+    {
+     "l": "Medio",
+     "p": 170
+    },
+    {
+     "l": "Lleno",
+     "p": 180
+    },
+    {
+     "l": "Full",
+     "p": 200
+    }
+   ]
+  },
+  {
+   "id": "bn_a2",
+   "g": "Planos",
+   "n": "B/N A2",
+   "c": "t-bn",
+   "ops": [
+    {
+     "l": "",
+     "p": 250
+    }
+   ]
+  },
+  {
+   "id": "col_a2",
+   "g": "Planos",
+   "n": "Color A2",
+   "c": "t-color",
+   "ops": [
+    {
+     "l": "Poco",
+     "p": 300
+    },
+    {
+     "l": "Medio",
+     "p": 350
+    },
+    {
+     "l": "Lleno",
+     "p": 400
+    },
+    {
+     "l": "Full",
+     "p": 450
+    }
+   ]
+  },
+  {
+   "id": "bn_a1",
+   "g": "Planos",
+   "n": "B/N A1",
+   "c": "t-bn",
+   "ops": [
+    {
+     "l": "",
+     "p": 450
+    }
+   ]
+  },
+  {
+   "id": "col_a1",
+   "g": "Planos",
+   "n": "Color A1",
+   "c": "t-color",
+   "ops": [
+    {
+     "l": "Poco",
+     "p": 500
+    },
+    {
+     "l": "Medio",
+     "p": 650
+    },
+    {
+     "l": "Lleno",
+     "p": 800
+    },
+    {
+     "l": "Full",
+     "p": 1000
+    }
+   ]
+  },
+  {
+   "id": "foto_a4",
+   "g": "Papel fotográfico",
+   "n": "Fotográfico A4",
+   "c": "t-foto",
+   "ops": [
+    {
+     "l": "",
+     "p": 300
+    }
+   ]
+  },
+  {
+   "id": "foto_a3",
+   "g": "Papel fotográfico",
+   "n": "Fotográfico A3",
+   "c": "t-foto",
+   "ops": [
+    {
+     "l": "Poco",
+     "p": 700
+    },
+    {
+     "l": "Medio",
+     "p": 800
+    },
+    {
+     "l": "Lleno",
+     "p": 900
+    },
+    {
+     "l": "Full",
+     "p": 1000
+    }
+   ]
+  },
+  {
+   "id": "u_hoja_bond",
+   "g": "Papelería",
+   "n": "Hoja bond",
+   "c": "t-util",
+   "quick": true,
+   "ops": [
+    {
+     "l": "",
+     "p": 10
+    }
+   ],
+   "costo": 2,
+   "oculto": true
+  },
+  {
+   "id": "c_lk1",
+   "g": "Escritura",
+   "n": "Lapicero rojo",
+   "c": "t-util",
+   "quick": true,
+   "ops": [
+    {
+     "l": "",
+     "p": 100
+    }
+   ],
+   "costo": 45,
+   "cb": "7751234567890",
+   "min": 5
+  }
+ ],
+ "stock": {},
+ "stockBase": {
+  "c_lk1": {
+   "n": 24,
+   "t": 1789866000000
+  },
+  "u_hoja_bond": {
+   "n": 500,
+   "t": 1789866000000
+  }
+ },
+ "stockLog": [
+  {
+   "k": "sl1",
+   "t": 1789934400000,
+   "id": "c_lk1",
+   "nombre": "Lapicero rojo",
+   "tipo": "entrada",
+   "cant": 12,
+   "costo": 45,
+   "nota": "Compra",
+   "u": "ua",
+   "vend": "Alex Simon Santiago"
+  }
+ ],
+ "encargos": [],
+ "pedidos": [
+  {
+   "id": "pd1",
+   "num": 17,
+   "t": 1789923600000,
+   "fecha": "2026-09-20",
+   "etapa": "proceso",
+   "cliente": {
+    "nombre": "Rosa Díaz",
+    "doc": "45678912",
+    "cel": "987654321",
+    "inst": "",
+    "dir": ""
+   },
+   "cliId": "cl1",
+   "items": [
+    {
+     "sid": "s_anillado",
+     "nombre": "Anillado",
+     "det": "",
+     "cant": 2,
+     "precio": 300,
+     "sub": 600
+    }
+   ],
+   "detalle": "Anillar tesis",
+   "monto": 0,
+   "desc": 0,
+   "pagos": [
+    {
+     "id": "pg1",
+     "t": 1789923600000,
+     "monto": 300,
+     "metodo": "efectivo",
+     "k": "2026-09-20",
+     "tipo": "Adelanto"
+    }
+   ],
+   "fEntrega": "2026-09-21",
+   "hora": "17:00",
+   "u": "ua",
+   "vend": "Alex Simon Santiago",
+   "total": 600,
+   "hist": [
+    {
+     "t": 1789923600000,
+     "que": "Encargo registrado",
+     "vend": "Alex"
+    }
+   ]
+  }
+ ],
+ "plantillas": [
+  {
+   "id": "pl1",
+   "t": 1789912800000,
+   "nombre": "1ro primaria IE 32144",
+   "inst": "IE 32144",
+   "items": [
+    {
+     "sid": "c_lk1",
+     "nombre": "Lapicero rojo",
+     "det": "",
+     "cant": 2,
+     "precio": 100
+    }
+   ]
+  }
+ ],
+ "clientes": {
+  "clientes": [
+   {
+    "id": "cl1",
+    "nombre": "Rosa Díaz",
+    "cel": "987654321",
+    "dni": "45678912",
+    "creado": 1788271200000,
+    "visitas": 2,
+    "gastado": 320,
+    "ultima": 1790006400000,
+    "alias": [
+     "cl0"
+    ]
+   }
+  ],
+  "movs": [
+   {
+    "id": "m1",
+    "cli": "cl1",
+    "t": 1790006400000,
+    "tipo": "fiado",
+    "monto": 120,
+    "detalle": "3 Color A4",
+    "venta": "v3",
+    "dia": "2026-09-21",
+    "u": "uj",
+    "vend": "Jeremy"
+   },
+   {
+    "id": "m0",
+    "cli": "cl0",
+    "t": 1789056000000,
+    "tipo": "fiado",
+    "monto": 50,
+    "detalle": "antiguo",
+    "u": "ua",
+    "vend": "Alex Simon Santiago"
+   }
+  ]
+ },
+ "compras": {
+  "proveedores": [
+   {
+    "id": "altiplano",
+    "nombre": "Grupo Altiplano E.I.R.L.",
+    "ruc": "20573007957",
+    "cel": "962506202"
+   }
+  ],
+  "facturas": [
+   {
+    "id": "f1",
+    "prov": "altiplano",
+    "numero": "F001-2231",
+    "fecha": "2026-09-15",
+    "total": 54000,
+    "condicion": "credito",
+    "vence": "2026-10-15",
+    "nota": "",
+    "items": [
+     {
+      "sid": "c_lk1",
+      "nombre": "Lapicero rojo",
+      "cant": 1,
+      "un": "caja x12",
+      "f": 12,
+      "costoU": 540
+     }
+    ],
+    "pagos": [
+     {
+      "t": 1789506000000,
+      "monto": 20000,
+      "metodo": "efectivo"
+     }
+    ]
+   }
+  ]
+ },
+ "maquinas": {
+  "items": [
+   {
+    "id": "mq1",
+    "nombre": "Ricoh 1",
+    "conts": [
+     {
+      "id": "ct1",
+      "n": "Contador",
+      "tipo": "bn"
+     }
+    ]
+   }
+  ],
+  "prods": {
+   "bn_a4": {
+    "g": "bn",
+    "f": 1
+   }
+  },
+  "ult": {
+   "mq1:ct1": {
+    "v": 120500,
+    "t": 1790038800000,
+    "d": "2026-09-21"
+   }
+  }
+ },
+ "dias": {
+  "2026-09-20": {
+   "fecha": "2026-09-20",
+   "cierre": false,
+   "ventas": {
+    "v1": {
+     "id": "v1",
+     "t": 1789913400000,
+     "items": [
+      {
+       "sid": "bn_a4",
+       "nombre": "B/N A4",
+       "det": "",
+       "cant": 20,
+       "precio": 15,
+       "sub": 300,
+       "costo": 2
+      }
+     ],
+     "total": 300,
+     "boleta": false,
+     "metodo": "efectivo",
+     "pago": 500,
+     "u": "ua",
+     "vend": "Alex Simon Santiago",
+     "num": "AA-001"
+    },
+    "v2": {
+     "id": "v2",
+     "t": 1789916700000,
+     "items": [
+      {
+       "sid": "c_lk1",
+       "nombre": "Lapicero rojo",
+       "det": "",
+       "cant": 2,
+       "precio": 100,
+       "sub": 200,
+       "costo": 45
+      },
+      {
+       "sid": "tasa",
+       "nombre": "Tasa pagada por el cliente",
+       "det": "Antecedentes",
+       "cant": 1,
+       "precio": 5000,
+       "sub": 5000,
+       "tercero": true
+      }
+     ],
+     "total": 5200,
+     "boleta": true,
+     "cpe": "cp1",
+     "cpeK": "2026-09-20",
+     "cpeNum": "EB01-440",
+     "metodo": "yape",
+     "u": "uj",
+     "vend": "Jeremy",
+     "num": "JJ-001",
+     "cliente": "cl1",
+     "cpeReq": {
+      "tipo": "03",
+      "pide": true,
+      "doc": {
+       "td": "1",
+       "nd": "45678912",
+       "nom": "Rosa Díaz",
+       "dir": ""
+      }
+     }
+    }
+   },
+   "cpes": {
+    "cp1": {
+     "id": "cp1",
+     "t": 1789916760000,
+     "tipo": "03",
+     "serie": "EB01",
+     "num": "440",
+     "cliente": {
+      "td": "1",
+      "nd": "45678912",
+      "nom": "Rosa Díaz",
+      "dir": ""
+     },
+     "total": 200,
+     "grav": 0,
+     "exo": 200,
+     "ina": 0,
+     "igv": 0,
+     "ventas": [
+      {
+       "k": "2026-09-20",
+       "id": "v2"
+      }
+     ],
+     "desc": "2 Lapicero rojo",
+     "estado": "emitido",
+     "modo": "manual",
+     "u": "uj",
+     "vend": "Jeremy"
+    }
+   },
+   "lecturas": [],
+   "anuladas": {
+    "an1": {
+     "id": "an1",
+     "t": 1789938000000,
+     "venta": "v0",
+     "num": "AA-000",
+     "vt": 1789909200000,
+     "total": 150,
+     "detalle": "10 B/N A4",
+     "motivo": "Se equivocó",
+     "por": "Alex Simon Santiago",
+     "u": "ua",
+     "vendOrig": "Jeremy",
+     "tipo": "anulada"
+    }
+   },
+   "act": {
+    "a1": {
+     "id": "a1",
+     "t": 1789909200000,
+     "tipo": "entrada",
+     "det": "Alex entró como Administrador",
+     "u": "ua",
+     "vend": "Alex Simon Santiago",
+     "eq": "Laptop Alex"
+    }
+   },
+   "caja": {
+    "movs": {
+     "mv1": {
+      "id": "mv1",
+      "t": 1789927200000,
+      "tipo": "gasto",
+      "concepto": "Papel",
+      "nota": "1 millar",
+      "monto": 1800,
+      "metodo": "efectivo",
+      "u": "ua",
+      "vend": "Alex Simon Santiago"
+     }
+    },
+    "turnos": {
+     "t1": {
+      "id": "t1",
+      "t": 1789911000000,
+      "abre": 1789911000000,
+      "inicial": 5000,
+      "u": "ua",
+      "vend": "Alex Simon Santiago",
+      "cierra": 1789952400000,
+      "contado": 5500,
+      "esperado": 5500,
+      "cerroPor": "Alex Simon Santiago"
+     }
+    }
+   }
+  },
+  "2026-09-21": {
+   "fecha": "2026-09-21",
+   "cierre": false,
+   "ventas": [
+    {
+     "id": "v3",
+     "t": 1790006400000,
+     "items": [
+      {
+       "sid": "col_a4",
+       "nombre": "Color A4",
+       "det": "Medio",
+       "cant": 3,
+       "precio": 40,
+       "sub": 120
+      }
+     ],
+     "total": 120,
+     "boleta": false,
+     "metodo": "fiado",
+     "u": "uj",
+     "vend": "Jeremy",
+     "num": "JJ-001",
+     "cliente": "cl1"
+    }
+   ],
+   "cpes": [],
+   "lecturas": [
+    {
+     "id": "l1",
+     "t": 1790038800000,
+     "tipo": "fin",
+     "maq": "mq1",
+     "cont": "ct1",
+     "v": 120500,
+     "desde": 120300,
+     "u": "ua",
+     "vend": "Alex Simon Santiago"
+    }
+   ],
+   "anuladas": [],
+   "act": [],
+   "caja": {
+    "movs": [],
+    "turnos": []
+   }
+  }
+ },
+ "documentos": [
+  {
+   "id": "doc1",
+   "t": 1789920000000,
+   "tpl": "solicitud",
+   "titulo": "Solicitud de Rosa Díaz",
+   "partes": "Rosa Díaz",
+   "data": {
+    "nombre": "Rosa Díaz"
+   },
+   "html": "<p>Solicitud</p>",
+   "u": "ua",
+   "vend": "Alex Simon Santiago",
+   "estado": "cobrado",
+   "clis": [
+    "cl1"
+   ]
+  }
+ ],
+ "modelos": [
+  {
+   "id": "mod1",
+   "t": 1789912800000,
+   "nombre": "Constancia de trabajo",
+   "icon": "📄",
+   "cobro": "hoja",
+   "base": "solicitud",
+   "campos": [],
+   "blocks": []
+  }
+ ],
+ "usuarios": {
+  "items": [
+   {
+    "id": "ua",
+    "nombre": "Alex Simon Santiago",
+    "usuario": "alex",
+    "rol": "admin",
+    "salt": "lk2j3abc",
+    "len": 4,
+    "pin": "p2:7187971aa584d5b7db10496a875d4623e12be0add8e5c17dd3e2de63d8e9a658",
+    "ultimo": 1789995600000,
+    "o": 0
+   },
+   {
+    "id": "uj",
+    "nombre": "Jeremy",
+    "usuario": "jeremy",
+    "rol": "vendedor",
+    "salt": "j9x",
+    "len": 4,
+    "pin": "f256db5b78416779d320531a5fb4eeb63d4c9293db7a32359e7e75c5bf0f0b4c",
+    "o": 1
+   },
+   {
+    "id": "ux",
+    "nombre": "Carlos Ríos",
+    "rol": "vendedor",
+    "salt": "s1",
+    "pin": "f256db5b78416779d320531a5fb4eeb63d4c9293db7a32359e7e75c5bf0f0b4c",
+    "inactivo": true,
+    "o": 2
+   }
+  ],
+  "roles": [
+   {
+    "id": "admin",
+    "nombre": "Administrador",
+    "fijo": true,
+    "perms": [],
+    "o": 0
+   },
+   {
+    "id": "vendedor",
+    "nombre": "Vendedor",
+    "docsMig": true,
+    "profMig": true,
+    "pedMig": true,
+    "perms": [
+     "vender",
+     "encargos",
+     "proformas",
+     "documentos",
+     "caja",
+     "clientes",
+     "ventas",
+     "comprobantes",
+     "inventario",
+     "descuentos",
+     "fiar",
+     "gastos",
+     "verTodo"
+    ],
+    "pv": 2,
+    "descMax": 200,
+    "o": 1
+   }
+  ]
+ }
+}

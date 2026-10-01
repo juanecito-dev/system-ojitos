@@ -6,7 +6,7 @@ Documento para continuar el trabajo en una conversación nueva de Claude Code. E
 
 **Etapa 1 terminada** en la rama `claude/laravel-migration-woke0o`:
 
-- Proyecto Laravel 13 + Livewire 3.8, sin Node (CSS y JS en `public/`), probado en PHP 8.4.
+- Proyecto Laravel 13 + Livewire 3.8, sin Node (CSS y JS en `public/`), probado en PHP 8.3 y 8.4. `composer.json` fija la plataforma en PHP 8.3 (`config.platform`) para que `composer update` nunca traiga paquetes que exijan 8.4.
 - Todas las tablas del modelo de datos (también las de pedidos, compras, comprobantes y redacción, que usarán las próximas etapas).
 - Varios negocios desde el inicio: `negocio_id` en todo, con un filtro automático (`PerteneceANegocio`) y un negocio actual (`NegocioActual`).
 - Entrada con rol, usuario y PIN, bloqueo después de 5 intentos (vale en todos los equipos), autorización con el PIN de un administrador (`ConAutorizacion`) y registro de actividad (`Bitacora`).

@@ -203,13 +203,13 @@ it('al registrar un número ya usado avisa y no guarda nada', function () {
 });
 
 it('no deja subir el sistema si ya hay números repetidos', function () {
+    // «9» y «09» pasan el índice (son textos distintos), pero son el mismo número: la revisión de la migración lo detecta
+    $base = ['fecha' => today(), 'emitido_at' => now(), 'tipo' => '03', 'serie' => 'EB01', 'total' => 100, 'estado' => 'emitido'];
+    Comprobante::create($base + ['uid' => 'a', 'numero' => '9']);
+    Comprobante::create($base + ['uid' => 'b', 'numero' => '09']);
     $m = require database_path('migrations/2026_10_05_000001_fase_0_numeros_unicos.php');
-    $m->down();
-    $base = ['fecha' => today(), 'emitido_at' => now(), 'tipo' => '03', 'serie' => 'EB01', 'total' => 100, 'estado' => 'emitido', 'numero' => '9'];
-    Comprobante::create($base + ['uid' => 'a']);
-    Comprobante::create($base + ['uid' => 'b']);
 
-    expect(fn () => $m->up())->toThrow(RuntimeException::class, 'EB01-9');
+    expect(fn () => (fn () => $this->revisarRepetidos())->call($m))->toThrow(RuntimeException::class, 'EB01-9');
 });
 
 it('con descuento, las líneas del comprobante menos el descuento dan el total', function () {

@@ -37,6 +37,17 @@ it('registrar un gasto sin permiso pide autorización', function () {
     expect(CajaMovimiento::count())->toBe(1)->and(CajaMovimiento::first()->vendedor)->toBe('Jeremy');
 });
 
+it('el PIN autoriza el monto que vio el administrador, no otro', function () {
+    $j = entrarComo('jeremy');
+    $j->rol->sincronizarPermisos(['vender', 'caja']);
+    $c = Livewire::test(Caja::class)->call('abrirMovimiento', 'gasto')->set('monto', '5')->call('guardarMovimiento');
+    expect($c->get('autz')['que'])->toContain('S/ 5.00');
+
+    // el navegador cambia el monto en la misma petición en que el administrador pone su PIN
+    $c->set('monto', '500')->set('autzPin', '2580')->call('confirmarAutorizacion');
+    expect(CajaMovimiento::count())->toBe(0)->and($c->get('autz'))->toBeNull();
+});
+
 it('avisa del efectivo vendido sin caja abierta', function () {
     entrarComo('alex');
     app(Ventas::class)->registrar(usuario('jeremy'), ['lineas' => [['producto_id' => producto('bn_a4')->id, 'nombre' => 'B/N A4', 'cantidad' => 20, 'precio' => 15]], 'metodo' => 'efectivo']);

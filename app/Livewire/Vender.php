@@ -640,12 +640,14 @@ class Vender extends Component
     /** como requiere(), pero recuerda lo ya autorizado durante este cobro */
     private function permitido(string $permiso, string $que, array $params, array $opt = []): bool
     {
-        if (in_array($permiso.(! empty($opt['forzar']) ? '!' : ''), $this->concedidos, true)) {
+        // lo ya autorizado vale solo para este mismo pedido y cobro: si cambian (otro descuento, otra línea), se vuelve a pedir
+        $clave = $permiso.(! empty($opt['forzar']) ? '!' : '');
+        if (($this->concedidos[$clave] ?? null) === $this->huellaAutorizacion()) {
             return true;
         }
         if ($this->requiere($permiso, $que, 'cobrar', $params, $opt)) {
             if ($this->autorizo) {
-                $this->concedidos[] = $permiso.(! empty($opt['forzar']) ? '!' : '');
+                $this->concedidos[$clave] = $this->huellaAutorizacion();
             }
 
             return true;

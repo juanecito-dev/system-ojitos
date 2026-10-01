@@ -48,6 +48,7 @@ trait ConAutorizacion
         }
         $this->autz = [
             'permiso' => $permiso, 'que' => $que, 'accion' => $accion, 'params' => $params,
+            'huella' => $this->huellaAutorizacion(),
             'soloAdmin' => ! empty($opt['soloAdmin']), 'incluirme' => ! empty($opt['incluirme']),
             'titulo' => $opt['titulo'] ?? 'Necesita autorización',
             'motivo' => $opt['motivo'] ?? (empty($opt['incluirme'])
@@ -58,6 +59,18 @@ trait ConAutorizacion
         $this->autzError = '';
 
         return false;
+    }
+
+    /**
+     * Lo que se está autorizando (montos, pedido, cliente…): todas las propiedades públicas del componente,
+     * menos la ventana del PIN. Si cambian mientras la ventana está abierta, el PIN ya no vale:
+     * el administrador autorizó «un gasto de S/ 5», no lo que el navegador mande después.
+     */
+    protected function huellaAutorizacion(): string
+    {
+        $fuera = ['autz', 'autzPin', 'autzUsuario', 'autzError', 'error', 'concedidos'];
+
+        return hash('sha256', (string) json_encode($this->except($fuera)));
     }
 
     protected function autorizadores(string $permiso, array $opt)
@@ -83,6 +96,13 @@ trait ConAutorizacion
         $u = $this->listaAutorizadores()->firstWhere('id', $this->autzUsuario);
         $pin = trim($this->autzPin);
         if (! $u || $pin === '') {
+            return;
+        }
+        if (! hash_equals($this->autz['huella'] ?? '', $this->huellaAutorizacion())) {
+            $this->autz = null;
+            $this->autzPin = '';
+            $this->dispatch('toast', texto: 'Cambió lo que se iba a autorizar. Revisa y vuelve a intentarlo.');
+
             return;
         }
         if ($b = $acceso->bloqueo($u)) {

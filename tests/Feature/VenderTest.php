@@ -98,6 +98,24 @@ it('fiar sin permiso pide autorización y recuerda lo ya autorizado', function (
     expect(Venta::count())->toBe(1)->and(Venta::first()->metodo)->toBe('fiado');
 });
 
+it('lo ya autorizado deja de valer si cambia el cobro', function () {
+    $j = entrarComo('jeremy');
+    $j->rol->sincronizarPermisos(['vender', 'ventas', 'caja']);   // sin fiar ni descuentos
+    $cli = Cliente::create(['uid' => 'c1', 'nombre' => 'Rosa']);
+    $c = Livewire::test(Vender::class)->set('orden', pedido([['s_empastado', 1, 2000]]))->call('abrirCobro')
+        ->call('elegirCliente', $cli->id)->call('metodo', 'fiado')->call('descuento', 100)->call('cobrar', false);
+    $c->set('autzPin', '2580')->call('confirmarAutorizacion');   // autoriza el fiado de S/ 19
+    expect($c->get('autz')['permiso'])->toBe('descuentos');
+
+    // en vez de poner el PIN del descuento, cambia el descuento: lo autorizado ya no vale
+    $c->call('cancelarAutorizacion')->call('descuento', 1500)->call('cobrar', false);
+    expect($c->get('autz')['permiso'])->toBe('fiar')->and(Venta::count())->toBe(0);
+
+    // y si cambia el descuento con la ventana abierta, el PIN tampoco vale
+    $c->set('pay.desc', 1900)->set('autzPin', '2580')->call('confirmarAutorizacion');
+    expect(Venta::count())->toBe(0)->and($c->get('autz'))->toBeNull();
+});
+
 it('deshacer una venta la anula y devuelve el pedido a la caja', function () {
     entrarComo('jeremy');
     $c = Livewire::test(Vender::class)->set('orden', pedido([['bn_a4', 10]]))->call('abrirCobro')->call('cobrar', false);

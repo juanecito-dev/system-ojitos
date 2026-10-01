@@ -14,7 +14,7 @@ Capturas de pantalla: carpeta [`docs/capturas`](docs/capturas).
 ## Probarlo en tu computadora (Windows)
 
 1. **Instala Laravel Herd** (gratis): <https://herd.laravel.com/windows>. Trae PHP y Composer. Solo se hace una vez.
-2. **Baja el sistema:** en GitHub, en la rama `claude/laravel-migration-woke0o`, botón verde **Code › Download ZIP**. Descomprímelo, por ejemplo en `Documentos\ojitos-pos`.
+2. **Baja el sistema:** en GitHub, repositorio `juanecito-dev/system-ojitos`, rama `claude/analiza-8fkfbl`, botón verde **Code › Download ZIP**. Descomprímelo, por ejemplo en `Documentos\ojitos-pos`.
 3. **Doble clic en `iniciar-windows.bat`.** La primera vez instala lo necesario (unos minutos). Luego se abre el navegador en `http://localhost:8000`.
 4. En «Bienvenido» elige **Traer mi copia** y sube tu copia del sistema actual (*Configuración › Datos y copias › Descargar copia*). Entras con tu mismo usuario y PIN.
    - Si la copia es muy grande y no sube: arrastra el archivo `.json` y suéltalo encima de **`importar-copia-windows.bat`**.
@@ -39,7 +39,7 @@ Funciona en un **VPS** o en un **hosting compartido** (cPanel) que tenga PHP 8.3
 
 1. **Bajar el código**
    ```bash
-   git clone https://github.com/aIex-simon/ojitos-pos.git
+   git clone https://github.com/juanecito-dev/system-ojitos.git ojitos-pos
    cd ojitos-pos
    ```
 2. **Instalar y preparar**

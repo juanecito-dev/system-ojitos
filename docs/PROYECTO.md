@@ -21,7 +21,9 @@ Reemplaza al sistema anterior, que era un solo archivo (`caja-rapida.html`, unas
 
 **Quiénes lo usan hoy:** Alex (administrador, en su laptop) y Jeremy (vendedor, en la PC 1).
 
-**Dónde está el código:** GitHub, repositorio `aIex-simon/ojitos-pos`, rama `claude/laravel-migration-woke0o`. Cada parte terminada queda guardada como una versión.
+**Dónde está el código:** GitHub, repositorio `juanecito-dev/system-ojitos`, rama `claude/analiza-8fkfbl` (antes `aIex-simon/ojitos-pos`, rama `claude/laravel-migration-woke0o`). Cada parte terminada queda guardada como una versión.
+
+**Análisis para convertirlo en SaaS (01/10/2026):** `docs/analisis-saas-2026-10-01.html` (ábrelo con el navegador). Problemas graves, qué es núcleo y qué es de la imprenta, y la hoja de ruta en 5 fases. La fase 0 ya está hecha (ver `docs/traspaso-migracion-laravel.md`); capturas 49 a 64 en `docs/capturas`.
 
 ---
 

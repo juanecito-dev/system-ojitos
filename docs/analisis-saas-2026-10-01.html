@@ -1,0 +1,565 @@
+<title>Ojitos Caja hacia SaaS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: informe de una columna (~70ch) con tablas y diagramas que se ensanchan; paleta CMYK de la marca Ojitos usada con moderación */
+:root{
+  --bg:#f6f8f9; --surface:#ffffff; --fg:#16191d; --muted:#56616b; --line:#d9e0e5;
+  --cyan:#0077a0; --magenta:#b01a57; --yellow:#8a6a00; --yellow-bg:#fff4cc;
+  --crit:#b01a57; --crit-bg:#fbe6ee; --high:#b4520a; --high-bg:#fdeedd;
+  --med:#8a6a00; --med-bg:#fff4cc; --ok:#1d7a4a; --ok-bg:#e3f4ea; --code-bg:#eef2f4;
+  --f-display:"Archivo",system-ui,sans-serif; --f-body:"Archivo",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111417; --surface:#181c20; --fg:#e8ecef; --muted:#9aa6b0; --line:#2b3238;
+  --cyan:#4cc3ea; --magenta:#f06b9e; --yellow:#e8c04a; --yellow-bg:#3a3010;
+  --crit:#f27aa6; --crit-bg:#3b1626; --high:#f2a35e; --high-bg:#3a2412;
+  --med:#e8c04a; --med-bg:#352c0e; --ok:#5fcf92; --ok-bg:#12301f; --code-bg:#20262b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111417; --surface:#181c20; --fg:#e8ecef; --muted:#9aa6b0; --line:#2b3238;
+  --cyan:#4cc3ea; --magenta:#f06b9e; --yellow:#e8c04a; --yellow-bg:#3a3010;
+  --crit:#f27aa6; --crit-bg:#3b1626; --high:#f2a35e; --high-bg:#3a2412;
+  --med:#e8c04a; --med-bg:#352c0e; --ok:#5fcf92; --ok-bg:#12301f; --code-bg:#20262b; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.6;padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:860px;margin:0 auto}
+.prose{max-width:70ch}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.15;margin:0}
+h1{font-size:clamp(2rem,5vw,2.9rem);font-weight:800;font-stretch:112%;letter-spacing:-.01em}
+h2{font-size:1.6rem;font-weight:750;font-stretch:108%;margin-top:3.2rem;padding-top:1.2rem;border-top:1px solid var(--line)}
+h3{font-size:1.12rem;font-weight:700;margin-top:1.8rem}
+p{margin:.7rem 0}
+a{color:var(--cyan)}
+code,.mono{font-family:var(--f-mono);font-size:.84em}
+code{background:var(--code-bg);padding:.1em .35em;border-radius:4px;overflow-wrap:anywhere}
+.eyebrow{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.strip{display:flex;height:6px;margin:0 -16px}
+.strip i{flex:1}.strip i:nth-child(1){background:#0096C7}.strip i:nth-child(2){background:#C81E63}.strip i:nth-child(3){background:#E0AC00}.strip i:nth-child(4){background:#16191D}
+header.top{padding-block:2.6rem 1rem;display:grid;gap:.8rem}
+.lede{font-size:1.15rem;color:var(--muted);max-width:62ch}
+.facts{display:flex;flex-wrap:wrap;gap:.5rem 1.4rem;font-family:var(--f-mono);font-size:.8rem;color:var(--muted);margin-top:.4rem}
+.facts b{color:var(--fg);font-weight:500}
+
+.verdict{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--cyan);border-radius:6px;padding:1.1rem 1.3rem;margin-top:1.6rem}
+.verdict p{margin:.4rem 0}
+
+nav.toc{margin-top:1.6rem;display:flex;flex-wrap:wrap;gap:.4rem}
+nav.toc a{font-size:.85rem;text-decoration:none;color:var(--fg);border:1px solid var(--line);border-radius:999px;padding:.2rem .7rem;background:var(--surface)}
+nav.toc a:hover,nav.toc a:focus-visible{border-color:var(--cyan);color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+.scroll{overflow-x:auto;margin:1rem 0;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;vertical-align:top;padding:.6rem .8rem;border-bottom:1px solid var(--line)}
+th{font-weight:650;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--code-bg)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600}
+
+.pill{display:inline-block;font-family:var(--f-mono);font-size:.72rem;font-weight:500;padding:.12rem .5rem;border-radius:999px;white-space:nowrap}
+.p-crit{color:var(--crit);background:var(--crit-bg)}.p-high{color:var(--high);background:var(--high-bg)}
+.p-med{color:var(--med);background:var(--med-bg)}.p-ok{color:var(--ok);background:var(--ok-bg)}
+.tag{font-family:var(--f-mono);font-size:.7rem;color:var(--cyan);border:1px solid currentColor;border-radius:4px;padding:0 .35rem;margin-left:.3rem;white-space:nowrap}
+
+.find{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.2rem 1rem;padding:1rem 0;border-bottom:1px solid var(--line)}
+.find:last-child{border-bottom:0}
+.find .n{font-family:var(--f-mono);font-size:.85rem;color:var(--muted);padding-top:.15rem}
+.find h4{margin:0;font-size:1.02rem;font-weight:700;display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
+.find p{margin:.3rem 0;font-size:.95rem}
+.find .where{font-family:var(--f-mono);font-size:.78rem;color:var(--muted);overflow-wrap:anywhere}
+.findlist{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:0 1.1rem;margin-top:1rem}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:6px;margin:.6rem 0}
+summary{cursor:pointer;padding:.8rem 1rem;font-weight:650;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+";font-family:var(--f-mono);color:var(--cyan);width:1ch}
+details[open] summary::before{content:"−"}
+summary .sub{font-weight:400;color:var(--muted);font-size:.9rem}
+details .body{padding:0 1rem 1rem 2.3rem}
+details ul{margin:.3rem 0;padding-left:1.1rem}
+details li{margin:.35rem 0;font-size:.94rem}
+
+.layers{display:grid;gap:.5rem;margin:1.2rem 0}
+.layer{border:1px solid var(--line);border-radius:6px;padding:.9rem 1.1rem;background:var(--surface);display:grid;grid-template-columns:11rem minmax(0,1fr);gap:.4rem 1rem}
+.layer h4{margin:0;font-size:1rem}
+.layer h4 small{display:block;font-weight:400;color:var(--muted);font-size:.8rem}
+.layer .chips{display:flex;flex-wrap:wrap;gap:.35rem}
+.chip{font-size:.82rem;border-radius:4px;padding:.12rem .5rem;background:var(--code-bg)}
+.chip.new{outline:1px dashed var(--cyan);background:transparent;color:var(--cyan)}
+.layer.plat{border-top:3px solid #E0AC00}.layer.core{border-top:3px solid #0096C7}.layer.vert{border-top:3px solid #C81E63}
+.legend{font-size:.82rem;color:var(--muted);display:flex;gap:1rem;flex-wrap:wrap}
+
+pre.code{background:var(--code-bg);border-radius:6px;padding:1rem;overflow-x:auto;font-family:var(--f-mono);font-size:.8rem;line-height:1.55;margin:1rem 0}
+pre.mermaid{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:1rem;overflow-x:auto;text-align:center}
+
+.phases{display:grid;gap:.8rem;margin-top:1rem;counter-reset:f}
+.phase{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:1rem 1.2rem;display:grid;grid-template-columns:3rem minmax(0,1fr);gap:.2rem 1rem}
+.phase .k{font-family:var(--f-display);font-weight:800;font-size:2rem;font-stretch:120%;color:var(--cyan);line-height:1}
+.phase h3{margin:0;font-size:1.08rem}
+.phase .goal{color:var(--muted);font-size:.92rem;margin:.2rem 0 .4rem}
+.phase ul{margin:.2rem 0;padding-left:1.1rem}.phase li{font-size:.93rem;margin:.25rem 0}
+.phase .exit{font-size:.85rem;margin-top:.5rem;padding-top:.5rem;border-top:1px dashed var(--line)}
+.phase .exit b{font-family:var(--f-mono);font-weight:500;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-right:.4rem}
+
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.8rem;margin-top:1rem}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:1rem 1.1rem}
+.box h4{margin:0 0 .4rem;font-size:.98rem}
+.box ul{margin:0;padding-left:1.1rem}.box li{font-size:.92rem;margin:.3rem 0}
+.good li::marker{color:var(--ok)}
+
+footer{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+
+@media (max-width:620px){
+  .layer{grid-template-columns:1fr}
+  .phase{grid-template-columns:1fr}
+  .phase .k{font-size:1.5rem}
+  details .body{padding-left:1rem}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+html{scroll-behavior:smooth}
+</style>
+
+<div class="strip" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<div class="wrap">
+
+<header class="top">
+  <span class="eyebrow">Análisis completo · 1 de octubre de 2026</span>
+  <h1>Ojitos Caja hacia una plataforma SaaS</h1>
+  <p class="lede">Revisión de principio a fin del código actual: qué parte sirve como núcleo compartido, qué está atado a la imprenta, qué errores hay que cerrar antes de vender y en qué orden construir la plataforma.</p>
+  <div class="facts">
+    <span><b>~21 000</b> líneas propias</span>
+    <span><b>13</b> módulos · <b>38</b> modelos · <b>19</b> servicios</span>
+    <span><b>155</b> pruebas, todas pasan</span>
+    <span>Laravel <b>13</b> · Livewire <b>3.8</b> · PHP <b>8.4</b> real</span>
+  </div>
+</header>
+
+<div class="verdict prose">
+  <p><strong>Veredicto.</strong> Como punto de venta para una imprenta, el sistema está bien hecho: reglas de negocio cuidadas, montos en céntimos, transacciones, bitácora y buenas pruebas. Como <strong>núcleo de un SaaS para muchos rubros todavía no está listo</strong>. Ya separa los datos de cada negocio, pero los módulos, permisos, impuestos, moneda y textos están escritos a mano para una imprenta peruana. Las ventas dependen directamente de Pedidos y Redacción, y falta toda la capa de plataforma: cuentas, sucursales, planes, colas, monitoreo y copias.</p>
+  <p>La base es buena y no hay que rehacer nada desde cero. El trabajo consiste en <strong>cerrar 12 problemas graves</strong>, <strong>reordenar el código en núcleo + módulos</strong> y <strong>agregar la capa de plataforma</strong>. Abajo está el plan en cinco fases.</p>
+</div>
+
+<nav class="toc" aria-label="Secciones">
+  <a href="#estado">Estado por área</a><a href="#graves">12 problemas graves</a><a href="#mapa">Núcleo y verticales</a>
+  <a href="#objetivo">Arquitectura objetivo</a><a href="#datos">Datos y multi-negocio</a><a href="#modulos">Módulo por módulo</a>
+  <a href="#operacion">Operación, calidad y ley</a><a href="#ruta">Hoja de ruta</a><a href="#decisiones">Decisiones</a>
+</nav>
+
+<!-- ============================================================ -->
+<h2 id="estado">Estado por área</h2>
+<p class="prose">Qué tan lista está cada área para el SaaS. «Bien» significa que se puede reutilizar tal como está.</p>
+<div class="scroll"><table>
+<thead><tr><th>Área</th><th>Estado</th><th>En una línea</th></tr></thead>
+<tbody>
+<tr><td>Reglas del negocio (imprenta)</td><td><span class="pill p-ok">Bien</span></td><td>Fiel al sistema anterior, con auditoría y 155 pruebas.</td></tr>
+<tr><td>Separación entre negocios</td><td><span class="pill p-med">Base buena</span></td><td>Cada tabla tiene <code>negocio_id</code> y filtro automático, pero si falta el negocio el filtro se apaga y muestra los datos de todos.</td></tr>
+<tr><td>Seguridad y permisos</td><td><span class="pill p-crit">Fallas graves</span></td><td>Un vendedor puede cobrar al precio que quiera, y el PIN del administrador no amarra el monto que autoriza.</td></tr>
+<tr><td>Dinero y consistencia</td><td><span class="pill p-high">Riesgos</span></td><td>Ventas duplicadas si se corta internet, cobros dobles de pedidos y numeración de boletas sin índice único.</td></tr>
+<tr><td>Modularidad para otros rubros</td><td><span class="pill p-crit">No preparada</span></td><td>Módulos, permisos y menú son constantes en un solo archivo, y el núcleo depende de Pedidos y Redacción.</td></tr>
+<tr><td>Datos a gran escala</td><td><span class="pill p-high">Necesita trabajo</span></td><td>El stock se recalcula con todo el historial en cada página, hay mucho dato en JSON y no existen sucursales ni almacenes.</td></tr>
+<tr><td>Facturación electrónica (SUNAT)</td><td><span class="pill p-high">No lista</span></td><td>Faltan los campos por línea, el resumen diario y las bajas, y las líneas no cuadran con el total cuando hay descuento.</td></tr>
+<tr><td>Operación como servicio</td><td><span class="pill p-crit">No existe</span></td><td>Sin colas, tareas programadas, registro de errores, CI ni copias automáticas.</td></tr>
+<tr><td>Ley de datos personales (29733)</td><td><span class="pill p-high">Pendiente</span></td><td>No se pueden exportar ni borrar los datos de una persona, y los CV con DNI y foto se guardan sin plazo.</td></tr>
+<tr><td>Interfaz</td><td><span class="pill p-med">Aceptable</span></td><td>Buen modo oscuro y buena vista en celular, pero las ventanas están copiadas 27 veces, no hay traducciones y no funciona sin internet.</td></tr>
+</tbody></table></div>
+
+<!-- ============================================================ -->
+<h2 id="graves">Los 12 problemas graves</h2>
+<p class="prose">Hay que cerrarlos antes de que un segundo negocio use el sistema. Los marcados <span class="tag">comprobado</span> los verifiqué en el código. El primero lo reproduje con una prueba automática.</p>
+
+<div class="findlist">
+  <div class="find"><span class="n">1</span><div>
+    <h4>Un vendedor cobra al precio que quiera, sin PIN <span class="pill p-crit">Crítico</span><span class="tag">prueba</span></h4>
+    <p>El descuento se calcula con un dato (<code>lista</code>) que manda el navegador. Si el navegador no lo manda, el sistema cree que no hay descuento y no pide permiso. En la prueba, un vendedor con tope de S/ 2 vendió 1 000 copias a S/ 0.01 en lugar de S/ 0.15 (S/ 10 en vez de S/ 150), sin PIN.</p>
+    <p class="where">app/Livewire/Vender.php:271 · el servidor ya conoce el precio real en lineas():241 pero lo usa después de revisar los permisos</p>
+  </div></div>
+  <div class="find"><span class="n">2</span><div>
+    <h4>El administrador autoriza un monto y se guarda otro <span class="pill p-crit">Crítico</span><span class="tag">comprobado</span></h4>
+    <p>La ventana del PIN guarda solo el nombre de la acción, no el monto. El administrador ve «gasto de S/ 5.00» y, en la misma petición, el navegador puede cambiar el monto a S/ 500. Además, el permiso de descuento queda concedido si la venta falla.</p>
+    <p class="where">app/Livewire/Concerns/ConAutorizacion.php · Caja.php:159 · Vender.php:555</p>
+  </div></div>
+  <div class="find"><span class="n">3</span><div>
+    <h4>Venta duplicada si se corta internet al cobrar <span class="pill p-crit">Crítico</span></h4>
+    <p>El identificador de la venta lo crea el servidor. Si la venta se guardó pero la respuesta no llegó, el cajero vuelve a cobrar y queda una segunda venta. Tampoco aparece ningún aviso de «sin conexión».</p>
+    <p class="where">app/Services/Ventas.php:85 · public/js/ojitos.js (sin manejo de error de Livewire)</p>
+  </div></div>
+  <div class="find"><span class="n">4</span><div>
+    <h4>Si no hay negocio elegido, se ven los datos de todos <span class="pill p-crit">Crítico para SaaS</span><span class="tag">comprobado</span></h4>
+    <p>El filtro por negocio solo se aplica cuando hay un negocio actual. En una tarea en segundo plano, un comando o una petición mal enrutada, las consultas traen las filas de todos los negocios. Debe fallar cerrado.</p>
+    <p class="where">app/Models/Concerns/PerteneceANegocio.php:19</p>
+  </div></div>
+  <div class="find"><span class="n">5</span><div>
+    <h4>Un negocio suspendido sigue funcionando <span class="pill p-high">Alto</span><span class="tag">comprobado</span></h4>
+    <p>El middleware no revisa <code>negocios.activo</code>, así que sin control de suspensión no se puede cobrar la suscripción. Además, «si hay un solo negocio, usar ese» cambia de comportamiento en cuanto entra el segundo cliente.</p>
+    <p class="where">app/Http/Middleware/ElegirNegocio.php:29-34</p>
+  </div></div>
+  <div class="find"><span class="n">6</span><div>
+    <h4>Numeración de boletas sin bloqueo ni índice único <span class="pill p-high">Alto</span><span class="tag">comprobado</span></h4>
+    <p>El último número se obtiene leyendo todos los números de la serie y sacando el mayor, y también se guarda dentro del JSON de ajustes. Dos cajas pueden emitir el mismo número, y un guardado de Configuración puede pisarlo.</p>
+    <p class="where">app/Services/Comprobantes.php:51, 174 · migración operacion:203 (índice no único)</p>
+  </div></div>
+  <div class="find"><span class="n">7</span><div>
+    <h4>Volver a importar la copia pisa los datos nuevos <span class="pill p-high">Alto</span><span class="tag">comprobado</span></h4>
+    <p>Las ventas anuladas reaparecen y las boletas emitidas vuelven a «por emitir». Se borran pagos de pedidos y compras, y se reactivan usuarios desactivados. La pantalla dice «no se borra nada». Además, la importación corre en varias transacciones: si falla a la mitad, el negocio puede quedar sin usuarios.</p>
+    <p class="where">app/Services/ImportadorCopia.php:90-112, 423, 549, 617 · Ventas.php:262 (anular borra la venta)</p>
+  </div></div>
+  <div class="find"><span class="n">8</span><div>
+    <h4>Una cotización se puede cobrar dos veces <span class="pill p-high">Alto</span><span class="tag">comprobado</span></h4>
+    <p>Con la cotización abierta en dos pestañas o dos PCs, ambas cobran el total. El servicio no revisa que el pedido siga en «cotizado».</p>
+    <p class="where">app/Livewire/Vender.php:208 · app/Services/Pedidos.php:296</p>
+  </div></div>
+  <div class="find"><span class="n">9</span><div>
+    <h4>Boleta con descuento: las líneas no suman el total <span class="pill p-high">Alto (SUNAT)</span><span class="tag">comprobado</span></h4>
+    <p>Las líneas de la boleta se copian sin el descuento, pero el total sí lo tiene: en una venta de S/ 10 con S/ 1 de descuento, las líneas suman 10 y el total dice 9. SUNAT rechazaría ese XML.</p>
+    <p class="where">app/Services/Comprobantes.php:150-156</p>
+  </div></div>
+  <div class="find"><span class="n">10</span><div>
+    <h4>Se borran ventas y caja de periodos ya cerrados <span class="pill p-high">Alto</span></h4>
+    <p>Anular una venta la borra físicamente. Borrar una compra o un pago de fiado elimina el movimiento de caja aunque el turno ya esté cuadrado. «Deshacer» elimina un comprobante que ya existe en SUNAT. En un sistema contable, lo cerrado no se toca: se anula con un movimiento inverso.</p>
+    <p class="where">Ventas.php:213, 262 · Compras.php:208 · Clientes.php:135</p>
+  </div></div>
+  <div class="find"><span class="n">11</span><div>
+    <h4>Plantillas de Redacción como código ejecutable <span class="pill p-high">Alto a futuro</span></h4>
+    <p>Las plantillas se ejecutan con <code>Blade::render</code> desde la base de datos. Hoy solo vienen de archivos del sistema y no hay peligro. Pero el plan de «Guardar como modelo» haría que cada negocio escriba plantillas, y eso permitiría ejecutar código en el servidor. Hay que usar un motor de plantillas seguro antes de ese paso.</p>
+    <p class="where">app/Redaccion/Motor.php:276</p>
+  </div></div>
+  <div class="find"><span class="n">12</span><div>
+    <h4>No instala con PHP 8.3, como dice la guía <span class="pill p-med">Medio</span><span class="tag">comprobado</span></h4>
+    <p>El <code>composer.lock</code> fija Symfony 8.1, que exige PHP 8.4.1 o más nuevo. Un hosting con PHP 8.3 falla en el primer paso.</p>
+    <p class="where">composer.json («php»: «^8.3») · composer.lock · README</p>
+  </div></div>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="mapa">Qué es núcleo y qué es de la imprenta</h2>
+<p class="prose">Clasifiqué los 104 archivos de <code>app/</code>. Lo «genérico» sirve para cualquier negocio. «Con sabor a imprenta» significa que la idea es general, pero el código trae supuestos de imprenta o de Perú que hay que sacar.</p>
+<div class="scroll"><table>
+<thead><tr><th>Capa</th><th>Genérico (núcleo)</th><th>Con sabor a imprenta</th><th>Solo imprenta (vertical)</th></tr></thead>
+<tbody>
+<tr><td>Modelos</td><td>Usuario, Rol, Permiso, Cliente y movimientos, Proveedor, Compra, TurnoCaja, CajaMovimiento, StockBase, Secuencia, Actividad</td><td>Producto (<code>es_tasa</code>, <code>monto_libre</code>, insumos), Venta (<code>pedido_uid</code>, boleta de cierre), VentaItem (<code>documento_uid</code>), Negocio (RUC, Yape), Comprobante (solo SUNAT)</td><td>Pedido, PlantillaUtiles, Documento, ModeloRedaccion, Maquina, LecturaContador</td></tr>
+<tr><td>Servicios</td><td>Bitacora, AccesoPin, CajaDia, Stock, Inventario, Compras, Numeracion</td><td>Ventas, Clientes, Reportes, Comprobantes, Ticket, AltaNegocio</td><td>Pedidos, PedidoTextos, Redaccion, Contadores, ImportadorCopia</td></tr>
+<tr><td>Pantallas</td><td>Usuarios, MiPin, Entrar, Ventas, Compras, Inventario, InventarioToma</td><td>Vender, Caja, Inicio, Clientes, Ajustes, Reportes, Facturacion</td><td>Pedidos, Redaccion, RedaccionDocumento, CajaContadores, AjustesMaquinas</td></tr>
+<tr><td>Apoyo</td><td>NegocioActual, Acceso, cast Fecha</td><td>Catalogos, Dinero (<code>S/</code>), Valida (DNI/RUC/celular), Texto (+51, «soles»)</td><td>Todo <code>app/Redaccion</code></td></tr>
+</tbody></table></div>
+
+<h3>Supuestos escritos en el código que frenan a otros rubros</h3>
+<div class="two">
+  <div class="box"><h4>Del negocio</h4><ul>
+    <li>Productos con códigos fijos en el código: <code>bn_a4</code>, <code>s_contrato</code>, <code>s_cv</code> (Vender.php:253, Redaccion.php:28, Reportes.php:28).</li>
+    <li>Módulos, menú, permisos, rubros y conceptos de gasto («Papel», «Tinta o tóner») como constantes en <code>Catalogos.php</code>.</li>
+    <li>Contadores de máquinas metidos dentro de Caja, Inicio, Reportes y Configuración.</li>
+    <li>Catálogo inicial de la imprenta cargado para todo negocio nuevo (AltaNegocio.php:96).</li>
+  </ul></div>
+  <div class="box"><h4>Del país</h4><ul>
+    <li>Moneda <code>S/</code> y «soles» escritos en unos 27 lugares.</li>
+    <li>Zona horaria <code>America/Lima</code> igual para todos los negocios (config/app.php:68).</li>
+    <li>IGV exonerado de la Amazonía, boleta de cierre de S/ 5 y tope de S/ 700 como constantes.</li>
+    <li>DNI de 8 dígitos, RUC de 11, celular con 9 al inicio y <code>wa.me/51</code>.</li>
+    <li>Ningún texto pasa por traducción: no hay <code>__()</code> ni carpeta <code>lang/</code>.</li>
+  </ul></div>
+</div>
+
+<h3>Dependencias que van al revés</h3>
+<p class="prose">En un núcleo sano, los módulos dependen del núcleo y nunca al revés. Hoy las ventas, la caja y los reportes conocen a Pedidos, Redacción y Contadores por su nombre. Cada flecha magenta hay que invertirla con eventos o puntos de extensión.</p>
+<pre class="mermaid">
+flowchart LR
+  subgraph Nucleo[Núcleo]
+    V[Ventas]
+    VE[Vender / POS]
+    C[Clientes]
+    R[Reportes]
+    I[Inicio y avisos]
+    CA[Caja]
+  end
+  subgraph Imprenta[Módulos de imprenta]
+    P[Pedidos]
+    D[Redacción]
+    K[Contadores]
+  end
+  V -->|marca documento cobrado| D
+  V -->|anular revierte pedido| P
+  VE -->|cobra saldo| P
+  VE -->|uids fijos| D
+  C -->|unir duplicados| P
+  C --> D
+  R --> P
+  R --> K
+  I --> P
+  I --> K
+  CA --> K
+  P -.->|correcto| V
+  linkStyle 0,1,2,3,4,5,6,7,8,9,10 stroke:#C81E63
+</pre>
+
+<!-- ============================================================ -->
+<h2 id="objetivo">Arquitectura objetivo</h2>
+<p class="prose">Tres capas. La <strong>plataforma</strong> administra clientes del SaaS y cobros. El <strong>núcleo</strong> es lo que todo negocio usa. Los <strong>módulos</strong> se prenden según el rubro y el plan. Un «rubro» deja de ser código y pasa a ser un <em>paquete</em>: qué módulos trae, su catálogo inicial, sus conceptos de gasto y sus roles.</p>
+
+<div class="layers">
+  <div class="layer plat"><h4>Plataforma<small>la empresa SaaS</small></h4><div class="chips">
+    <span class="chip new">Cuentas y membresías</span><span class="chip new">Super-administrador</span><span class="chip new">Planes y suscripciones</span>
+    <span class="chip new">Alta autoservicio</span><span class="chip new">Suspensión y baja con exportación</span><span class="chip new">Métricas de uso</span></div></div>
+  <div class="layer core"><h4>Núcleo<small>lo usa todo negocio</small></h4><div class="chips">
+    <span class="chip">Negocios (multi-tenant)</span><span class="chip new">Sucursales, cajas, almacenes</span><span class="chip">Usuarios, roles, PIN</span>
+    <span class="chip new">Ajustes tipados</span><span class="chip">Catálogo y precios</span><span class="chip">Clientes y cuentas por cobrar</span>
+    <span class="chip">Ventas y POS</span><span class="chip">Caja y turnos</span><span class="chip">Stock y compras</span>
+    <span class="chip new">Proveedor fiscal (país)</span><span class="chip">Reportes base</span><span class="chip">Bitácora</span>
+    <span class="chip new">Eventos y puntos de extensión</span><span class="chip new">Registro de módulos</span></div></div>
+  <div class="layer vert"><h4>Módulos<small>según rubro y plan</small></h4><div class="chips">
+    <span class="chip">Pedidos y cotizaciones</span><span class="chip">Contadores de máquinas</span><span class="chip">Redacción y CV</span>
+    <span class="chip">Listas de útiles</span><span class="chip new">Mesas y cocina (restaurante)</span><span class="chip new">Lotes y vencimientos (farmacia)</span>
+    <span class="chip new">Variantes y unidades (ferretería)</span><span class="chip new">Citas (servicios)</span></div></div>
+</div>
+<p class="legend"><span>Recuadro gris: ya existe y se reutiliza</span><span>Recuadro punteado: hay que construirlo</span></p>
+
+<h3>Cómo se registraría un módulo</h3>
+<p class="prose">Cada módulo vive en su carpeta con su propio <em>service provider</em>, y declara en un manifiesto lo que hoy está repartido en cinco lugares (rutas, menú, permisos, rubros y la pantalla de Ajustes). El núcleo junta los manifiestos y arma el menú y los permisos. Los módulos activos de un negocio son los de su plan, menos los que el negocio apague.</p>
+<pre class="code">// modules/Contadores/manifest.php
+return [
+    'clave'     =&gt; 'contadores',
+    'nombre'    =&gt; 'Contadores de máquinas',
+    'seccion'   =&gt; 'Control',
+    'requiere'  =&gt; ['ventas', 'caja'],
+    'permisos'  =&gt; ['contadores.leer' =&gt; 'Anotar lecturas', 'contadores.cuadre' =&gt; 'Ver cuadre de copias'],
+    'ajustes'   =&gt; AjustesMaquinas::class,          // pestaña en Configuración
+    'cierreCaja'=&gt; CuadreCopias::class,             // sección al cerrar caja
+    'inicio'    =&gt; CopiasSinCobrar::class,          // tarjeta en Inicio
+    'reportes'  =&gt; [CopiasPorMaquina::class],
+];
+
+// El núcleo emite eventos y no conoce a nadie:
+event(new VentaRegistrada($venta));   // Pedidos y Redacción escuchan y actualizan su estado
+event(new VentaAnulada($venta));      // cada módulo revierte lo suyo</pre>
+<p class="prose">Para reemplazar <code>pedido_uid</code> y <code>documento_uid</code> en ventas y líneas, se usa un <strong>origen polimórfico</strong> (<code>origen_type</code>, <code>origen_id</code>). Para quitar los códigos fijos de productos, se usa un <strong>rol de producto</strong> (por ejemplo <code>rol = cobro_documento</code>).</p>
+
+<!-- ============================================================ -->
+<h2 id="datos">Datos y multi-negocio</h2>
+<p class="prose"><strong>Recomendación: una sola base de datos MySQL compartida</strong>, con <code>negocio_id</code> en todas las tablas, que es lo que ya existe. Son miles de negocios pequeños con pocos datos cada uno: una base por negocio obligaría a correr miles de migraciones y copias. Si conviene, se puede ofrecer una base dedicada solo a clientes grandes más adelante.</p>
+
+<div class="scroll"><table>
+<thead><tr><th>Tema</th><th>Hoy</th><th>Qué hacer</th></tr></thead>
+<tbody>
+<tr><td>Filtro por negocio</td><td>Se apaga si no hay negocio.</td><td>Fallar cerrado y dar una salida explícita solo al código de plataforma. Agregar pruebas de aislamiento para cada modelo y ruta.</td></tr>
+<tr><td>Tablas hijas</td><td><code>venta_items</code>, <code>pedido_pagos</code>, <code>compra_items</code> y otras no tienen <code>negocio_id</code>.</td><td>Agregarlo, para que los reportes, la exportación y la baja de un negocio no dependan del padre.</td></tr>
+<tr><td>Stock</td><td>Se recalcula con todas las ventas desde el último conteo, en cada página (por el aviso del menú).</td><td>Llevar un saldo por producto y almacén, actualizado dentro de la venta y conciliado cada noche. Lo mismo para la deuda de cada cliente.</td></tr>
+<tr><td>Ajustes</td><td>Un JSON sin tipos que se reescribe completo en cada guardado. Ahí también viven contadores y el último número de boleta.</td><td>Un registro de ajustes con valores por defecto, validación y versión. Los datos que cambian solos van en tablas propias.</td></tr>
+<tr><td>Imágenes</td><td>Logo y QR como texto base64 dentro de <code>negocios</code>, que se cargan en cada petición. Las fotos de CV van en el estado de Livewire.</td><td>Guardarlas en almacenamiento de objetos (S3) bajo <code>negocios/{id}/</code>.</td></tr>
+<tr><td>Índices</td><td>Faltan <code>ventas(negocio_id, vendida_at)</code>, <code>cliente_movimientos(negocio_id, cliente_id)</code> y los de las referencias <code>*_uid</code>.</td><td>Agregarlos, y convertir las referencias por texto en llaves foráneas.</td></tr>
+<tr><td>Borrar un negocio</td><td>Borrado en cascada de todo, en una sola transacción, sin copia previa.</td><td>Suspender, exportar, esperar un plazo de gracia y purgar por lotes en segundo plano.</td></tr>
+<tr><td>Usuarios</td><td>Cada usuario pertenece a un solo negocio y entra con PIN.</td><td>Una cuenta de dueño (correo, contraseña y 2FA) con acceso a varios negocios o sucursales. El PIN queda solo para cajeros.</td></tr>
+<tr><td>Sucursales</td><td>No existen. El «equipo» es una cookie con texto libre.</td><td>Tablas de sucursales, cajas y almacenes, con <code>sucursal_id</code> en ventas, caja, stock y numeración.</td></tr>
+<tr><td>País</td><td>Moneda, zona horaria e impuestos fijos.</td><td>Columnas <code>pais</code>, <code>moneda</code> y <code>zona_horaria</code> en el negocio, y un proveedor fiscal por país.</td></tr>
+</tbody></table></div>
+
+<!-- ============================================================ -->
+<h2 id="modulos">Módulo por módulo</h2>
+<p class="prose">Errores encontrados y qué cambiar para que cada módulo sirva a otros rubros. Ábrelos según necesites.</p>
+
+<details><summary>Punto de venta <span class="sub">precio libre, sin conexión, carga pesada</span></summary><div class="body"><ul>
+  <li>Los problemas graves 1, 3 y 8 están arriba.</li>
+  <li>Cada clic en la ventana de cobro vuelve a mandar al navegador el catálogo completo en JSON (Vender.php:676).</li>
+  <li>Un descuento sobre el saldo de un pedido lo deja «entregado» con una deuda que nadie puede cobrar (Vender.php:415).</li>
+  <li><strong>Para otros rubros:</strong> líneas con modificadores (restaurante), lotes (farmacia), unidades y variantes (ferretería), y un punto de extensión para que los módulos agreguen líneas.</li>
+</ul></div></details>
+
+<details><summary>Ventas y anulaciones <span class="sub">borrado físico</span></summary><div class="body"><ul>
+  <li>Anular borra la venta. Debería quedar con estado «anulada» y sus movimientos inversos, sin borrar nada.</li>
+  <li>Dos PCs que anulan la misma venta al mismo tiempo restan dos veces las visitas del cliente y devuelven dos veces el stock (no hay bloqueo).</li>
+  <li>El primer ticket del día de un usuario en dos PCs puede dar un bloqueo mutuo en MySQL (error 1213), y la venta falla con un error 500.</li>
+</ul></div></details>
+
+<details><summary>Caja y turnos <span class="sub">medianoche, periodos cerrados</span></summary><div class="body"><ul>
+  <li>Un turno abierto que pasa la medianoche ya no se puede cerrar, y el efectivo esperado no incluye las ventas del otro día (Caja.php:81, CajaDia.php:27).</li>
+  <li>Se pueden borrar movimientos de turnos ya cuadrados (desde Compras y Clientes).</li>
+  <li><strong>Para SaaS:</strong> cajas por sucursal, cierre inmutable y diferencias registradas como movimientos.</li>
+</ul></div></details>
+
+<details><summary>Clientes y fiados <span class="sub">unión por celular</span></summary><div class="body"><ul>
+  <li>Redacción busca al cliente por DNI <em>o</em> celular. Si María usa el celular de su esposo, el DNI de él se reemplaza por el de ella (Redaccion.php:88).</li>
+  <li>El pago de un fiado revisa la deuda sin bloqueo, así que dos cobros a la vez dejan saldo negativo.</li>
+  <li>El documento del cliente no tiene tipo: se adivina por el largo (8 = DNI, 11 = RUC).</li>
+  <li>No se puede borrar ni anonimizar a un cliente con ventas, algo que pide la ley de datos personales.</li>
+</ul></div></details>
+
+<details><summary>Pedidos <span class="sub">cantidades, eliminar entregados</span></summary><div class="body"><ul>
+  <li>La cantidad se convierte a entero: 2.5 metros quedan en 2 (Pedidos.php:62).</li>
+  <li>Se puede eliminar un pedido entregado y pagado: el stock «vuelve» y las ventas quedan huérfanas (Pedidos.php:334).</li>
+  <li>Los pagos de pedidos no llevan costo, así que una lista de útiles de S/ 200 que costó S/ 150 aparece con S/ 200 de ganancia.</li>
+  <li><strong>Para SaaS:</strong> es buen candidato a módulo genérico («cotizaciones y órdenes de trabajo») si se le quitan las listas de útiles y los textos de imprenta.</li>
+</ul></div></details>
+
+<details><summary>Facturación <span class="sub">lejos de la emisión electrónica</span></summary><div class="body"><ul>
+  <li>Las líneas no suman el total cuando hay descuento (problema grave 9).</li>
+  <li>Si hay ventas menores después de la boleta de cierre, Facturación pide una segunda boleta de cierre, pero el menú y el Inicio muestran 0.</li>
+  <li>Faltan, <strong>por línea</strong>: código de unidad, afectación del IGV (10/20/30), valor unitario e IGV de la línea. <strong>Por comprobante</strong>: moneda, tipo de operación, contado o crédito con cuotas, leyendas, motivo de la nota de crédito (catálogo 09), hash, XML, CDR y estado en SUNAT.</li>
+  <li>Faltan tablas para el resumen diario y la comunicación de baja.</li>
+  <li><strong>Para SaaS:</strong> un <em>proveedor fiscal</em> por país (Perú con Greenter). El modo manual queda solo para contingencias, con una máquina de estados: pendiente → enviado → aceptado / rechazado / baja.</li>
+</ul></div></details>
+
+<details><summary>Inventario y stock <span class="sub">toma de inventario, recetas</span></summary><div class="body"><ul>
+  <li>Al aplicar una toma de inventario se usa la hora de aplicación y no la del conteo. Si se contó a las 9:00 y se aplicó a las 11:00, se pierden las ventas de esas dos horas (Inventario.php:368).</li>
+  <li>Cambiar la receta de insumos de un servicio cambia hacia atrás el consumo de todas las ventas desde el último conteo (Stock.php:44).</li>
+  <li>El stock nunca baja de 0 en pantalla, lo que esconde que se vendió más de lo que había (Stock.php:56).</li>
+  <li>Cualquier usuario con el módulo puede contar y marcar «error de conteo», y así la pérdida no aparece en reportes.</li>
+  <li><strong>Para SaaS:</strong> un solo almacén por negocio. Hacen falta almacenes, lotes y vencimientos, variantes y conversión de unidades.</li>
+</ul></div></details>
+
+<details><summary>Compras <span class="sub">IGV fijo, sin transacción</span></summary><div class="body"><ul>
+  <li><code>pagar()</code> no usa transacción ni bloqueo (Compras.php:183).</li>
+  <li>La entrada de stock se registra con la fecha de hoy y no con la fecha de la compra.</li>
+  <li>El registro de compras supone 18 % de IGV en todo, lo que está mal para proveedores exonerados (DocumentosController.php:137).</li>
+  <li>El costo unitario se calcula desde el subtotal redondeado (+6.7 % en artículos de fracciones de céntimo).</li>
+</ul></div></details>
+
+<details><summary>Reportes <span class="sub">cálculo en vivo</span></summary><div class="body"><ul>
+  <li>Carga todas las ventas del periodo en memoria, dos veces (periodo actual y anterior).</li>
+  <li>Las notas de crédito no restan de las ventas.</li>
+  <li>La exportación usa <code>chunk()</code> ordenando por una fecha que se repite, así que puede saltar o repetir filas (corresponde <code>chunkById</code>).</li>
+  <li>Los contadores calculan el cuadre día por día: el reporte de «este año» hace unas 1 000 consultas.</li>
+  <li><strong>Para SaaS:</strong> tablas de resumen diario y reportes en segundo plano.</li>
+</ul></div></details>
+
+<details><summary>Redacción y currículum <span class="sub">vertical puro</span></summary><div class="body"><ul>
+  <li>Plantillas ejecutadas con Blade (problema grave 11).</li>
+  <li>Un campo con saltos de línea puede meter líneas de formato como <code>[firma]</code> o <code>[title]</code> en el documento.</li>
+  <li>Las fotos y los DNI quedan guardados en base64 sin plazo de borrado.</li>
+  <li>Las plantillas son solo peruanas (Código Civil, DNI): habría que organizarlas en paquetes por país y rubro.</li>
+</ul></div></details>
+
+<details><summary>Entrada, usuarios y roles <span class="sub">PIN a escala</span></summary><div class="body"><ul>
+  <li>El bloqueo tras 5 intentos se puede saltar con peticiones en paralelo, porque el contador no se suma de forma atómica (AccesoPin.php:198).</li>
+  <li>El límite de intentos es por IP. Detrás de un proveedor de internet que comparte IP, un atacante puede bloquear el acceso de todos.</li>
+  <li>Cualquiera puede bloquear a un administrador fallando 5 veces con su usuario, y el mensaje revela qué usuarios existen.</li>
+  <li>Cambiar el PIN no cierra las otras sesiones de ese usuario.</li>
+  <li>Inicio muestra a cualquier rol las ventas de todos, el efectivo esperado y el total fiado, aunque no tenga el permiso <code>verTodo</code> (Inicio.php:28-48).</li>
+</ul></div></details>
+
+<details><summary>Importador de la copia anterior <span class="sub">herramienta de migración, no del núcleo</span></summary><div class="body"><ul>
+  <li>Problema grave 7, más: carga todo el archivo en memoria (hasta 100 MB), no tiene límite de tiempo y casi no valida los datos que trae.</li>
+  <li>Con un archivo armado a propósito se puede crear un usuario administrador.</li>
+  <li>No comprueba que la copia sea del mismo negocio.</li>
+  <li><strong>Para SaaS:</strong> sacarlo del núcleo como herramienta de migración que solo corre antes de empezar a usar el sistema, en segundo plano y en una sola transacción.</li>
+</ul></div></details>
+
+<!-- ============================================================ -->
+<h2 id="operacion">Operación, calidad y ley</h2>
+<div class="two">
+  <div class="box"><h4>Operación como servicio</h4><ul>
+    <li>Todo corre al momento: no hay colas para importaciones, PDF ni reportes. El ticket se genera dos veces con dompdf para medir su alto.</li>
+    <li>No hay tareas programadas: nada limpia las sesiones, la bitácora ni los archivos temporales.</li>
+    <li>El código no escribe ningún registro de errores (cero <code>Log::</code>) y no hay monitoreo. El log por defecto crece sin límite.</li>
+    <li>La copia de seguridad que sugiere el README pone la clave en el comando y no guarda nada fuera del servidor.</li>
+    <li>La comprobación de salud <code>/up</code> no revisa la base de datos.</li>
+    <li><code>iniciar-windows.bat</code> abre el sistema a toda la red con modo depuración y sin HTTPS. Sirve para una PC, no para un SaaS.</li>
+  </ul></div>
+  <div class="box"><h4>Calidad del código</h4><ul>
+    <li>155 pruebas Pest que pasan, y Pint limpio.</li>
+    <li>No hay CI (<code>.github/</code>), ni análisis estático (Larastan), ni medición de cobertura.</li>
+    <li>Las pruebas solo corren en SQLite, donde los bloqueos de fila no hacen nada. Ningún código de concurrencia se probó en MySQL.</li>
+    <li>Sin pruebas: Primer uso, MiPin, Ticket, Numeración, Bitácora y el aislamiento entre negocios (una sola prueba).</li>
+    <li>Clases grandes: Vender (719 líneas), ImportadorCopia (647), Pedidos (629) y Ajustes (609).</li>
+    <li>Interfaz: las ventanas están copiadas 27 veces, hay unos 465 estilos en línea y solo 2 componentes Blade.</li>
+  </ul></div>
+  <div class="box"><h4>Ley 29733 (datos personales)</h4><ul>
+    <li>No se pueden exportar ni borrar los datos de un negocio ni de una persona.</li>
+    <li>La bitácora guarda nombres de clientes para siempre.</li>
+    <li>Los CV con DNI y foto no tienen consentimiento ni plazo de borrado.</li>
+    <li>Faltan: aviso de privacidad, atención de derechos ARCO (acceso, rectificación, cancelación y oposición), contrato de encargo de tratamiento con cada negocio e inscripción del banco de datos ante la ANPD (Autoridad Nacional de Protección de Datos Personales).</li>
+  </ul></div>
+  <div class="box good"><h4>Lo que ya está bien y se conserva</h4><ul>
+    <li>Montos en céntimos enteros y costos con 4 decimales.</li>
+    <li>El negocio sale del usuario y no de una cookie, y los <code>uid</code> son únicos por negocio.</li>
+    <li>Los permisos se revisan en el servidor en cada acción, y las propiedades sensibles están bloqueadas.</li>
+    <li>Ventas, compras y anulaciones van en transacciones, y los tickets se numeran con bloqueo.</li>
+    <li>PDF sin carga remota, CSV protegido contra fórmulas y sin XSS evidente.</li>
+    <li>Bitácora de actividad, auditoría previa con pruebas y documentación muy clara.</li>
+  </ul></div>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="ruta">Hoja de ruta</h2>
+<p class="prose">El orden importa: no conviene sacar módulos sobre un núcleo con huecos, ni vender planes sin poder suspender negocios. Cada fase termina con algo que se puede comprobar.</p>
+
+<div class="phases">
+  <div class="phase"><span class="k">0</span><div>
+    <h3>Cerrar los huecos</h3>
+    <p class="goal">Que Ojitos pueda usarlo de verdad sin riesgo de perder dinero.</p>
+    <ul>
+      <li>Problemas graves 1, 2, 3, 6, 8, 9 y 12, cada uno con su prueba.</li>
+      <li>Importador: que solo se use antes de empezar, en una sola transacción.</li>
+      <li>CI en GitHub: Pest, Pint y Larastan, más una corrida en MySQL.</li>
+      <li><code>APP_DEBUG=false</code> y logs diarios por defecto.</li>
+    </ul>
+    <p class="exit"><b>Listo cuando</b>las pruebas nuevas pasan en SQLite y en MySQL, y Ojitos opera una semana sin diferencias de caja.</p>
+  </div></div>
+  <div class="phase"><span class="k">1</span><div>
+    <h3>Cimientos del núcleo</h3>
+    <p class="goal">Un núcleo seguro para muchos negocios.</p>
+    <ul>
+      <li>El filtro por negocio falla cerrado y se revisa <code>activo</code>. Pruebas de aislamiento por modelo.</li>
+      <li>Anulaciones sin borrado físico y cierres de caja inmutables.</li>
+      <li>Eventos <code>VentaRegistrada</code> y <code>VentaAnulada</code>, y origen polimórfico en las ventas.</li>
+      <li>Numeración única para todo, con índices únicos. Ajustes tipados.</li>
+      <li><code>negocio_id</code> en las tablas hijas, índices nuevos, y saldos de stock y de clientes.</li>
+      <li>Colas y Redis. Imágenes en S3. Logs con <code>negocio_id</code> y monitoreo de errores.</li>
+    </ul>
+    <p class="exit"><b>Listo cuando</b>Ventas, Caja, Clientes y Reportes ya no nombran a Pedidos, Redacción ni Contadores.</p>
+  </div></div>
+  <div class="phase"><span class="k">2</span><div>
+    <h3>Separar los módulos</h3>
+    <p class="goal">Que un rubro nuevo sea configuración, no cambios al núcleo.</p>
+    <ul>
+      <li>Carpeta <code>modules/</code>, registro de módulos y manifiestos que reemplazan <code>Catalogos::MODULOS</code> y los permisos.</li>
+      <li>Mover Contadores, Redacción y Listas de útiles a módulos de imprenta. Pedidos pasa a módulo genérico.</li>
+      <li>El rubro como paquete: módulos, catálogo inicial, conceptos y roles.</li>
+      <li>Moneda, zona horaria, prefijo telefónico y validaciones por país. Textos en <code>lang/es_PE</code>.</li>
+      <li>Componentes Blade para ventanas, tablas y campos, y colores de marca por negocio.</li>
+    </ul>
+    <p class="exit"><b>Listo cuando</b>se puede crear una librería o bodega sin tocar código, y la imprenta funciona igual que antes.</p>
+  </div></div>
+  <div class="phase"><span class="k">3</span><div>
+    <h3>Capa de plataforma</h3>
+    <p class="goal">Poder vender y administrar suscripciones.</p>
+    <ul>
+      <li>Cuentas de dueño con correo, contraseña y 2FA, con acceso a varios negocios.</li>
+      <li>Sucursales, cajas y almacenes.</li>
+      <li>Super-administrador, planes, suscripciones y límites de uso que deciden los módulos activos.</li>
+      <li>Alta autoservicio. Baja con exportación, plazo de gracia y purga.</li>
+      <li>Paquete de la Ley 29733: exportar, anonimizar, plazos de conservación y aviso de privacidad.</li>
+      <li>Copias automáticas cifradas fuera del servidor, con pruebas de restauración.</li>
+    </ul>
+    <p class="exit"><b>Listo cuando</b>un negocio se da de alta solo, paga, se suspende y se da de baja sin intervención manual.</p>
+  </div></div>
+  <div class="phase"><span class="k">4</span><div>
+    <h3>SUNAT y el segundo rubro</h3>
+    <p class="goal">Comprobar que el núcleo de verdad sirve para más de un negocio.</p>
+    <ul>
+      <li>Proveedor fiscal de Perú con Greenter: campos por línea, resumen diario, bajas, CDR y contingencia manual.</li>
+      <li>Piloto con un segundo rubro cercano (librería o bodega) y luego uno distinto (restaurante o farmacia).</li>
+      <li>Si hace falta, PWA con cola de ventas sin conexión.</li>
+    </ul>
+    <p class="exit"><b>Listo cuando</b>dos rubros distintos operan con el mismo núcleo y emiten electrónicamente.</p>
+  </div></div>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="decisiones">Decisiones que tiene que tomar el dueño</h2>
+<div class="scroll"><table>
+<thead><tr><th>Decisión</th><th>Recomendación</th><th>Por qué</th></tr></thead>
+<tbody>
+<tr><td>Una base o una por negocio</td><td>Una base compartida</td><td>Miles de negocios pequeños, una sola migración y una sola copia. Ya está hecho así.</td></tr>
+<tr><td>Dónde se aloja</td><td>VPS o nube con Redis y colas</td><td>Un hosting compartido no corre colas, tareas programadas ni Redis. Para un SaaS no sirve.</td></tr>
+<tr><td>Módulos: carpetas o paquetes</td><td>Carpetas en el mismo repositorio</td><td>Más simple de mantener y de probar juntos. Se pueden pasar a paquetes cuando haya equipos separados.</td></tr>
+<tr><td>Seguir con Livewire</td><td>Sí</td><td>Funciona bien y el equipo ya lo conoce. Solo hay que aligerar el POS y planear el paso a Livewire 4.</td></tr>
+<tr><td>Funcionar sin internet</td><td>Primero el aviso y la venta idempotente; la PWA después</td><td>El riesgo real hoy es la venta duplicada. Una cola sin conexión es un proyecto aparte.</td></tr>
+<tr><td>Cómo entran los usuarios</td><td>Correo + 2FA para el dueño, PIN para cajeros</td><td>Con miles de negocios, un PIN de 4 dígitos y un código adivinable no alcanzan para las cuentas de dueño.</td></tr>
+<tr><td>Segundo rubro</td><td>Librería o bodega</td><td>Usan casi solo el núcleo. Sirven para comprobar la separación antes de algo distinto como un restaurante.</td></tr>
+<tr><td>Instalación local en Windows</td><td>Mantenerla solo para la etapa de Ojitos</td><td>No debe condicionar el diseño del SaaS.</td></tr>
+</tbody></table></div>
+
+<footer>
+  <p>Fuente: código de la rama <code>claude/laravel-migration-woke0o</code> (archivo ZIP subido el 1/10/2026). Revisión estática completa de <code>app/</code>, migraciones, vistas, JS, configuración y documentación. Pruebas corridas con dependencias resueltas para PHP 8.3 en una copia aparte, sin modificar el original.</p>
+</footer>
+</div>

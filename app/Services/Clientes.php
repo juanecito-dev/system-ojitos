@@ -2,11 +2,10 @@
 
 namespace App\Services;
 
+use App\Events\ClientesUnidos;
 use App\Models\CajaMovimiento;
 use App\Models\Cliente;
 use App\Models\ClienteMovimiento;
-use App\Models\Documento;
-use App\Models\Pedido;
 use App\Models\Usuario;
 use App\Models\Venta;
 use App\Support\Dinero;
@@ -174,8 +173,7 @@ class Clientes
             $otro->refresh();
             ClienteMovimiento::where('cliente_id', $otro->id)->update(['cliente_id' => $queda->id]);
             Venta::where('cliente_id', $otro->id)->update(['cliente_id' => $queda->id]);
-            Pedido::where('cliente_id', $otro->id)->update(['cliente_id' => $queda->id]);
-            Documento::where('cliente_id', $otro->id)->update(['cliente_id' => $queda->id]);
+            event(new ClientesUnidos($queda, $otro));   // cada módulo pasa lo suyo (pedidos, documentos…)
             $queda->visitas += $otro->visitas;
             $queda->gastado += $otro->gastado;
             if ($otro->ultima_visita_at && (! $queda->ultima_visita_at || $otro->ultima_visita_at->gt($queda->ultima_visita_at))) {

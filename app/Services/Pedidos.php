@@ -177,7 +177,7 @@ class Pedidos
             $v = $this->ventas->registrar($u, [
                 'lineas' => [['producto_id' => null, 'producto_uid' => 'pedido', 'nombre' => $tipo.' pedido '.$p->numeroTxt(),
                     'detalle' => mb_substr($p->descripcion(), 0, 60), 'cantidad' => 1, 'precio' => $monto]],
-                'metodo' => $metodo, 'cliente_id' => $p->cliente_id, 'pedido_uid' => $p->uid,
+                'metodo' => $metodo, 'cliente_id' => $p->cliente_id, 'origen' => ['pedido', $p->uid],
                 'cpe' => $this->datosComprobante($p) ?? [],
             ]);
             $this->anotarPago($p, $v, $tipo, $u);

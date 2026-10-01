@@ -1,6 +1,7 @@
 [
  {
   "id": "bn_a4",
+  "rol": "redaccion_ejemplar",
   "g": "Copias e impresiones A4",
   "n": "B/N A4",
   "c": "t-bn",
@@ -556,6 +557,7 @@
  },
  {
   "id": "s_solicitud",
+  "rol": "redaccion_documento",
   "g": "Trámites y documentos",
   "n": "Solicitud o documento",
   "c": "t-acab",
@@ -573,6 +575,7 @@
  },
  {
   "id": "s_cv",
+  "rol": "redaccion_cv",
   "g": "Trámites y documentos",
   "n": "Currículum vitae",
   "c": "t-acab",
@@ -602,6 +605,7 @@
  },
  {
   "id": "s_contrato",
+  "rol": "redaccion_pagina",
   "g": "Trámites y documentos",
   "n": "Contrato (por página)",
   "c": "t-acab",

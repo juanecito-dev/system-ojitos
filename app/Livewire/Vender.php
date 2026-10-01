@@ -259,8 +259,8 @@ class Vender extends Component
             $out[] = ['producto_id' => $p->id, 'producto_uid' => $p->uid, 'nombre' => $p->nombre, 'detalle' => mb_substr((string) ($l['det'] ?? ''), 0, 120),
                 'cantidad' => $cant, 'precio' => $precio, 'lista' => $lista !== null && $lista !== $precio ? $lista : null, 'costo' => $costo,
                 // solo la redacción y sus copias pueden llevar el documento (así una línea cualquiera no lo marca como cobrado)
-                'documento_uid' => ! empty($l['doc']) && in_array($p->uid, ['s_contrato', 's_solicitud', 's_cv', 'bn_a4'], true)
-                    && Documento::where('uid', (string) $l['doc'])->exists() ? (string) $l['doc'] : null];
+                'origen' => ! empty($l['doc']) && Redaccion::cobraDocumentos($p)
+                    && Documento::where('uid', (string) $l['doc'])->exists() ? ['documento', (string) $l['doc']] : null];
         }
 
         return $out;
@@ -694,7 +694,7 @@ class Vender extends Component
             'abono' => (int) $p['abono'],
             'cpe' => ['tipo' => $p['cpe'], 'pide' => $p['pide'] || $p['cpe'] === '01', 'doc' => $p['doc']['nd'] ? $p['doc'] : null,
                 'emitida' => $pide && $p['emitida'], 'serie' => $p['serie'], 'numero' => $p['numero']],
-            'pedido_uid' => $pedido?->uid,
+            'origen' => $pedido ? ['pedido', $pedido->uid] : null,
             'uid' => $this->intento ?: null,
         ]);
         if ($pedido) {
@@ -734,12 +734,12 @@ class Vender extends Component
             return;
         }
         $ventas->anular($v, $yo, 'Deshecha al momento', 'deshecha');
-        $ped = $v->pedido_uid ? Pedido::where('uid', $v->pedido_uid)->first() : null;
+        $ped = $v->origen_tipo === 'pedido' ? Pedido::where('uid', $v->origen_uid)->first() : null;
         $this->pedidoUid = $ped?->uid;
         $this->pedidoDirecto = $ped?->etapa === 'cotizado';
         $this->orden = $v->items->map(fn (VentaItem $l) => array_filter([
             'pid' => $l->producto_id, 'nombre' => $l->nombre, 'det' => $l->detalle ?? '', 'cant' => (int) $l->cantidad, 'precio' => $l->precio,
-            'lista' => $l->precio_lista, 'tercero' => $l->tercero ?: null, 'doc' => $l->documento_uid,
+            'lista' => $l->precio_lista, 'tercero' => $l->tercero ?: null, 'doc' => $l->origen_tipo === 'documento' ? $l->origen_uid : null,
             'pedido' => $ped && $l->producto_uid === 'pedido' && ! $l->producto_id ? true : null,
             'ped' => $ped && ! ($l->producto_uid === 'pedido' && ! $l->producto_id) ? true : null,
         ], fn ($x) => $x !== null))->values()->all();

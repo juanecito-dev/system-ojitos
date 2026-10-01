@@ -96,7 +96,7 @@ class AltaNegocio
         $items = json_decode(file_get_contents(database_path('data/catalogo-inicial.json')), true);
         foreach ($items as $i => $it) {
             $p = Producto::withoutGlobalScopes()->create([
-                'negocio_id' => $neg->id, 'uid' => $it['id'], 'grupo' => $it['g'], 'nombre' => $it['n'], 'color' => $it['c'],
+                'negocio_id' => $neg->id, 'uid' => $it['id'], 'rol' => $it['rol'] ?? null, 'grupo' => $it['g'], 'nombre' => $it['n'], 'color' => $it['c'],
                 'rapido' => $it['quick'], 'monto_libre' => $it['free'], 'pide_detalle' => $it['desc'], 'es_tasa' => $it['tasa'],
                 'costo' => $it['costo'] ?: null, 'orden' => $i,
             ]);

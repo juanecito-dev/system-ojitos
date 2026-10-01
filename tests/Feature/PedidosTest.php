@@ -34,7 +34,7 @@ it('crea un encargo con número correlativo, guarda al cliente y cobra el adelan
     expect($p->numero)->toBe(1)->and($p2->numero)->toBe(2)
         ->and($p->total)->toBe(900)->and($p->pagado())->toBe(400)->and($p->saldo())->toBe(500)
         ->and(Cliente::where('celular', '987654321')->count())->toBe(1)
-        ->and(Venta::first()->total)->toBe(400)->and(Venta::first()->pedido_uid)->toBe($p->uid)
+        ->and(Venta::first()->total)->toBe(400)->and(Venta::first()->origen_tipo)->toBe('pedido')->and(Venta::first()->origen_uid)->toBe($p->uid)
         ->and($p->historial()->count())->toBe(2);
 });
 
@@ -134,7 +134,7 @@ it('anular el pago del saldo devuelve el pedido a listo', function () {
     $p = pedidoNuevo([], 100);
     entrarComo('jeremy');
     Livewire::withQueryParams(['pedido' => $p->uid])->test(Vender::class)->call('cobrar', false);
-    $v = Venta::where('pedido_uid', $p->uid)->latest('id')->first();
+    $v = Venta::where('origen_tipo', 'pedido')->where('origen_uid', $p->uid)->latest('id')->first();
     app(Ventas::class)->anular($v, usuario('alex'), 'Error');
     $p->refresh()->load('pagos');
     expect($p->etapa)->toBe('listo')->and($p->pagado())->toBe(100);

@@ -10,6 +10,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property int $id
+ * @property string $uid
+ * @property string|null $rol para qué lo usa un módulo (redaccion_pagina, redaccion_ejemplar…), en vez de su código
+ * @property string $nombre
+ * @property string $grupo
+ * @property bool $oculto
+ */
 class Producto extends Model
 {
     use PerteneceANegocio, SoftDeletes;

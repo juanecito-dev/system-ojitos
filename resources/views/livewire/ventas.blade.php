@@ -81,7 +81,7 @@ Está incluida en la boleta de cierre {{ $cpeAnular->etiqueta() }} ({{ Dinero::s
 
 Tiene la {{ mb_strtolower(\App\Support\Catalogos::TIPOS_COMPROBANTE[$cpeAnular->tipo] ?? 'boleta') }} {{ $cpeAnular->etiqueta() }}: quedará anulada en tu registro. Recuerda anularla también en el portal de SUNAT.
                     @endif
-                    @if ($ventaAnular->pedido_uid)
+                    @if ($ventaAnular->origen_tipo === 'pedido')
 
 Es un pago de un pedido: su saldo se ajustará.
                     @endif

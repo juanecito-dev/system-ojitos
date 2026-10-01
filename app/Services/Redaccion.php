@@ -22,10 +22,22 @@ use Illuminate\Support\Str;
  */
 class Redaccion
 {
-    /** el producto con el que se cobra: por página (contratos), por documento o currículum */
+    /** rol del producto con que se cobra cada cosa (productos.rol): así no depende de sus códigos */
+    public const ROLES = ['pagina' => 'redaccion_pagina', 'documento' => 'redaccion_documento', 'cv' => 'redaccion_cv', 'ejemplar' => 'redaccion_ejemplar'];
+
+    /** códigos del sistema anterior y el rol que cumplen (para los catálogos que vienen de la copia) */
+    public const ROLES_LEGADO = ['s_contrato' => 'redaccion_pagina', 's_solicitud' => 'redaccion_documento', 's_cv' => 'redaccion_cv', 'bn_a4' => 'redaccion_ejemplar'];
+
+    /** el producto con el que se cobra: por página (contratos), por documento, currículum o ejemplares adicionales */
     public static function producto(string $cobro): ?Producto
     {
-        return Producto::with('opciones')->where('uid', ['pagina' => 's_contrato', 'cv' => 's_cv'][$cobro] ?? 's_solicitud')->first();
+        return Producto::with('opciones')->where('rol', self::ROLES[$cobro] ?? self::ROLES['documento'])->orderBy('orden')->first();
+    }
+
+    /** ¿esta línea de la caja puede cobrar un documento? (solo la redacción y sus ejemplares) */
+    public static function cobraDocumentos(?Producto $p): bool
+    {
+        return $p !== null && in_array($p->rol, self::ROLES, true);
     }
 
     /** precio de la redacción (por página en los contratos); $opcion = diseño del CV */
@@ -216,7 +228,7 @@ class Redaccion
         $op = Curriculum::DISENOS[$doc->plantilla][1] ?? 0;
         $unit = self::precio($cobro, $op);
         $redac = $porPag ? $unit * $n : $unit;
-        $bn = Producto::with('opciones')->where('uid', 'bn_a4')->first();
+        $bn = self::producto('ejemplar');
         $bnP = $bn && ! $bn->oculto ? (int) ($bn->opciones->first()?->precio ?? 0) : 0;
         $ej = $bnP ? max(1, min(50, $ejemplares)) : 1;
         $extra = ($ej - 1) * $n;

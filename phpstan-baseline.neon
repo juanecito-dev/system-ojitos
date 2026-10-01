@@ -3,35 +3,17 @@ parameters:
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$cantidad\.$#'
 			identifier: property.notFound
-			count: 2
+			count: 1
 			path: app/Http/Controllers/DocumentosController.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nombre\.$#'
 			identifier: property.notFound
-			count: 3
-			path: app/Http/Controllers/DocumentosController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$precio\.$#'
-			identifier: property.notFound
-			count: 1
+			count: 2
 			path: app/Http/Controllers/DocumentosController.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$ruc\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/DocumentosController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$subtotal\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/DocumentosController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tercero\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Http/Controllers/DocumentosController.php
@@ -71,36 +53,6 @@ parameters:
 			identifier: nullsafe.neverNull
 			count: 1
 			path: app/Http/Controllers/DocumentosController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$cantidad\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/TicketController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nombre\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/TicketController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$precio\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/TicketController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$subtotal\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/TicketController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tercero\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/TicketController.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$etiqueta\.$#'
@@ -457,12 +409,6 @@ parameters:
 			path: app/Livewire/Usuarios.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\VentaItem\:\:\$documento_uid\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Livewire/Vender.php
-
-		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$cantidad\.$#'
 			identifier: property.notFound
 			count: 1
@@ -513,13 +459,7 @@ parameters:
 		-
 			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
 			identifier: argument.unresolvableType
-			count: 3
-			path: app/Livewire/Vender.php
-
-		-
-			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: array\{pid\?\: int\<0, max\>, nombre\: string, det\: string, cant\: int, precio\: int, lista\?\: int, tercero\?\: true, doc\?\: mixed, pedido\?\: true, ped\?\: true\}, Closure\(App\\Models\\VentaItem\)\: array\{pid\?\: int\<0, max\>, nombre\: string, det\: string, cant\: int, precio\: int, lista\?\: int, tercero\?\: true, doc\?\: mixed, pedido\?\: true, ped\?\: true\} given\.$#'
-			identifier: argument.type
-			count: 1
+			count: 2
 			path: app/Livewire/Vender.php
 
 		-
@@ -701,24 +641,6 @@ parameters:
 			identifier: method.notFound
 			count: 1
 			path: app/Models/Usuario.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$cantidad\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Venta.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$detalle\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Venta.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nombre\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Venta.php
 
 		-
 			message: '#^Call to function is_array\(\) with string\|null will always evaluate to false\.$#'
@@ -1173,29 +1095,23 @@ parameters:
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$cantidad\.$#'
 			identifier: property.notFound
-			count: 2
+			count: 1
 			path: app/Services/Ticket.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$detalle\.$#'
 			identifier: property.notFound
-			count: 2
+			count: 1
 			path: app/Services/Ticket.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nombre\.$#'
 			identifier: property.notFound
-			count: 3
+			count: 2
 			path: app/Services/Ticket.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$precio\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Services/Ticket.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$precio_lista\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Services/Ticket.php
@@ -1203,7 +1119,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$subtotal\.$#'
 			identifier: property.notFound
-			count: 2
+			count: 1
 			path: app/Services/Ticket.php
 
 		-
@@ -1217,36 +1133,6 @@ parameters:
 			identifier: method.nonObject
 			count: 1
 			path: app/Services/Ticket.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$cantidad\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/Ventas.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nombre\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/Ventas.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$producto_id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/Ventas.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$producto_uid\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/Ventas.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tercero\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/Ventas.php
 
 		-
 			message: '#^Left side of && is always true\.$#'

@@ -22,6 +22,8 @@ use Illuminate\Support\Carbon;
  * @property Carbon $vendida_at
  * @property Carbon|null $anulada_at
  * @property bool $devuelta_en_caja
+ * @property string|null $origen_tipo de dónde viene: pedido, documento… (lo define cada módulo)
+ * @property string|null $origen_uid
  */
 class Venta extends Model
 {
@@ -53,6 +55,7 @@ class Venta extends Model
         ];
     }
 
+    /** @return HasMany<VentaItem, $this> */
     public function items(): HasMany
     {
         return $this->hasMany(VentaItem::class)->orderBy('orden');

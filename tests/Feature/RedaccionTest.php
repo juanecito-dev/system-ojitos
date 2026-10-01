@@ -126,7 +126,7 @@ it('se cobra por página con los ejemplares extra como impresión, y al vender q
     $venta = Venta::first();
     $doc->refresh();
     expect($venta->total)->toBe($n * 500 + $n * 15)->and($doc->estado)->toBe('cobrado')->and($doc->venta_uid)->toBe($venta->uid)
-        ->and($venta->items->first()->documento_uid)->toBe($doc->uid);
+        ->and($venta->items->first()->origen_tipo)->toBe('documento')->and($venta->items->first()->origen_uid)->toBe($doc->uid);
 
     Livewire::test(RedaccionDocumento::class, ['uid' => $doc->uid])->assertSee('Cobrado el')->assertSee('Marcar entregado')->call('entregar');
     expect($doc->fresh()->estado)->toBe('entregado');

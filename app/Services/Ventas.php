@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
+use App\Events\VentaAnulada as AvisoVentaAnulada;
+use App\Events\VentaRegistrada;
 use App\Models\CajaMovimiento;
 use App\Models\Cliente;
 use App\Models\ClienteMovimiento;
 use App\Models\Comprobante;
-use App\Models\Documento;
-use App\Models\Pedido;
 use App\Models\StockBase;
 use App\Models\StockMovimiento;
 use App\Models\Usuario;
@@ -31,8 +31,11 @@ class Ventas
 
     /**
      * @param  array  $d  lineas[], descuento, metodo, recibido, cliente_id, abono,
-     *                    cpe => [tipo, pide, doc => [td, nd, nom, dir] | null, emitida, serie, numero], pedido_uid
-     *                    (cada línea puede traer documento_uid: el documento de Redacción que cobra)
+     *                    cpe => [tipo, pide, doc => [td, nd, nom, dir] | null, emitida, serie, numero],
+     *                    origen => [tipo, uid] (de dónde viene la venta, por ejemplo ['pedido', uid])
+     *                    (cada línea puede traer su origen: ['documento', uid] es el documento de Redacción que cobra)
+     *
+     * Al guardar avisa VentaRegistrada: cada módulo (Redacción, Pedidos…) actualiza lo suyo en la misma transacción.
      */
     public function registrar(Usuario $u, array $d): Venta
     {
@@ -94,14 +97,16 @@ class Ventas
                 'pago' => $metodo === 'efectivo' && $recibido !== null && $recibido >= $grand ? $recibido - $abono : $total,
                 'abono' => $abono,
                 'comprobante_pedido' => $pedidoCpe,
-                'pedido_uid' => $d['pedido_uid'] ?? null,
+                'origen_tipo' => $d['origen'][0] ?? null,
+                'origen_uid' => $d['origen'][1] ?? null,
                 'vendida_at' => $ahora,
             ]);
             foreach ($lineas as $i => $l) {
                 $v->items()->create([
                     'producto_id' => $l['producto_id'] ?? null,
                     'producto_uid' => $l['producto_uid'] ?? null,
-                    'documento_uid' => $l['documento_uid'] ?? null,
+                    'origen_tipo' => $l['origen'][0] ?? null,
+                    'origen_uid' => $l['origen'][1] ?? null,
                     'nombre' => $l['nombre'],
                     'detalle' => ($l['detalle'] ?? '') !== '' ? $l['detalle'] : null,
                     'cantidad' => $l['cantidad'],
@@ -141,11 +146,7 @@ class Ventas
                 $cliente->save();
             }
 
-            // documentos de Redacción cobrados en esta venta (docsVenta del sistema anterior)
-            $docs = array_values(array_unique(array_filter(array_column($lineas, 'documento_uid'))));
-            if ($docs) {
-                Documento::whereIn('uid', $docs)->update(['estado' => 'cobrado', 'venta_uid' => $v->uid, 'cobrado_at' => $ahora, 'entregado_at' => null]);
-            }
+            event(new VentaRegistrada($v->load('items'), $u));
 
             if (! empty($cpe['emitida'])) {
                 $this->comprobantes->registrar([
@@ -222,17 +223,10 @@ class Ventas
                 }
             }
 
-            if ($v->pedido_uid && ($p = Pedido::where('uid', $v->pedido_uid)->first())) {
-                $p->pagos()->where('venta_uid', $v->uid)->delete();   // queda marcado como borrado
-                if ($p->etapa === 'entregado') {
-                    app(Pedidos::class)->quitarStock($p, $por);
-                    $p->update($p->directa ? ['etapa' => 'cotizado', 'directa' => false, 'entregado_at' => null] : ['etapa' => 'listo', 'entregado_at' => null]);
-                }
-                app(Pedidos::class)->anotar($p, 'Se anuló un pago de '.Dinero::s($v->total), $por);
-            }
-
-            // sus documentos vuelven a «sin cobrar» (solo si esta era la venta que los cobró)
-            Documento::where('venta_uid', $v->uid)->update(['estado' => 'borrador', 'venta_uid' => null, 'cobrado_at' => null, 'entregado_at' => null]);
+            // cada módulo deshace lo suyo (Pedidos: el pago o la entrega; Redacción: el documento vuelve a «sin cobrar»)
+            $ev = new AvisoVentaAnulada($v, $por, $tipo);
+            event($ev);
+            $aviso = implode(' ', array_filter([$aviso, ...$ev->avisos]));
 
             // si la venta es anterior al último conteo de stock, la devolución se anota como entrada
             foreach ($v->items as $l) {

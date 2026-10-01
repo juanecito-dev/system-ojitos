@@ -24,8 +24,8 @@ class Reportes
 {
     public const RANGOS = ['hoy' => 'Hoy', '7' => '7 días', '30' => '30 días', 'mes' => 'Este mes', 'mespas' => 'Mes pasado', 'anio' => 'Este año', 'custom' => 'Elegir fechas'];
 
-    /** documentos redactados que se venden en la caja */
-    public const DOCUMENTOS = ['s_contrato', 's_solicitud', 's_cv'];
+    /** documentos redactados que se venden en la caja: los productos con estos roles (no los ejemplares adicionales) */
+    public const DOCUMENTOS = ['redaccion_pagina', 'redaccion_documento', 'redaccion_cv'];
 
     public static function dias(string $a, string $b): int
     {
@@ -145,8 +145,8 @@ class Reportes
         // lo vendido por producto y grupo, con su costo cuando se conoce
         $I = DB::table('venta_items as i')->join('ventas as v', 'v.id', '=', 'i.venta_id')->whereNull('v.anulada_at')->leftJoin('productos as p', 'p.id', '=', 'i.producto_id')
             ->where('v.negocio_id', $nid)->whereBetween('v.fecha', [$a, $b])->where('i.tercero', false)
-            ->groupBy('i.nombre', 'i.producto_uid', 'p.grupo', DB::raw('substr(v.fecha, 1, 7)'))
-            ->selectRaw('i.nombre, i.producto_uid AS uid, p.grupo, substr(v.fecha, 1, 7) AS mes, COUNT(*) AS lineas, SUM(i.cantidad) AS cant, SUM(i.subtotal) AS v,
+            ->groupBy('i.nombre', 'i.producto_uid', 'p.grupo', 'p.rol', DB::raw('substr(v.fecha, 1, 7)'))
+            ->selectRaw('i.nombre, i.producto_uid AS uid, p.grupo, p.rol, substr(v.fecha, 1, 7) AS mes, COUNT(*) AS lineas, SUM(i.cantidad) AS cant, SUM(i.subtotal) AS v,
                 SUM(CASE WHEN i.costo > 0 THEN i.costo * i.cantidad ELSE 0 END) AS c, SUM(CASE WHEN i.costo > 0 THEN i.subtotal ELSE 0 END) AS cub')->get();
         foreach ($I as $x) {
             $g = in_array($x->uid, ['pedido', 'encargo'], true) ? 'Pedidos y encargos' : ($x->grupo ?: 'Otros');
@@ -159,7 +159,7 @@ class Reportes
             $R['prods'][$x->nombre]['v'] += (int) $x->v;
             $R['prods'][$x->nombre]['c'] += (float) $x->c;
             $R['prods'][$x->nombre]['cub'] += (int) $x->cub;
-            if (in_array($x->uid, self::DOCUMENTOS, true)) {
+            if (in_array($x->rol, self::DOCUMENTOS, true)) {
                 $R['docs'][$x->nombre] ??= ['n' => 0, 'v' => 0];
                 $R['docs'][$x->nombre]['n'] += (int) $x->lineas;
                 $R['docs'][$x->nombre]['v'] += (int) $x->v;

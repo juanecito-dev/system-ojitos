@@ -304,7 +304,7 @@ class ImportadorCopia
                 continue;
             }
             $p = Producto::withTrashed()->updateOrCreate(['uid' => $it['id']], [
-                'grupo' => $it['g'] ?? 'Otros', 'nombre' => $it['n'] ?? $it['id'], 'color' => $it['c'] ?? 't-otro',
+                'rol' => Redaccion::ROLES_LEGADO[$it['id']] ?? null, 'grupo' => $it['g'] ?? 'Otros', 'nombre' => $it['n'] ?? $it['id'], 'color' => $it['c'] ?? 't-otro',
                 'rapido' => ! empty($it['quick']), 'monto_libre' => ! empty($it['free']), 'pide_detalle' => ! empty($it['desc']),
                 'es_tasa' => ! empty($it['tasa']), 'favorito' => ! empty($it['fav']), 'oculto' => ! empty($it['oculto']),
                 'costo' => isset($it['costo']) && $it['costo'] !== '' ? round((float) $it['costo'], 4) : null,
@@ -463,13 +463,14 @@ class ImportadorCopia
                 'metodo' => $v['metodo'] ?? 'efectivo', 'pago' => isset($v['pago']) ? (int) $v['pago'] : null, 'abono' => (int) ($v['abono'] ?? 0),
                 'boleta' => ! empty($v['boleta']), 'comprobante_uid' => $v['cpe'] ?? null, 'comprobante_fecha' => $this->fecha($v['cpeK'] ?? null),
                 'comprobante_numero' => ($v['cpeNum'] ?? '') ?: null, 'comprobante_pedido' => $v['cpeReq'] ?? null, 'al_cierre' => ! empty($v['alCierre']),
-                'pedido_uid' => $v['encargo'] ?? null, 'vendida_at' => $this->ms($v['t'] ?? null) ?? Carbon::parse($k.' 12:00'),
+                'origen_tipo' => ! empty($v['encargo']) ? 'pedido' : null, 'origen_uid' => ($v['encargo'] ?? '') ?: null, 'vendida_at' => $this->ms($v['t'] ?? null) ?? Carbon::parse($k.' 12:00'),
                 'extra' => Arr::except($v, ['id', 't', 'items', 'total', 'boleta', 'metodo', 'pago', 'descuento', 'u', 'vend', 'num', 'cpeReq', 'cliente', 'abono', 'encargo', 'cpe', 'cpeK', 'cpeNum', 'alCierre']) ?: null,
             ]);
             $venta->items()->delete();
             foreach (array_values($v['items'] ?? []) as $i => $l) {
                 $venta->items()->create([
-                    'producto_id' => $this->productoId($l['sid'] ?? null), 'producto_uid' => $l['sid'] ?? null, 'documento_uid' => ($l['doc'] ?? '') ?: null,
+                    'producto_id' => $this->productoId($l['sid'] ?? null), 'producto_uid' => $l['sid'] ?? null,
+                    'origen_tipo' => ! empty($l['doc']) ? 'documento' : null, 'origen_uid' => ($l['doc'] ?? '') ?: null,
                     'nombre' => $l['nombre'] ?? '?', 'detalle' => ($l['det'] ?? '') ?: null, 'cantidad' => $l['cant'] ?? 1,
                     'precio' => (int) ($l['precio'] ?? 0), 'precio_lista' => isset($l['lista']) ? (int) $l['lista'] : null,
                     'subtotal' => (int) ($l['sub'] ?? 0), 'costo' => isset($l['costo']) ? round((float) $l['costo'], 4) : null,

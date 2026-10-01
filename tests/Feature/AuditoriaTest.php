@@ -166,7 +166,7 @@ it('los campos de DNI, RUC, celular, montos y PIN tienen su regla de tecleo', fu
     Livewire::test(RedaccionDocumento::class, ['modelo' => 'cv_terreno'])
         ->assertSeeHtml('data-solo="dni"')->assertSeeHtml('data-solo="cel"')->assertSeeHtml('data-solo="soles"');
     auth()->logout();
-    $this->get(route('login'))->assertSee('campos.js')->assertSee('data-solo="pin"', false);
+    $this->withUnencryptedCookie('negocio', 'ojitos')->get(route('login'))->assertSee('campos.js')->assertSee('data-solo="pin"', false);
 });
 
 it('el archivo de reglas limita el DNI a 8 números, el celular a 9 y el monto a 2 decimales', function () {

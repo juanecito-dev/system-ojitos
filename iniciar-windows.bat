@@ -24,6 +24,8 @@ call php artisan key:generate --force
 if errorlevel 1 goto error
 
 :paso_base
+rem instalación de un solo negocio: la entrada va directo a ese negocio (sistemas instalados antes de esta opción)
+findstr /C:"OJITOS_NEGOCIO_UNICO" .env >nul 2>nul || (echo.& echo OJITOS_NEGOCIO_UNICO=true)>>.env
 if not exist database\database.sqlite type nul > database\database.sqlite
 call php artisan migrate --force --seed
 if errorlevel 1 goto error

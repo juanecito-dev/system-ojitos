@@ -98,7 +98,8 @@ mysqldump -u USUARIO -pCLAVE ojitos | gzip > ~/copias/ojitos-$(date +\%F).sql.gz
 ### Varios equipos y varios negocios
 
 - Cada PC entra con la dirección del sistema. En *Configuración › Datos y copias › Este equipo* se le pone nombre (por ejemplo «PC caja 1») y el ancho del ticket de su impresora (80 o 58 mm).
-- Si en el mismo servidor hay más de un negocio, cada equipo entra una vez a `https://tu-dominio.pe/n/CODIGO` (por ejemplo `/n/ojitos`) y queda recordado.
+- Si en el mismo servidor hay más de un negocio, pon `OJITOS_NEGOCIO_UNICO=false` en el `.env`. Cada equipo entra una vez a `https://tu-dominio.pe/n/CODIGO` (por ejemplo `/n/ojitos`) o escribe el código del negocio, y queda recordado.
+- Un negocio con `activo = false` queda suspendido: quien estaba adentro sale y nadie puede entrar hasta reactivarlo.
 
 ---
 

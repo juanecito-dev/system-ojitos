@@ -14,6 +14,8 @@ class Negocio extends Model
 
     protected $hidden = ['logo', 'qr_yape', 'qr_plin'];
 
+    public const SUSPENDIDO = 'Este negocio está suspendido. Comunícate con soporte para volver a usarlo.';
+
     protected function casts(): array
     {
         return [

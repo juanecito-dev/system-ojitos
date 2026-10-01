@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
     {
         AltaNegocio::asegurarPermisos();
 
-        if (env('OJITOS_DEMO') && ! Negocio::where('slug', 'ojitos')->exists()) {
+        if (config('ojitos.demo') && ! Negocio::where('slug', 'ojitos')->exists()) {
             $alta = app(AltaNegocio::class);
             $neg = $alta->crear([
                 'slug' => 'ojitos', 'nombre' => 'Ojitos', 'giro' => 'Copias e impresiones', 'titular' => 'Alex Simon Santiago',

@@ -108,7 +108,13 @@ class Entrar extends Component
 
             return;
         }
-        app(NegocioActual::class)->set(Negocio::find($this->negocioId));
+        $neg = Negocio::find($this->negocioId);
+        if (! $neg?->activo) {
+            $this->error = Negocio::SUSPENDIDO;
+
+            return;
+        }
+        app(NegocioActual::class)->set($neg);
         if ($b = $acceso->bloqueo($u)) {
             $this->error = $b;
 

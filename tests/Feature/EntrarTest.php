@@ -7,7 +7,15 @@ use Livewire\Livewire;
 beforeEach(fn () => negocioDePrueba());
 
 it('muestra la pantalla de inicio de sesión', function () {
-    $this->get('/entrar')->assertOk()->assertSee('Iniciar sesión')->assertSee('Rol')->assertSee('PIN');
+    $this->withUnencryptedCookie('negocio', 'ojitos')->get('/entrar')->assertOk()->assertSee('Iniciar sesión')->assertSee('Rol')->assertSee('PIN');
+});
+
+it('con varios negocios posibles, la entrada pide el código; en la PC de un solo negocio va directo', function () {
+    config(['ojitos.negocio_unico' => false]);
+    $this->get('/entrar')->assertOk()->assertSee('Código del negocio')->assertDontSee('Rol');
+
+    config(['ojitos.negocio_unico' => true]);
+    $this->get('/entrar')->assertOk()->assertSee('Rol')->assertSee('PIN');
 });
 
 it('entra con rol, usuario y PIN correctos', function () {

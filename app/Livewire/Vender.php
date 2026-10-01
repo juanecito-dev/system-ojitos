@@ -673,6 +673,10 @@ class Vender extends Component
     /** Guarda la venta y, si era de un pedido, lo deja pagado y entregado (todo o nada) */
     private function registrarConPedido(Ventas $ventas, Usuario $yo, array $p, bool $pide, ?Pedido $pedido): Venta
     {
+        if ($pedido) {
+            // primero el pedido: bloqueado y revisado, antes de comparar montos y guardar la venta
+            $pedido = app(Pedidos::class)->bloquearParaCobro($pedido, $this->pedidoDirecto);
+        }
         $v = $ventas->registrar($yo, [
             'lineas' => $this->lineas(),
             'descuento' => (int) $p['desc'],

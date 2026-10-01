@@ -292,10 +292,27 @@ class Pedidos
         });
     }
 
+    /**
+     * Antes de cobrar un pedido en la caja: lo bloquea hasta terminar la transacción y revisa que siga cobrable.
+     * Así, si está abierto en dos pestañas o dos equipos, el segundo cobro no pasa. Llamar dentro de una transacción.
+     */
+    public function bloquearParaCobro(Pedido $p, bool $directo): Pedido
+    {
+        $p = Pedido::whereKey($p->id)->lockForUpdate()->firstOrFail();
+        $p->load('items', 'pagos');
+        $sigue = $directo ? $p->etapa === 'cotizado' : $p->activo() && $p->saldo() > 0;
+        if (! $sigue) {
+            throw new ErrorNegocio('El pedido '.$p->numeroTxt().' ya se cobró o cambió desde otro equipo. Vacía la caja y revísalo en Pedidos.');
+        }
+
+        return $p;
+    }
+
     /** Después de cobrar en la caja el saldo (o todo, si fue directo) */
     public function cobrado(Pedido $p, Venta $v, bool $directo, Usuario $u): void
     {
         DB::transaction(function () use ($p, $v, $directo, $u) {
+            $this->bloquearParaCobro($p, $directo);
             $this->anotarPago($p, $v, $directo ? 'Venta' : 'Saldo', $u);
             $p->update(['etapa' => 'entregado', 'entregado_at' => now()] + ($directo ? ['directa' => true, 'aceptado_at' => $p->aceptado_at ?? now()] : []));
             if (! $directo) {

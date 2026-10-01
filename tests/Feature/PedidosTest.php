@@ -87,6 +87,30 @@ it('cobrar una cotización de una vez la deja entregada, con los precios cotizad
         ->and($v->items->first()->precio)->toBe(999)->and($v->items->first()->precio_lista)->toBeNull();
 });
 
+it('una cotización abierta en dos pestañas se cobra una sola vez', function () {
+    $p = pedidoNuevo(['etapa' => 'cotizado']);
+    entrarComo('alex');
+    $a = Livewire::withQueryParams(['pedido' => $p->uid])->test(Vender::class);
+    $b = Livewire::withQueryParams(['pedido' => $p->uid])->test(Vender::class);
+
+    $a->call('cobrar', false);
+    $b->call('cobrar', false)->assertSet('error', fn ($e) => str_contains($e, 'ya se cobró o cambió desde otro equipo'));
+
+    $p->refresh()->load('pagos');
+    expect(Venta::count())->toBe(1)->and($p->pagos)->toHaveCount(1)->and($p->pagado())->toBe($p->total);
+});
+
+it('el saldo de un pedido abierto en dos equipos se cobra una sola vez', function () {
+    $p = pedidoNuevo([], 100);
+    entrarComo('alex');
+    $a = Livewire::withQueryParams(['pedido' => $p->uid])->test(Vender::class);
+    $b = Livewire::withQueryParams(['pedido' => $p->uid])->test(Vender::class);
+
+    $a->call('cobrar', false);
+    $b->call('cobrar', false)->assertSet('error', fn ($e) => $e !== '');
+    expect(Venta::count())->toBe(2);   // el adelanto y el saldo, nada más   // el adelanto y el saldo, nada más
+});
+
 it('al entregar salen del stock los útiles, y vuelven si se deshace', function () {
     $lap = producto('u_lapicero');
     app(Stock::class)->fijar($lap->id, 20);

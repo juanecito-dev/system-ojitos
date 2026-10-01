@@ -106,13 +106,16 @@ mysqldump -u USUARIO -pCLAVE ojitos | gzip > ~/copias/ojitos-$(date +\%F).sql.gz
 
 ```bash
 composer install
-cp .env.example .env && php artisan key:generate
+cp .env.example .env && php artisan key:generate   # para programar, pon APP_DEBUG=true en tu .env
 touch database/database.sqlite
 OJITOS_DEMO=1 php artisan migrate --seed     # negocio de prueba: alex / 2580 (admin), jeremy / 1470 (vendedor)
 php artisan serve
 php artisan test                              # pruebas automáticas (Pest)
 ./vendor/bin/pint                             # formato del código
+./vendor/bin/phpstan analyse                  # revisión de tipos (Larastan); el código nuevo no puede sumar avisos
 ```
+
+Cada cambio que se sube a GitHub pasa por `.github/workflows/ci.yml`: formato, Larastan, y las pruebas en PHP 8.3 y 8.4 con SQLite y con MySQL 8.
 
 - Las reglas del negocio vienen de `docs/legado/caja-rapida.html` (el sistema anterior, versión 43). Antes de cambiar una regla, búscala ahí.
 - El plan completo y las decisiones tomadas están en `docs/traspaso-migracion-laravel.md`.

@@ -1,0 +1,1321 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$cantidad\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Controllers/DocumentosController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nombre\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Controllers/DocumentosController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$precio\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/DocumentosController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$ruc\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/DocumentosController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$subtotal\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/DocumentosController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tercero\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/DocumentosController.php
+
+		-
+			message: '#^Cannot call method format\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 5
+			path: app/Http/Controllers/DocumentosController.php
+
+		-
+			message: '#^Offset ''nd'' on string\|null on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Http/Controllers/DocumentosController.php
+
+		-
+			message: '#^Offset ''nom'' on string\|null on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Http/Controllers/DocumentosController.php
+
+		-
+			message: '#^Offset ''td'' on string\|null on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Http/Controllers/DocumentosController.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>nombre" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Controllers/DocumentosController.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>ruc" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Controllers/DocumentosController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$cantidad\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/TicketController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nombre\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/TicketController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$precio\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/TicketController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$subtotal\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/TicketController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tercero\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/TicketController.php
+
+		-
+			message: '#^Cannot call method format\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Http/Controllers/TicketController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$etiqueta\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Livewire/Ajustes.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Livewire/Ajustes.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$precio\.$#'
+			identifier: property.notFound
+			count: 6
+			path: app/Livewire/Ajustes.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>nombre" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Livewire/Ajustes.php
+
+		-
+			message: '#^Offset ''id'' does not exist on string\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: app/Livewire/AjustesMaquinas.php
+
+		-
+			message: '#^Only iterables can be unpacked, string given\.$#'
+			identifier: arrayUnpacking.nonIterable
+			count: 1
+			path: app/Livewire/AjustesMaquinas.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<\*NEVER\*,\*NEVER\*\>\:\:reject\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Livewire/AjustesMaquinas.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,string\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Livewire/AjustesMaquinas.php
+
+		-
+			message: '#^Cannot call method lt\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Livewire/Caja.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$cantidad\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Livewire/Compras.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$costo_unitario\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Livewire/Compras.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$factor\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Livewire/Compras.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nombre\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Livewire/Compras.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$producto_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Livewire/Compras.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$unidad\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Livewire/Compras.php
+
+		-
+			message: '#^Cannot call method format\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Livewire/Compras.php
+
+		-
+			message: '#^Cannot call method toDateString\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 5
+			path: app/Livewire/Compras.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>celular" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Livewire/Compras.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>condicion" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Livewire/Compras.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>nombre" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 2
+			path: app/Livewire/Compras.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>nota" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Livewire/Compras.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>numero" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Livewire/Compras.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>proveedor_id" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Livewire/Compras.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>ruc" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Livewire/Compras.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nombre\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Livewire/Entrar.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$uid\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Livewire/Entrar.php
+
+		-
+			message: '#^Match expression does not handle remaining values\: string\|null$#'
+			identifier: match.unhandled
+			count: 1
+			path: app/Livewire/Facturacion.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$cantidad\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Livewire/Inventario.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$insumo_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Livewire/Inventario.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Livewire/Inventario.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,\(int\|string\)\>\:\:filter\(\) expects \(callable\(int\|string, int\)\: bool\)\|null, Closure\(mixed\)\: float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Livewire/InventarioToma.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>costo" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Livewire/InventarioToma.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$cantidad\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Livewire/Pedidos.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$detalle\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Livewire/Pedidos.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$etiqueta\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Livewire/Pedidos.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nombre\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Livewire/Pedidos.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$precio\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/Livewire/Pedidos.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$producto_id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Livewire/Pedidos.php
+
+		-
+			message: '#^Cannot call method format\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Livewire/Pedidos.php
+
+		-
+			message: '#^Cannot call method isSameDay\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Livewire/Pedidos.php
+
+		-
+			message: '#^Cannot call method lt\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Livewire/Pedidos.php
+
+		-
+			message: '#^Cannot call method lte\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Livewire/Pedidos.php
+
+		-
+			message: '#^Cannot call method toDateString\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 3
+			path: app/Livewire/Pedidos.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Livewire/Pedidos.php
+
+		-
+			message: '#^Result of method App\\Livewire\\Pedidos\:\:guardarLista\(\) \(void\) is used\.$#'
+			identifier: method.void
+			count: 1
+			path: app/Livewire/Pedidos.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>institucion" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Livewire/Pedidos.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>nombre" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Livewire/Pedidos.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>uid" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Livewire/Pedidos.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:primerNombre\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Livewire/PrimerUso.php
+
+		-
+			message: '#^Parameter \#1 \$user of static method Illuminate\\Support\\Facades\\Auth\:\:login\(\) expects Illuminate\\Contracts\\Auth\\Authenticatable, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Livewire/PrimerUso.php
+
+		-
+			message: '#^Offset ''cony'' on array\{\}\|string on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Livewire/RedaccionDocumento.php
+
+		-
+			message: '#^Offset ''conyDni'' on array\{\}\|string on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Livewire/RedaccionDocumento.php
+
+		-
+			message: '#^Offset ''ec'' on array\{\}\|string on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Livewire/RedaccionDocumento.php
+
+		-
+			message: '#^Offset ''editado'' on string\|null in empty\(\) does not exist\.$#'
+			identifier: empty.offset
+			count: 1
+			path: app/Livewire/RedaccionDocumento.php
+
+		-
+			message: '#^Offset ''trato'' on array\{\}\|string on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Livewire/RedaccionDocumento.php
+
+		-
+			message: '#^Parameter \#1 \$boolean of function abort_unless expects bool, App\\Models\\ModeloRedaccion\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Livewire/RedaccionDocumento.php
+
+		-
+			message: '#^Result of && is always false\.$#'
+			identifier: booleanAnd.alwaysFalse
+			count: 1
+			path: app/Livewire/RedaccionDocumento.php
+
+		-
+			message: '#^Right side of \|\| is always false\.$#'
+			identifier: booleanOr.rightAlwaysFalse
+			count: 1
+			path: app/Livewire/RedaccionDocumento.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>nombre" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Livewire/RedaccionDocumento.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nombre\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Livewire/Usuarios.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\VentaItem\:\:\$documento_uid\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Livewire/Vender.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$cantidad\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Livewire/Vender.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$desc_max\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Livewire/Vender.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$desc_pct\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Livewire/Vender.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$detalle\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Livewire/Vender.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$etiqueta\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Livewire/Vender.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nombre\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/Livewire/Vender.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$precio\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Livewire/Vender.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$producto_id\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/Livewire/Vender.php
+
+		-
+			message: '#^Cannot call method lt\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Livewire/Vender.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 3
+			path: app/Livewire/Vender.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: array\{pid\?\: int\<0, max\>, nombre\: string, det\: string, cant\: int, precio\: int, lista\?\: int, tercero\?\: true, doc\?\: mixed, pedido\?\: true, ped\?\: true\}, Closure\(App\\Models\\VentaItem\)\: array\{pid\?\: int\<0, max\>, nombre\: string, det\: string, cant\: int, precio\: int, lista\?\: int, tercero\?\: true, doc\?\: mixed, pedido\?\: true, ped\?\: true\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Livewire/Vender.php
+
+		-
+			message: '#^Parameter \#1 \$key of method Illuminate\\Support\\Collection\<int,array\<int, int\|string\>\>\:\:unique\(\) expects \(callable\(array\{int, string\}, int\)\: mixed\)\|string\|null, 0 given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Livewire/Vender.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>uid" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Livewire/Vender.php
+
+		-
+			message: '#^Cannot call method format\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Livewire/Ventas.php
+
+		-
+			message: '#^Illuminate\\Support\\Collection\<\(int\|string\), array\{mixed, mixed\}\> does not accept array\<int, mixed\>\.$#'
+			identifier: offsetAssign.valueType
+			count: 1
+			path: app/Livewire/Ventas.php
+
+		-
+			message: '#^Cannot call method gte\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Models/Compra.php
+
+		-
+			message: '#^Cannot call method lt\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Models/Compra.php
+
+		-
+			message: '#^Cannot call method lte\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Models/Compra.php
+
+		-
+			message: '#^Offset ''clientes'' on string\|null on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Models/Documento.php
+
+		-
+			message: '#^Offset ''data'' on string\|null on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Models/Documento.php
+
+		-
+			message: '#^Parameter \#1 \$array \(array\{\}\) to function array_filter is empty, call has no effect\.$#'
+			identifier: arrayFilter.empty
+			count: 1
+			path: app/Models/Documento.php
+
+		-
+			message: '#^Parameter \#1 \$array \(array\{\}\) to function array_values is empty, call has no effect\.$#'
+			identifier: arrayValues.empty
+			count: 1
+			path: app/Models/Documento.php
+
+		-
+			message: '#^Property App\\Models\\Documento\:\:\$datos \(string\|null\) does not accept array\<string, array\>\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Models/Documento.php
+
+		-
+			message: '#^Offset string on string on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Models/ModeloRedaccion.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$activo\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Negocio.php
+
+		-
+			message: '#^Cannot unset offset string on array\{\}\|string\.$#'
+			identifier: unset.offset
+			count: 1
+			path: app/Models/Negocio.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$cantidad\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Pedido.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$detalle\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Pedido.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nombre\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Pedido.php
+
+		-
+			message: '#^Cannot call method copy\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Models/Pedido.php
+
+		-
+			message: '#^Cannot call method lt\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Models/Pedido.php
+
+		-
+			message: '#^Offset string on array\{\}\|string on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Models/Pedido.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$cantidad\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Producto.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$precio\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Producto.php
+
+		-
+			message: '#^Call to function is_array\(\) with null will always evaluate to false\.$#'
+			identifier: function.impossibleType
+			count: 1
+			path: app/Models/Producto.php
+
+		-
+			message: '#^Cannot unset offset string on array\{\}\|string\.$#'
+			identifier: unset.offset
+			count: 1
+			path: app/Models/Producto.php
+
+		-
+			message: '#^Offset ''f'' on \*NEVER\* on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Models/Producto.php
+
+		-
+			message: '#^Offset ''n'' on \*NEVER\* on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Models/Producto.php
+
+		-
+			message: '#^Offset ''uc'' on string\|null on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Models/Producto.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>costo" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Producto.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$es_admin\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Usuario.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:puede\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Models/Usuario.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$cantidad\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Models/Venta.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$detalle\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Venta.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nombre\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Models/Venta.php
+
+		-
+			message: '#^Call to function is_array\(\) with string\|null will always evaluate to false\.$#'
+			identifier: function.impossibleType
+			count: 1
+			path: app/Models/Venta.php
+
+		-
+			message: '#^Cannot call method format\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Models/Venta.php
+
+		-
+			message: '#^Offset ''tipo'' on \*NEVER\* on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Models/Venta.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between mixed and null will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Redaccion/Ayudas.php
+
+		-
+			message: '#^Call to an undefined method DOMNameSpaceNode\|DOMNode\:\:getAttribute\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Redaccion/Formato.php
+
+		-
+			message: '#^Left side of && is always false\.$#'
+			identifier: booleanAnd.leftAlwaysFalse
+			count: 1
+			path: app/Redaccion/Formato.php
+
+		-
+			message: '#^Offset 0 on non\-empty\-list\<string\> on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Redaccion/Formato.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''sign'' and ''sign'' will always evaluate to true\.$#'
+			identifier: identical.alwaysTrue
+			count: 1
+			path: app/Redaccion/Formato.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>ciudad" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Redaccion/Motor.php
+
+		-
+			message: '#^Cannot call method isFuture\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Services/AccesoPin.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Http\\Request\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Services/Bitacora.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>caja_inicial" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 2
+			path: app/Services/CajaDia.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$monto\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Services/Clientes.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nombre\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/Clientes.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tipo\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/Clientes.php
+
+		-
+			message: '#^Cannot call method gt\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Services/Clientes.php
+
+		-
+			message: '#^Parameter \#1 \$t of static method App\\Services\\Clientes\:\:haceTxt\(\) expects Carbon\\Carbon\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/Clientes.php
+
+		-
+			message: '#^Property App\\Models\\Cliente\:\:\$alias \(string\|null\) does not accept list\<mixed\>\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Services/Clientes.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$costo_antes\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/Compras.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$costo_nuevo\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/Compras.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$fecha\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/Compras.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nombre\.$#'
+			identifier: property.notFound
+			count: 6
+			path: app/Services/Compras.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$producto_id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Services/Compras.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$proveedor_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/Compras.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:costoPorUnidad\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Services/Compras.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:unidades\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Services/Compras.php
+
+		-
+			message: '#^Cannot call method format\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Services/Compras.php
+
+		-
+			message: '#^Cannot call method lte\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Services/Compras.php
+
+		-
+			message: '#^Offset ''c'' on \*NEVER\* in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.offset
+			count: 1
+			path: app/Services/Compras.php
+
+		-
+			message: '#^Offset ''fecha'' on \*NEVER\* on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Services/Compras.php
+
+		-
+			message: '#^Offset ''prov'' on \*NEVER\* on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 2
+			path: app/Services/Compras.php
+
+		-
+			message: '#^Offset ''ultC'' on string\|null on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Services/Compras.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\CompraItem\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Services/Compras.php
+
+		-
+			message: '#^Result of && is always false\.$#'
+			identifier: booleanAnd.alwaysFalse
+			count: 1
+			path: app/Services/Compras.php
+
+		-
+			message: '#^Right side of && is always false\.$#'
+			identifier: booleanAnd.rightAlwaysFalse
+			count: 1
+			path: app/Services/Compras.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>id" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Services/Compras.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>nombre" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 4
+			path: app/Services/Compras.php
+
+		-
+			message: '#^Cannot call method toDateString\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 4
+			path: app/Services/Comprobantes.php
+
+		-
+			message: '#^Offset ''doc'' on array\{\}\|string on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Services/Comprobantes.php
+
+		-
+			message: '#^Offset ''tipo'' on array\{\}\|string on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Services/Comprobantes.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$precio\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/Contadores.php
+
+		-
+			message: '#^Cannot call method toDateString\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 3
+			path: app/Services/Contadores.php
+
+		-
+			message: '#^Empty array passed to foreach\.$#'
+			identifier: foreach.emptyArray
+			count: 1
+			path: app/Services/Contadores.php
+
+		-
+			message: '#^Property App\\Models\\Negocio\:\:\$ajustes \(string\|null\) does not accept array\<mixed, mixed\>\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Services/ImportadorCopia.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$costo\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/Inventario.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>costo" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Services/Inventario.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$cantidad\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/PedidoTextos.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$detalle\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/PedidoTextos.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nombre\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/PedidoTextos.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$subtotal\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/PedidoTextos.php
+
+		-
+			message: '#^Parameter \#1 \$f of static method App\\Services\\PedidoTextos\:\:entrega\(\) expects Illuminate\\Support\\Carbon\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/PedidoTextos.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$cantidad\.$#'
+			identifier: property.notFound
+			count: 5
+			path: app/Services/Pedidos.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$detalle\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Services/Pedidos.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$insumo\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/Pedidos.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$insumo_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/Pedidos.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nombre\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Services/Pedidos.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$precio\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Services/Pedidos.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$producto_id\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Services/Pedidos.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$producto_uid\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/Pedidos.php
+
+		-
+			message: '#^Offset ''cant'' on string on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Services/Pedidos.php
+
+		-
+			message: '#^Offset ''det'' on string on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 2
+			path: app/Services/Pedidos.php
+
+		-
+			message: '#^Offset ''nombre'' on string on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Services/Pedidos.php
+
+		-
+			message: '#^Offset ''pid'' on string on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Services/Pedidos.php
+
+		-
+			message: '#^Offset ''precio'' on string on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Services/Pedidos.php
+
+		-
+			message: '#^Offset ''sid'' on string on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Services/Pedidos.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Services/Pedidos.php
+
+		-
+			message: '#^Parameter \#1 \$value of function collect expects Illuminate\\Contracts\\Support\\Arrayable\<\(int\|string\), mixed\>\|iterable\<\(int\|string\), mixed\>\|null, string given\.$#'
+			identifier: argument.type
+			count: 2
+			path: app/Services/Pedidos.php
+
+		-
+			message: '#^Ternary operator condition is always false\.$#'
+			identifier: ternary.alwaysFalse
+			count: 1
+			path: app/Services/Pedidos.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>fecha" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Services/Pedidos.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>insumos" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Services/Pedidos.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$etiqueta\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/Redaccion.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$precio\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Services/Redaccion.php
+
+		-
+			message: '#^Offset ''clientes'' on string\|null on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Services/Redaccion.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>etiqueta" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Services/Redaccion.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>precio" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Services/Redaccion.php
+
+		-
+			message: '#^Cannot call method diffInMinutes\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Services/Reportes.php
+
+		-
+			message: '#^Cannot call method toDateString\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Services/Reportes.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$cantidad\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Services/Ticket.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$detalle\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Services/Ticket.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nombre\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Services/Ticket.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$precio\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Services/Ticket.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$precio_lista\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/Ticket.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$subtotal\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Services/Ticket.php
+
+		-
+			message: '#^Cannot call method format\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 3
+			path: app/Services/Ticket.php
+
+		-
+			message: '#^Cannot call method translatedFormat\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Services/Ticket.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$cantidad\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/Ventas.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nombre\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/Ventas.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$producto_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/Ventas.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$producto_uid\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/Ventas.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tercero\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/Ventas.php
+
+		-
+			message: '#^Cannot call method lte\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Services/Ventas.php
+
+		-
+			message: '#^Left side of && is always true\.$#'
+			identifier: booleanAnd.leftAlwaysTrue
+			count: 1
+			path: app/Support/Acceso.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Producto\:\:\$stock\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Support/Avisos.php
+
+		-
+			message: '#^Cannot call method lte\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Support/Avisos.php
+
+		-
+			message: '#^Cannot call method toDateString\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Support/Avisos.php
+
+		-
+			message: '#^Offset 0 on non\-empty\-list\<string\> on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Support/Texto.php

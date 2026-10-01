@@ -29,8 +29,9 @@ class Cliente extends Model
     }
 
     /** lo que debe: fiados − abonos, en céntimos */
+    /** lo que debe ahora (guardado: se ajusta con cada fiado o pago) */
     public function saldo(): int
     {
-        return (int) $this->movimientos()->selectRaw("COALESCE(SUM(CASE WHEN tipo = 'fiado' THEN monto ELSE -monto END), 0) AS s")->value('s');
+        return (int) static::whereKey($this->id)->value('saldo');
     }
 }

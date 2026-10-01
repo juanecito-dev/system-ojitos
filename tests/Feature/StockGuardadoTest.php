@@ -109,12 +109,12 @@ it('la revisión diaria encuentra y corrige un stock guardado que no cuadra', fu
     venderUno($lap, 3);
     StockSaldo::where('producto_id', $lap->id)->update(['cantidad' => 99]);   // algo lo dejó mal
 
-    Artisan::call('ojitos:stock-revisar');
-    expect(Artisan::output())->toContain('decía 99')->toContain('el historial dice 17')
+    Artisan::call('ojitos:revisar');
+    expect(Artisan::output())->toContain('stock de Lapicero')->toContain('decía 99')->toContain('el historial dice 17')
         ->and(app(Stock::class)->de($lap->id))->toBe(17.0);
 
-    Artisan::call('ojitos:stock-revisar');
-    expect(Artisan::output())->toContain('todo el stock cuadra');
+    Artisan::call('ojitos:revisar');
+    expect(Artisan::output())->toContain('cuadran con su historial');
 });
 
 it('el stock se lee del saldo guardado, sin recorrer las ventas', function () {

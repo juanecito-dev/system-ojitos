@@ -119,6 +119,7 @@ class ImportadorCopia
                 $stock = app(Stock::class);
                 $stock->completarConsumos();
                 $stock->recalcular();
+                app(Clientes::class)->recalcularSaldos();
                 $neg->refresh();
                 $neg->fijarAjuste('importado_at', now()->toIso8601String());
                 $neg->save();

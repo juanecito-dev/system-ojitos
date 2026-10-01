@@ -19,11 +19,32 @@ use Illuminate\Support\Facades\DB;
 /** Clientes y fiados: saldos, pagos, deudas anteriores, estado de cuenta y unir duplicados. */
 class Clientes
 {
-    /** [cliente_id => saldo] de todos los clientes, en una sola consulta */
+    /** [cliente_id => saldo] de los clientes que deben (o tienen saldo a favor), sin sumar sus movimientos */
     public function saldos(): array
     {
-        return ClienteMovimiento::selectRaw("cliente_id, SUM(CASE WHEN tipo = 'fiado' THEN monto ELSE -monto END) AS s")
-            ->groupBy('cliente_id')->pluck('s', 'cliente_id')->map(fn ($s) => (int) $s)->all();
+        return Cliente::where('saldo', '!=', 0)->pluck('saldo', 'id')->map(fn ($s) => (int) $s)->all();
+    }
+
+    /**
+     * Revisa lo que debe cada cliente contra sus movimientos y lo corrige.
+     *
+     * @return array<int, array{guardado: int, real: int}> (cliente_id => …)
+     */
+    public function recalcularSaldos(?array $ids = null): array
+    {
+        $real = ClienteMovimiento::when($ids !== null, fn ($q) => $q->whereIn('cliente_id', $ids))
+            ->selectRaw("cliente_id, SUM(CASE WHEN tipo = 'fiado' THEN monto ELSE -monto END) AS s")
+            ->groupBy('cliente_id')->pluck('s', 'cliente_id')->map(fn ($s) => (int) $s);
+        $mal = [];
+        foreach (Cliente::when($ids !== null, fn ($q) => $q->whereIn('id', $ids))->get(['id', 'saldo']) as $c) {
+            $r = (int) ($real[$c->id] ?? 0);
+            if ((int) $c->saldo !== $r) {
+                $mal[$c->id] = ['guardado' => (int) $c->saldo, 'real' => $r];
+                Cliente::whereKey($c->id)->update(['saldo' => $r]);
+            }
+        }
+
+        return $mal;
     }
 
     /** Movimientos con el saldo que iba quedando, desde la última vez que estuvo al día */
@@ -171,7 +192,7 @@ class Clientes
         DB::transaction(function () use ($queda, $otro) {
             $queda->refresh();
             $otro->refresh();
-            ClienteMovimiento::where('cliente_id', $otro->id)->update(['cliente_id' => $queda->id]);
+            ClienteMovimiento::withTrashed()->where('cliente_id', $otro->id)->update(['cliente_id' => $queda->id]);
             Venta::where('cliente_id', $otro->id)->update(['cliente_id' => $queda->id]);
             event(new ClientesUnidos($queda, $otro));   // cada módulo pasa lo suyo (pedidos, documentos…)
             $queda->visitas += $otro->visitas;
@@ -188,6 +209,7 @@ class Clientes
             $queda->save();
             Bitacora::registrar('usuario', 'Unió el cliente '.$otro->nombre.' con '.$queda->nombre);
             $otro->delete();
+            $this->recalcularSaldos([$queda->id]);   // sus movimientos pasaron todos juntos
         });
     }
 

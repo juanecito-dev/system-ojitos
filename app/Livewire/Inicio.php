@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\ClienteMovimiento;
+use App\Models\Cliente;
 use App\Models\Pedido;
 use App\Models\TurnoCaja;
 use App\Services\CajaDia;
@@ -27,7 +27,7 @@ class Inicio extends Component
         $caja = new CajaDia($hoy);
         $r = $caja->resumen();
         $h = (int) now()->format('G');
-        $saldos = ClienteMovimiento::selectRaw("cliente_id, SUM(CASE WHEN tipo = 'fiado' THEN monto ELSE -monto END) AS s")->groupBy('cliente_id')->pluck('s');
+        $deben = Cliente::where('saldo', '>', 0);
         $cierrePend = $r['menores']->isNotEmpty() && ! $caja->dia?->cierre;
 
         return view('livewire.inicio', [
@@ -39,8 +39,8 @@ class Inicio extends Component
             'meta' => Dinero::aCentimos($neg->ajuste('meta')) ?? 0,
             'porEmitir' => $avisos->comprobantesPorEmitir(),
             'cierrePend' => $cierrePend ? (int) $r['menores']->sum(fn ($v) => $v->propio()) : 0,
-            'deben' => (int) $saldos->filter(fn ($s) => $s > 0)->sum(),
-            'nDeben' => $saldos->filter(fn ($s) => $s > 0)->count(),
+            'deben' => (int) (clone $deben)->sum('saldo'),
+            'nDeben' => (clone $deben)->count(),
             'bajo' => $avisos->stockBajo(),
             'pedAct' => Pedido::whereIn('etapa', ['proceso', 'listo'])->count(),
             'pedUrg' => $avisos->pedidosUrgentes()->count(),
